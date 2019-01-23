@@ -1,0 +1,23 @@
+{
+  "name": "vrcapiary",
+  "version": "0.0.1-ALPHA",
+  "description": "A client for the VRChat API",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "REST",
+    "VRChat",
+    "API",
+    "Electron"
+  ],
+  "license": "WTFNMFPL-1.0",
+  "dependencies": {
+    "electron": "^4.0.2",
+    "https": "^1.0.0",
+    "electron-dl": "^1.12.0",
+    "electron-json-storage": "^4.1.5"
+  }
+}

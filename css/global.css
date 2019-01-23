@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body {
+    margin: 0;
+    background-color: #373737;
+    color: #A9B7C6;
+    font-family: 'Roboto', sans-serif;
+}
+
+a:link {
+    color: #6897BB;
+}
+
+.header {
+    font-size: 32px;
+    color: #CB772F;
+    padding: 8px;
+    text-align: center;
+}
+
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.field-container {
+    display: block;
+    position: relative;
+    margin-bottom: 8px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.field-container .checkbox {
+    padding-left: 76px;
+}
+
+.field-input {
+    font-size: 22px;
+}
+
+.field-input input {
+    border: 2px solid black;
+    font-size: 22px;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:focus {
+    outline: 2px solid #D25252;
+}
+
+.checkbox input {
+    position: absolute;
+    opacity: 0;
+}
+
+.checkbox span {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    height: 24px;
+    width: 24px;
+    left: 40px;
+    background-color: #eee;
+    border: 2px solid black;
+}
+
+.checkbox input:focus ~ span, button:focus {
+    border: 2px solid #D25252;
+    outline: none;
+}
+
+.checkbox:hover input ~ span {
+    background-color: #ccc;
+}
+
+.checkbox input:checked ~ span {
+    background-color: #2196F3;
+}
+
+.checkbox span:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox input:checked ~ span:after {
+    display: block;
+}
+
+.checkbox span:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.button-green {
+    background-color: #619647;
+    color: white;
+}
+
+.button {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 4px;
+    border: 2px solid black;
+    width: 100%;
+}
+
+.button:active {
+    filter: brightness(80%);
+}
+
+.button div {
+    text-align: center;
+}
