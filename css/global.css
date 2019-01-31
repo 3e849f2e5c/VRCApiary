@@ -7,8 +7,59 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+.status-bar {
+    height: 8px;
+    width: 100vw;
+    position: absolute;
+    bottom: 0;
+    transition: opacity .2s, background-position .1s, background-color .2s ease-in-out;
+    opacity: 0;
+}
+
+.status-bar-background {
+    background-image: url('images/bar.png');
+}
+
+.status-bar-base {
+    opacity: 1;
+    background-color: grey;
+}
+
+.button-bottom {
+    position: absolute;
+    bottom: 20px;
+    left: 5%;
+    width: 90% !important;
+}
+
 a:link {
     color: #6897BB;
+}
+
+.notification-background {
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    z-index: 100;
+}
+
+.notification-container {
+    padding: 8px;
+    border: 1px solid black;
+    background-color: #2B2B2B;
+    width: 512px;
+    height: 256px;
+    opacity: 1;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    display: flex;
+    text-align: center;
+    font-size: 24px;
 }
 
 .header {

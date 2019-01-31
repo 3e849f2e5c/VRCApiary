@@ -8,42 +8,48 @@
     <title>Login</title>
 </head>
 <body>
+<div class="notification-background" id="notification">
+    <div class="notification-container">
+        <div class="notification-area" id="alertArea">
+
+        </div>
+    </div>
+</div>
 <div class="center-container">
     <div class="login-space">
         <div class="login-form">
             <div class="header">
                 <a>
-                    VRChat Login
+                    VRChat.net Login
                 </a>
             </div>
 
             <div class="field-container">
                 <label class="field-input username">
                     Username
-                    <input type="text">
+                    <input type="text" id="username">
                 </label>
             </div>
             <div class="field-container">
                 <label class="field-input password">
                     Password
-                    <input type="password">
+                    <input type="password" id="password">
                 </label>
             </div>
             <div class="field-container">
                 <label class="field-input checkbox">
-                    <input type="checkbox">
+                    <input type="checkbox" id="checkbox">
                     <span></span>
                     Remember me
                 </label>
             </div>
-            <button class="button button-green">
-                <div>
-                    Login
-                </div>
+            <button class="button button-green" id="login-button">
+                Login
             </button>
         </div>
         <div class="login-disclaimer">
-            This program and it's author (<a href="https://github.com/3e849f2e5c" tabindex="-1">@3e849f2e5c</a>) are not
+            This program and it's author (<a target="_blank" href="https://github.com/3e849f2e5c" tabindex="-1">@3e849f2e5c</a>)
+            are not
             related to the VRChat team.
             The program retrieves and modifies data on your VRChat account directly in a way that is not officially
             supported by the VRChat team, use at you own risk.
@@ -52,5 +58,13 @@
         </div>
     </div>
 </div>
+<div class="status-bar status-bar-base" id="statusBar">
+    <div class="status-bar status-bar-color" style="opacity: 0" id="statusBarColor"></div>
+    <div class="status-bar status-bar-background" style="opacity: 0" id="statusBarBg"></div>
+    <div class="status-bar status-bar-filler" style="opacity: 0" id="statusBarFiller"></div>
+</div>
+<script src="statusBar.js"></script>
+<script src="../js/client/vrchat-api.js"></script>
+<script src="../js/client/login.js"></script>
 </body>
 </html>
