@@ -1,0 +1,13 @@
+.avatar-container {
+    display: inline;
+    border: 1px solid black;
+    background-color: #2B2B2B;
+}
+
+.avatar-image {
+    border: 1px solid black;
+}
+
+.image-container {
+    padding: 8px;
+}

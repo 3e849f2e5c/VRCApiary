@@ -9,13 +9,40 @@ function setApiKey(token) {
         }
     });
 
-    storage.set('login', { apiKey: token }, function(error) {
+    storage.set('login', {apiKey: token}, function (error) {
         if (error) throw error;
     });
 }
 
+const getCredentials = (callback) => {
+    storage.has("credentials", (error, hasKey) => {
+        if (hasKey === true) {
+            storage.get("credentials", (error, data) => {
+                if (data.username !== undefined && data.password !== undefined) {
+                    callback(data.username, data.password);
+                } else {
+                    callback(null);
+                }
+            });
+        }
+    });
+};
+
+// TODO DONT FUCKING STORE PLAINTEXT PASSWORDS!!!`
+const saveCredentials = (username, password) => {
+    storage.set('credentials', {username: username, password: password}, function (error) {
+        if (error) console.log(error);
+    });
+};
+
 module.exports = {
-  setApiKey: (token) => {
-      setApiKey(token);
-  }
+    setApiKey: (token) => {
+        setApiKey(token);
+    },
+    saveCredentials: (username, password) => {
+        saveCredentials(username, password);
+    },
+    getCredentials: (callback) => {
+        getCredentials(callback)
+    }
 };
