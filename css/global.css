@@ -25,6 +25,10 @@ body {
     background-color: grey;
 }
 
+.button:disabled {
+    filter: grayscale(100%);
+}
+
 .button-bottom {
     position: absolute;
     bottom: 20px;

@@ -1,27 +1,6 @@
 const baseUrl = "https://api.vrchat.cloud/api/1";
 
 /**
- * Parse auth token from HTTP cookies
- * @param headers   The HTTP request headers
- * @return {string} The authorization key
- */
-function getAuthKey(headers) {
-    const list = {};
-    const rc = headers['set-cookie'][1];
-
-    if (rc.length < 1) {
-        return undefined
-    }
-
-    rc && rc.split(';').forEach(function (cookie) {
-        const parts = cookie.split('=');
-        list[parts.shift().trim()] = decodeURI(parts.join('='));
-    });
-
-    return list;
-}
-
-/**
  * Send a HTTP GET request to the target URL
  * @param {string} location         Target URL
  * @param {function} callback       Callback function
@@ -38,6 +17,7 @@ function sendGETRequest(location, callback, basic) {
         }
     };
     console.log("Request sent");
+    sendNotification("Request sent", "a HTTP GET request was sent", getIconFor("debug"));
     xmlHttp.open("GET", baseUrl + location, true);
     if (basic !== undefined) {
         xmlHttp.setRequestHeader("Authorization", "Basic " + btoa(basic));

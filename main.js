@@ -5,6 +5,7 @@ const storage = require('electron-json-storage');
 let mainWindow;
 
 function createWindow() {
+    app.setAppUserModelId(process.execPath);
     mainWindow = new BrowserWindow({width: 800, height: 600});
     storage.has('login', function (error, hasKey) {
         if (error) throw error;
