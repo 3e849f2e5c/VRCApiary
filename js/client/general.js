@@ -14,11 +14,16 @@ const getIconFor = (name) => {
     switch (name) {
         case "info": return "https://i.imgur.com/YFPOhDF.png";
         case "debug": return "https://i.imgur.com/vdhVjqM.png";
-        case "ok": return "https://i.imgur.com/AnnlrPF.png";
+        case "ok": return "https://i.imgur.com/mX6fF8K.png";
         default: return;
     }
 };
 
+// TODO logging
 const println = (message) => {
     console.log(message);
+};
+
+const getId = (id) => {
+    return document.getElementById(id);
 };

@@ -9,9 +9,50 @@
 </head>
 <body>
 
-<div class="avatar-container">
-    <div class="image-container">
-        <img alt="get a better PC tbh" src="../css/images/loading.png" class="avatar-image">
+<div class="content-container">
+    <div class="left-side">
+        <div class="box avatar-container">
+            <div class="image-container">
+                <img alt="An error occurred" src="../css/images/loading.png" class="avatar-image" id="avatar-image">
+            </div>
+            <div style="display: flex; padding-left: 8px;">
+                <div class="button button-green" style="width: 246px; margin-bottom: 8px; margin-top: -4px;">
+                    <div>
+                        Browse Avatars
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box status-container">
+            <div class="header" style="padding: 4px;">
+                Status
+            </div>
+            <div style="display: flex; justify-content: center">
+                <label class="field-input">
+                    <input type="text" style="width: 246px;" id="status">
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="right-side">
+        <div class="box welcome-container">
+            <div class="header" style="font-size: 48px;">
+                <a>
+                    Welcome
+                </a>
+            </div>
+        </div>
+        <div class="box names-container">
+            <div class="display-name" id="display-name">
+                Loading...
+            </div>
+            <div class="user-name" id="user-name">
+                Loading...
+            </div>
+            <div class="user-id" id="user-id">
+                Loading...
+            </div>
+        </div>
     </div>
 </div>
 
