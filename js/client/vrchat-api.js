@@ -6,7 +6,7 @@ const baseUrl = "https://api.vrchat.cloud/api/1";
  * @param {function} callback       Callback function
  * @param {string} [basic]          Basic auth if required
  */
-function sendGETRequest(location, callback, basic) {
+const sendGETRequest = (location, callback, basic) => {
     const xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
@@ -23,4 +23,4 @@ function sendGETRequest(location, callback, basic) {
         xmlHttp.setRequestHeader("Authorization", "Basic " + btoa(basic));
     }
     xmlHttp.send(null);
-}
+};

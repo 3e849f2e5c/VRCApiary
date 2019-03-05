@@ -1,20 +1,26 @@
-.avatar-container {
-
-}
 
 .box {
     border: 1px solid black;
     background-color: #2B2B2B;
-    margin: 8px;
+    margin: 8px 4px;
 }
 
 .avatar-image {
     border: 1px solid black;
-    width: 256px;
+    width: calc(256px);
+}
+
+.trust-info-image {
+    height: 128px;
+    width: 128px;
 }
 
 .image-container {
     padding: 8px;
+}
+
+.status-container div input {
+    text-align: center;
 }
 
 .content-container {
@@ -25,7 +31,6 @@
 .names-container {
     text-align: center;
     padding: 8px;
-    margin-top: 16px;
 }
 
 .display-name {
@@ -46,4 +51,58 @@
 
 .right-side {
     flex: 1;
+}
+
+.status-container {
+    padding-bottom: 12px;
+}
+
+.trust-bar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.trust-bar-bg {
+    padding: 8px;
+    width: calc(90% - 16px);
+    border: 1px solid black;
+    height: 32px;
+}
+
+.trust-bar {
+    background-color: #cccccc;
+    width: 100%;
+    height: 100%;
+}
+
+.trust-bar-shrinker {
+    position: relative;
+    background-color: #2B2B2B;
+    right: 0;
+    width: 50%;
+    float: right;
+    height: 100%;
+}
+
+.trust-info-container {
+    margin-top: 12px;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.trust-info-image {
+    width: 42px;
+    height: 42px;
+    padding-right: 8px;
+}
+
+.trust-info {
+    font-size: 24px;
 }

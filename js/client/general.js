@@ -1,4 +1,4 @@
-function sendNotification(title, body, image, callback) {
+const sendNotification = (title, body, image, callback) => {
     const options = {
         body: body
     };
@@ -7,7 +7,7 @@ function sendNotification(title, body, image, callback) {
     }
     let notify = new Notification(title, options);
     notify.onclick = callback;
-}
+};
 
 // TODO proper icons and copyright
 const getIconFor = (name) => {

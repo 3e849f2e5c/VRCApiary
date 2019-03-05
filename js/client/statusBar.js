@@ -1,7 +1,7 @@
 let pos = 0;
 let interval;
 
-function blinkRed() {
+const blinkRed = () => {
     const fg = statusBarFg();
     fg.style.opacity = "1";
     fg.style.backgroundColor = "red";
@@ -21,9 +21,9 @@ function blinkRed() {
         fg.style.backgroundColor = "grey";
         fg.style.opacity = "0";
     }, 1000);
-}
+};
 
-function blinkGreen() {
+const blinkGreen = () => {
     const fg = statusBarFg();
     fg.style.opacity = "1";
     fg.style.backgroundColor = "lime";
@@ -31,48 +31,48 @@ function blinkGreen() {
         fg.style.backgroundColor = "grey";
         fg.style.opacity = "0";
     }, 1000);
-}
+};
 
-function load() {
+const load = () => {
     if (interval !== undefined) {
         return;
     }
     const bg = statusBarBg();
     bg.style.opacity = "1";
     interval = setInterval(increase, 100);
-}
+};
 
-function stopLoading() {
+const stopLoading = () => {
     const bg = statusBarBg();
     bg.style.opacity = "0";
     pos = 0;
     bg.style.backgroundPositionX = "0";
     clearInterval(interval);
     interval = undefined;
-}
+};
 
-function increase() {
+const increase = () => {
     const bg = statusBarBg();
     bg.style.backgroundPositionX = pos + "%";
     pos++;
-}
+};
 
-function blink(color) {
+const blink = (color) => {
 
-}
+};
 
-function statusBar() {
+const statusBar = () => {
     return document.getElementById("statusBar");
-}
+};
 
-function statusBarBg() {
+const statusBarBg = () => {
     return document.getElementById("statusBarBg");
-}
+};
 
-function statusBarFg() {
+const statusBarFg = () => {
     return document.getElementById("statusBarColor");
-}
+};
 
-function statusBarFiller() {
+const statusBarFiller = () => {
     return document.getElementById("statusBarFiller");
-}
+};
