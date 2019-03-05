@@ -10,16 +10,31 @@ body {
     font-family: 'Roboto', roboto, sans-serif;
 }
 
+.loading-symbol {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+}
+
+#loadingIcon {
+    transition: opacity .3s ease-in-out;
+}
+
 .status-bar {
     height: 8px;
     width: 100vw;
     position: fixed;
     bottom: 0;
-    transition: opacity .2s, background-position .1s, background-color .2s ease-in-out;
+}
+
+.status-bar-color {
     opacity: 0;
+    transition: opacity .2s, background-color .2s ease-in-out;
 }
 
 .status-bar-background {
+    transition: background-position .1s;
+    opacity: 0;
     background-image: url('images/bar.png');
 }
 

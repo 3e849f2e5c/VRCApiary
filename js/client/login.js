@@ -47,7 +47,12 @@ document.getElementById("login-button").addEventListener('click', () => {
             blinkGreen();
             console.log(data);
             window.localStorage.setItem("userData", JSON.stringify(data));
-            window.location = "home.html";
+            document.getElementById("content").style.transform = "translateX(-100%)";
+            pageLoad();
+            setTimeout(() => {
+                window.location = "home.html";
+            }, 300);
+
             sendNotification("Press Esc to begin navigation",
                 "Click here to never see this notification again",
                 getIconFor("info"),

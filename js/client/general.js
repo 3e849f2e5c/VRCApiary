@@ -27,3 +27,11 @@ const println = (message) => {
 const getId = (id) => {
     return document.getElementById(id);
 };
+
+document.getElementById("content").style.transform = "translateX(0%)";
+document.getElementById("loadingIcon").style.opacity = "0";
+
+const pageLoad = () => {
+    document.getElementById("content").style.transform = "translateX(-100%)";
+    document.getElementById("loadingIcon").style.opacity = "1";
+};
