@@ -12,6 +12,17 @@ storage.getCredentials((username, password) => {
     }
 });
 
+
+const localStorage = window.localStorage;
+if (localStorage.getItem("requests") === null) {
+    localStorage.setItem("requests", "0");
+}
+if (localStorage.getItem("failedRequests") === null) {
+    localStorage.setItem("failedRequests", "0");
+}
+
+console.log(localStorage.getItem("test"));
+
 document.getElementById("login-button").addEventListener('click', () => {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;

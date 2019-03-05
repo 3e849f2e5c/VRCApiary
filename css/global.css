@@ -1,16 +1,19 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@font-face {
+    font-family: 'Roboto';
+    url('./font/Roboto-Regular.ttf') format('ttf'),
+}
 
 body {
     margin: 0;
     background-color: #373737;
     color: #A9B7C6;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', roboto, sans-serif;
 }
 
 .status-bar {
     height: 8px;
     width: 100vw;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     transition: opacity .2s, background-position .1s, background-color .2s ease-in-out;
     opacity: 0;

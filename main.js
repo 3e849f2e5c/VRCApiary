@@ -1,5 +1,6 @@
 const {app, BrowserWindow} = require('electron');
 const {session} = require('electron');
+const {shell} = require('electron');
 const storage = require('electron-json-storage');
 
 let mainWindow;
@@ -35,6 +36,7 @@ const createWindow = () => {
     });
 };
 
+
 app.on('ready', createWindow);
 
 app.on('window-all-closed', function () {
@@ -48,3 +50,12 @@ app.on('activate', function () {
         createWindow()
     }
 });
+
+
+const openDataFolder = () => {
+    shell.openItem(storage.getDataPath())
+};
+
+module.exports = {
+    openDataFolder: openDataFolder
+};

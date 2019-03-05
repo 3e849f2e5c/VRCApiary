@@ -1,3 +1,5 @@
+const {remote} = require('electron');
+
 const userData = JSON.parse(localStorage.getItem("userData"));
 
 getId("user-name").innerText = userData.username;
@@ -94,5 +96,36 @@ switch (trust_level) {
         break;
     }
 }
+
+const newEntry = (text) => {
+    const e = document.createElement('a');
+    e.innerText = text;
+    return e;
+};
+
+const info = getId("appInfo");
+info.appendChild(newEntry("VRCApiary version: " + remote.app.getVersion()));
+info.appendChild(newEntry("HTTP Requests: " + localStorage.getItem("requests")));
+info.appendChild(newEntry("HTTP Errors: " + localStorage.getItem("failedRequests")));
+// TODO
+info.appendChild(newEntry("Connected to Ice Cream: " + "No"));
+info.appendChild(newEntry("Amount of friends: " + userData.friends.length));
+info.appendChild(newEntry("Last logged in: " + new Date(userData['last_login']).toLocaleDateString()));
+// TODO
+info.appendChild(newEntry("Discord Rich Presence: " + "Disabled"));
+// TODO
+info.appendChild(newEntry("Output Log: " + "Not parsing"));
+
+const entry = newEntry("Saved data location: ");
+const e = newEntry("[Open]");
+e.setAttribute("class", "link");
+e.addEventListener('click', () => {
+    remote.require("./main.js").openDataFolder();
+});
+entry.appendChild(e);
+info.appendChild(entry);
+
+
+
 
 console.log(trust_level);

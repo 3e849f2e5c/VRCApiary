@@ -1,3 +1,10 @@
+html {
+    height: calc(100% - 8px);
+}
+
+body {
+    height: 100%;
+}
 
 .box {
     border: 1px solid black;
@@ -7,7 +14,8 @@
 
 .avatar-image {
     border: 1px solid black;
-    width: calc(256px);
+    width: 256px;
+    height: 192px;
 }
 
 .trust-info-image {
@@ -25,7 +33,10 @@
 
 .content-container {
     display: flex;
-    margin: 8px;
+    margin: 0 4px 4px 4px;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    height: 100%;
 }
 
 .names-container {
@@ -105,4 +116,48 @@
 
 .trust-info {
     font-size: 24px;
+}
+
+.bottom-side {
+    width: 100%;
+    display: block;
+    height: calc(100% - 382px - 10px);
+}
+
+.app-container {
+    display: flex;
+    height: 100%;
+    margin-top: 0;
+}
+
+.app-info-container {
+    display: flex;
+    flex: 1;
+    padding: 16px;
+    flex-wrap: wrap;
+}
+
+.app-info {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+.app-info a {
+    flex: 1 0 33%;
+}
+
+
+.app-information-container {
+    flex: 1;
+}
+
+.link {
+    cursor:pointer;
+    color: #6897BB;
 }

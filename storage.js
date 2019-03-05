@@ -28,7 +28,7 @@ const getCredentials = (callback) => {
     });
 };
 
-// TODO DONT FUCKING STORE PLAINTEXT PASSWORDS!!!`
+// TODO DONT STORE PLAINTEXT PASSWORDS YOU MONGLET!!!`
 const saveCredentials = (username, password) => {
     storage.set('credentials', {username: username, password: password}, function (error) {
         if (error) console.log(error);

@@ -7,9 +7,13 @@ const baseUrl = "https://api.vrchat.cloud/api/1";
  * @param {string} [basic]          Basic auth if required
  */
 const sendGETRequest = (location, callback, basic) => {
+    const localStorage = window.localStorage;
     const xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
+            if (xmlHttp.status.toString().lastIndexOf("4", 0) === 0) {
+                localStorage.setItem("failedRequests", (parseInt(localStorage.getItem("failedRequests")) + 1).toString())
+            }
             const data = JSON.parse(xmlHttp.responseText);
             callback(data);
             console.log("Request received");
@@ -22,5 +26,6 @@ const sendGETRequest = (location, callback, basic) => {
     if (basic !== undefined) {
         xmlHttp.setRequestHeader("Authorization", "Basic " + btoa(basic));
     }
+    localStorage.setItem("requests", (parseInt(localStorage.getItem("requests")) + 1).toString());
     xmlHttp.send(null);
 };
