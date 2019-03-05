@@ -13,9 +13,12 @@ body {
 }
 
 .avatar-image {
-    border: 1px solid black;
-    width: 256px;
-    height: 192px;
+    border-width: 4px;
+    border-style: solid;
+    width: 250px;
+    height: 186px;
+    background: url(images/loading.png);
+    background-size: cover;
 }
 
 .trust-info-image {

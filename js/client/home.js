@@ -8,6 +8,21 @@ getId("user-id").innerText = userData.id;
 getId("avatar-image").src = userData.currentAvatarThumbnailImageUrl;
 getId("status").value = userData.statusDescription;
 
+switch (userData.status) {
+    case "active": {
+        getId("avatar-image").setAttribute("style", "border-color: green;");
+        break;
+    }
+    case "join me": {
+        getId("avatar-image").setAttribute("style", "border-color: aqua;");
+        break;
+    }
+    case "busy": {
+        getId("avatar-image").setAttribute("style", "border-color: red;");
+        break;
+    }
+}
+
 const tags = userData.tags;
 
 let trust_level = 0;
