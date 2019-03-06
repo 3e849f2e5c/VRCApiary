@@ -21,7 +21,7 @@ if (localStorage.getItem("failedRequests") === null) {
     localStorage.setItem("failedRequests", "0");
 }
 
-console.log(localStorage.getItem("test"));
+console.log(localStorage.getItem("delayFunction"));
 
 document.getElementById("login-button").addEventListener('click', () => {
     const username = document.getElementById("username").value;

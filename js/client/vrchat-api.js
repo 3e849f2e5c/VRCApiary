@@ -1,5 +1,24 @@
 const baseUrl = "https://api.vrchat.cloud/api/1";
 
+const getWorldNameCached = (worldId, callback) => {
+    const localStorage = window.localStorage;
+    if (localStorage.getItem("worldNames") === null) {
+        localStorage.setItem("worldNames", "{}");
+    }
+    const json = JSON.parse(localStorage.getItem("worldNames"));
+    if (json[worldId] === undefined) {
+        sendGETRequest("/worlds/" + worldId, (data) => {
+            json[worldId] = {
+                name: data.name
+            };
+            localStorage.setItem("worldNames", JSON.stringify(json));
+            callback(data.name, false);
+        });
+    } else {
+        callback(json[worldId].name, true);
+    }
+};
+
 /**
  * Send a HTTP GET request to the target URL
  * @param {string} location         Target URL

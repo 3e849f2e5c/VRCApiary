@@ -1,5 +1,3 @@
-
-
 let list = getId("friendsList");
 
 const worldsToLoad = [];
@@ -15,16 +13,61 @@ for (let i = 0; i < fakeJson.length; i++) {
     }
 
     if (was === false && fr.location !== "private") {
-        worldsToLoad.push({world: fr.location, functions: []});
+        const regex = /(.+?):(.+?)($|~((.+?)\(.+))$/;
+        const match = regex.exec(fr.location);
+        if (match !== undefined && match.length !== 0) {
+            let type = "";
+            let instance = "";
+            let otherId = "";
+            let worldId = "";
+            if (match.length >= 5) {
+                switch (match[5]) {
+                    case "hidden": {
+                        type = "Friends+";
+                        instance = match[2];
+                        otherId = match[2] + match[3];
+                        worldId = match[1];
+                        break;
+                    }
+                    case "friends": {
+                        type = "Friends Only";
+                        instance = match[2];
+                        otherId = match[2] + match[3];
+                        worldId = match[1];
+                        break;
+                    }
+                    default: {
+                        type = "Public";
+                        instance = match[2];
+                        otherId = match[2];
+                        worldId = match[1];
+                        break;
+                    }
+                }
+            }
+            worldsToLoad.push({
+                world: fr.location,
+                type: type,
+                instance: instance,
+                otherId: otherId,
+                worldId: worldId,
+                functions: []
+            });
+        }
     }
 }
+
+const sortedList = [];
 
 for (let i = 0; i < fakeJson.length; i++) {
     const fr = fakeJson[i];
     const entryContainer = createElement("div", "box friend-entry-container");
     const friendName = createElement("a", "friend-name", fr.displayName);
     const friendImage = createElement("img", "friend-image");
-    const friendWorld = createElement("a", "friend-world");
+    const friendWorld = createElement("a", "friend-world", "Loading...");
+    const friendWorldInstance = createElement("a", "friend-world-instance");
+    const friendWorldType = createElement("a", "friend-world-type");
+    const friendWorldContainer = createElement("div", "friend-world-container");
     friendImage.setAttribute("src", fr.currentAvatarThumbnailImageUrl);
     let status;
     switch (fr.status) {
@@ -41,39 +84,70 @@ for (let i = 0; i < fakeJson.length; i++) {
             status = "white";
     }
     friendImage.setAttribute("style", "border-color: " + status);
+
     if (fr.location === "private") {
         friendWorld.innerText = "Private World";
     } else {
         for (let j = 0; j < worldsToLoad.length; j++) {
             const wrld = worldsToLoad[j];
-            if (wrld === fr.location) {
+            if (wrld.world === fr.location) {
+                friendWorldType.innerText = wrld.type;
+                friendWorldInstance.innerText = wrld.instance;
+                friendWorldContainer.setAttribute("class", "viewable-world friend-world-container");
                 wrld.functions.push((worldName) => {
                     friendWorld.innerText = worldName;
+                    friendWorldContainer.title = worldName;
                 });
             }
         }
     }
+    friendWorldContainer.appendChild(friendWorld);
+    friendWorldContainer.appendChild(friendWorldInstance);
+    friendWorldContainer.appendChild(friendWorldType);
+
     entryContainer.appendChild(friendName);
     entryContainer.appendChild(friendImage);
-    list.appendChild(entryContainer);
+    entryContainer.appendChild(friendWorldContainer);
+    sortedList.push({div: entryContainer, location: fr.location})
 }
 
-// TODO
-// let amount = 0;
-// const loadWorld = (worldId, callback) => {
-//     console.log("1");
-//     if (worldsToLoad.length <= amount) {
-//         amount += 1;
-//     }
-//     callback("1");
-// };
-//
-//
-// if (worldsToLoad.length !== 0) {
-//     loadWorld(worldsToLoad[0], () => {
-//
-//     });
-// }
+const compare = (a, b) => {
+    if (a.location > b.location)
+        return -1;
+    if (a.location < b.location)
+        return 1;
+    return 0;
+};
 
+sortedList.sort(compare);
+for (let i = 0; i < sortedList.length; i++) {
+    list.appendChild(sortedList[i].div);
+}
+
+const recursiveLoad = () => {
+    if (worldsToLoad.length !== 0) {
+        let world = worldsToLoad.shift();
+        delayFunction(world.worldId, (e) => {
+            for (let i = 0; i < world.functions.length; i++) {
+                world.functions[i](e);
+            }
+            recursiveLoad();
+        })
+    }
+};
+
+const delayFunction = (e, callback) => {
+    getWorldNameCached(e, (data, wasCached) => {
+        if (!wasCached) {
+            setTimeout(() => {
+                callback(data);
+            }, 3000);
+        } else {
+            callback(data);
+        }
+    });
+};
+
+recursiveLoad();
 
 

@@ -22,17 +22,18 @@ body {
 }
 
 .friends-list-container {
-     margin: 0 4px;
-     flex: 1;
-     display: flex;
-     flex-wrap: wrap;
-     justify-content: center;
- }
+    margin: 0 4px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
 .friend-entry-container {
     display: flex;
     flex-direction: column;
     width: 240px;
+    margin-bottom: 0;
     align-items: center;
 }
 
@@ -46,8 +47,57 @@ body {
 }
 
 .friend-name {
+    color: #CB772F;
     padding: 4px;
     width: 100%;
     font-size: 28px;
     text-align: center;
+}
+
+.friend-world-container {
+    display: block;
+    text-align: center;
+    margin: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    width: calc(100% - 16px);
+}
+
+.viewable-world {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.viewable-world:hover {
+    background-color: #323232;
+    outline: 1px solid black;
+}
+
+.friend-world {
+    display: block;
+    font-size: 24px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.friend-world-instance {
+    display: block;
+    color: #808080;
+    font-size: 18px;
+}
+
+.friend-world-instance:before {
+    content: '#';
+    color: #808080;
+    font-size: 18px;
+}
+
+.friend-world-type {
+    color: #808080;
+    display: block;
+    font-size: 18px;
 }
