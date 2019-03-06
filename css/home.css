@@ -36,7 +36,7 @@ body {
 }
 
 .content-container {
-    transition: transform 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
     display: flex;
     margin: 0 4px 4px 4px;
     flex-wrap: wrap;
