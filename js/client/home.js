@@ -139,8 +139,3 @@ e.addEventListener('click', () => {
 });
 entry.appendChild(e);
 info.appendChild(entry);
-
-
-
-
-console.log(trust_level);

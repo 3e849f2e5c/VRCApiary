@@ -1,0 +1,53 @@
+html {
+    height: calc(100% - 8px);
+}
+
+body {
+    height: 100%;
+    overflow-x: hidden;
+}
+
+.content-container {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+    margin: 4px;
+}
+
+.friends-container {
+    width: 100%;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.friends-list-container {
+     margin: 0 4px;
+     flex: 1;
+     display: flex;
+     flex-wrap: wrap;
+     justify-content: center;
+ }
+
+.friend-entry-container {
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    align-items: center;
+}
+
+.friend-image {
+    border-width: 4px;
+    border-style: solid;
+    width: calc(240px - 32px);
+    height: 166px;
+    background: url(images/loading.png);
+    background-size: cover;
+}
+
+.friend-name {
+    padding: 4px;
+    width: 100%;
+    font-size: 28px;
+    text-align: center;
+}

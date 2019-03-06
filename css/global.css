@@ -4,6 +4,7 @@ url('./font/Roboto-Regular.ttf') format('ttf'),
 }
 
 body {
+    overflow-y: scroll;
     margin: 0;
     background-color: #373737;
     color: #A9B7C6;
@@ -11,9 +12,11 @@ body {
 }
 
 .loading-symbol {
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
-    position: absolute;
+    position: fixed;
     z-index: -1;
 }
 
@@ -213,7 +216,7 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:f
 .navigation-menu {
     transition: opacity 0.1s ease-in-out;
     z-index: 10;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     height: calc(100vh - 8px);

@@ -34,13 +34,7 @@ const getId = (id) => {
     return document.getElementById(id);
 };
 
-setTimeout(() => {
-    getId("content").style.opacity = "1";
-}, 250);
-getId("loadingIcon").style.opacity = "0";
-
 const pageLoad = () => {
-    getId("content").style.opacity = "0";
     getId("content").style.opacity = "0";
     getId("loadingIcon").style.opacity = "1";
 };
@@ -48,7 +42,7 @@ const pageLoad = () => {
 const navToPage = (page) => {
     const menu = getId("navMenu");
     const content = getId("content");
-    if (menu !== null) {
+    if (menu !== null && isMenuUp === true) {
         menu.style.opacity = "0";
         setTimeout(() => {
             menu.style.visibility = "hidden";
@@ -56,8 +50,8 @@ const navToPage = (page) => {
                 content.style.filter = "none";
             }
         }, 300);
+        isMenuUp = false;
     }
-    isMenuUp = false;
     switch (page) {
         case "home": {
             pageLoad();
@@ -66,12 +60,26 @@ const navToPage = (page) => {
             }, 300);
             break;
         }
+
+        case "friends": {
+            pageLoad();
+            setTimeout(() => {
+                document.location = "./friends.html";
+            }, 300);
+            break;
+        }
     }
 };
 
-getId("navHome").addEventListener('click', () => {
-    navToPage("home");
-});
+if (getId("navMenu") !== null) {
+    getId("navHome").addEventListener('click', () => {
+        navToPage("home");
+    });
+
+    getId("navFriends").addEventListener('click', () => {
+        navToPage("friends");
+    });
+}
 
 document.addEventListener('keyup', (e) => {
     const menu = getId("navMenu");
@@ -102,5 +110,35 @@ document.addEventListener('keyup', (e) => {
             }
             break;
         }
+        case "F1": {
+            navToPage("home");
+            break;
+        }
+        case "F2": {
+            navToPage("friends");
+            break;
+        }
     }
 });
+
+window.onkeydown = (e) => {
+    return !(e.key === ' ');
+};
+
+const createElement = (type, css, innerText) => {
+    const e = document.createElement(type);
+    if (css !== undefined) {
+        e.setAttribute("class", css);
+    }
+    if (innerText !== undefined) {
+        e.innerText = innerText;
+    }
+    return e;
+};
+
+setTimeout(() => {
+    getId("content").style.opacity = "1";
+}, 300);
+setTimeout(() => {
+    getId("loadingIcon").style.opacity = "0";
+}, 100);
