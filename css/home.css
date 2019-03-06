@@ -7,11 +7,6 @@ body {
     overflow-x: hidden;
 }
 
-.box {
-    border: 1px solid black;
-    background-color: #2B2B2B;
-    margin: 8px 4px;
-}
 
 .avatar-image {
     border-width: 4px;
