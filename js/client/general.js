@@ -92,7 +92,7 @@ document.addEventListener('keyup', (e) => {
         return;
     }
     switch (e.key) {
-        case " ": {
+        case "Escape": {
             if (isMenuUp === false) {
                 menu.style.visibility = "visible";
                 setTimeout(() => {
@@ -124,10 +124,6 @@ document.addEventListener('keyup', (e) => {
         }
     }
 });
-
-window.onkeydown = (e) => {
-    return !(e.key === ' ');
-};
 
 const createElement = (type, css, innerText) => {
     const e = document.createElement(type);
