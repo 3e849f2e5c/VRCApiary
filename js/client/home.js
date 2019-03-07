@@ -139,3 +139,5 @@ e.addEventListener('click', () => {
 });
 entry.appendChild(e);
 info.appendChild(entry);
+
+finishLoading();

@@ -10,7 +10,6 @@ body {
 .content-container {
     display: flex;
     flex-wrap: wrap;
-    height: 100%;
     margin: 4px;
 }
 
@@ -40,10 +39,30 @@ body {
 .friend-image {
     border-width: 4px;
     border-style: solid;
-    width: calc(240px - 32px);
-    height: 166px;
+    width: calc(240px - 40px);
+    height: 150px;
     background: url(images/loading.png);
     background-size: cover;
+}
+
+.friend-profile-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 8px;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 4px;
+    padding-bottom: 8px;
+    padding-left: 4px;
+    padding-right: 4px;
+    cursor: pointer;
+}
+
+.friend-profile-container:hover {
+    background-color: #323232;
+    outline: 1px solid black;
 }
 
 .friend-name {
@@ -58,7 +77,8 @@ body {
     display: block;
     text-align: center;
     margin: 8px;
-    padding-top: 4px;
+    margin-top: 0;
+    padding-top: 2px;
     padding-bottom: 4px;
     width: calc(100% - 16px);
 }
@@ -86,12 +106,6 @@ body {
 
 .friend-world-instance {
     display: block;
-    color: #808080;
-    font-size: 18px;
-}
-
-.friend-world-instance:before {
-    content: '#';
     color: #808080;
     font-size: 18px;
 }

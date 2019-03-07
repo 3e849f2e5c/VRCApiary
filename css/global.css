@@ -4,7 +4,6 @@ url('./font/Roboto-Regular.ttf') format('ttf'),
 }
 
 body {
-    overflow-y: scroll;
     margin: 0;
     background-color: #373737;
     color: #A9B7C6;
@@ -56,6 +55,11 @@ body {
     bottom: 20px;
     left: 5%;
     width: 90% !important;
+}
+
+.button-red {
+    background-color: #D25252;
+    color: white;
 }
 
 a:link {

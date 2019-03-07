@@ -62,3 +62,4 @@ document.getElementById("login-button").addEventListener('click', () => {
         stopLoading();
     }, username + ':' + password);
 });
+finishLoading();

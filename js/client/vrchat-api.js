@@ -1,5 +1,17 @@
 const baseUrl = "https://api.vrchat.cloud/api/1";
 
+const getFriends = (callback) => {
+    sendGETRequest("/auth/user/friends", (data) => {
+        callback(data);
+    });
+};
+
+const getWorldInstance = (worldId, otherId, callback) => {
+    sendGETRequest("/worlds/" + worldId + "/" + otherId, (data) => {
+        callback(data);
+    });
+};
+
 const getWorldNameCached = (worldId, callback) => {
     const localStorage = window.localStorage;
     if (localStorage.getItem("worldNames") === null) {

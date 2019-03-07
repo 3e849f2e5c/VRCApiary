@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Friends</title>
+    <title>Instance viewer</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../css/global.css">
-    <link rel="stylesheet" type="text/css" href="../css/friends.css">
+    <link rel="stylesheet" type="text/css" href="../css/instance.css">
 </head>
 <body>
 <div class="center-container loading-symbol" style="opacity: 1;">
@@ -13,12 +13,40 @@
 </div>
 
 <div class="content-container" id="content" style="opacity: 0;">
-    <div class=" friends-container">
+    <div class="worlds-container">
         <div class="box header">
-            VRChat Friends
+            Preview of instance
         </div>
-        <div class="friends-list-container" id="friendsList">
+        <div class="world-info-container">
+            <div class="world-owner-container">
+                <div class="box header">
+                    Master
+                </div>
 
+                <div class="box world-owner-info">
+                    <a class="world-owner-name" id="ownerName">
+                        Unknown
+                    </a>
+                    <img src="../css/images/unknown.png" alt="an error occurred" id="ownerImage" class="world-owner-image">
+                </div>
+
+                <div class="box back-button">
+                    <div class="button button-green" id="joinButton">
+                        Join
+                    </div>
+
+                    <div class="button button-red" id="backButton">
+                        Back
+                    </div>
+                </div>
+            </div>
+            <div class="box world-user-list-container">
+                <div class="header">
+                    User List
+                </div>
+                <div class="user-list-container" id="userList">
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -62,6 +90,6 @@
 <script src="../js/client/general.js"></script>
 <script src="../js/client/vrchat-api.js"></script>
 <script src="../js/client/statusBar.js"></script>
-<script src="../js/client/friends.js"></script>
+<script src="../js/client/instance.js"></script>
 </body>
 </html>

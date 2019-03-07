@@ -1,0 +1,116 @@
+html {
+    height: calc(100% - 8px);
+}
+
+body {
+    height: 100%;
+    overflow-x: hidden;
+}
+
+.content-container {
+    height: 100%;
+    margin: 4px;
+    margin-bottom: 0;
+}
+
+.worlds-container {
+
+}
+
+.world-user-list-container {
+    flex: 1;
+    height: calc(100vh - 34px - 56px);
+}
+
+.header {
+    margin-bottom: 0;
+}
+
+.world-info-container {
+    margin-top: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.world-owner-container {
+    height: 100%;
+}
+.world-owner-info {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+}
+
+.world-owner-name {
+    padding: 4px;
+    width: 100%;
+    font-size: 28px;
+    text-align: center;
+}
+
+.world-owner-image {
+    border-width: 4px;
+    border-style: solid;
+    width: calc(240px - 40px);
+    height: 150px;
+    background: url(images/loading.png);
+    background-size: cover;
+}
+
+.user-list-container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    font-size: 32px;
+    border: 1px solid black;
+    color: #A9B7C6;
+    background-color: transparent;
+    margin: 8px;
+    margin-top: 0;
+    height: calc(100vh - 100px - 56px);
+}
+
+.user-list-entry {
+    text-align: center;
+    width: 100%;
+    padding: 4px;
+    background-position: center;
+}
+
+.back-button {
+    padding: 8px;
+}
+
+.back-button div:first-child {
+    margin-bottom: 8px;
+}
+
+.button {
+    text-align: center;
+    width: auto;
+}
+
+.user-list-entry img {
+    height: 60px;
+    float: left;
+    margin-left: 4px;
+    border-width: 2px;
+    border-style: solid;
+    background: url(images/loading.png);
+    background-size: cover;
+}
+
+.user-list-entry a {
+    flex: 1;
+}
+
+.user-list-container div:nth-child(even) {
+    background-color: #2B2B2B;
+}
+
+.user-list-container div:nth-child(odd) {
+    background-color: #323232;
+}
