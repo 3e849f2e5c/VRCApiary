@@ -36,6 +36,19 @@ body {
 .world-owner-container {
     height: 100%;
 }
+
+.world-owner-container .header {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.world-owner-container .world-owner-info {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+}
+
 .world-owner-info {
     display: flex;
     flex-direction: column;
@@ -44,7 +57,6 @@ body {
 
 .world-owner-name {
     padding: 4px;
-    width: 100%;
     font-size: 28px;
     text-align: center;
 }
@@ -84,8 +96,8 @@ body {
     padding: 8px;
 }
 
-.back-button div:first-child {
-    margin-bottom: 8px;
+.back-button div:not(:last-child) {
+    margin-bottom: 6px;
 }
 
 .button {

@@ -12,13 +12,17 @@ const getWorldInstance = (worldId, otherId, callback) => {
     });
 };
 
-const getWorldNameCached = (worldId, callback) => {
+const getWorldNameCached = (worldId, cacheOnly, callback) => {
     const localStorage = window.localStorage;
     if (localStorage.getItem("worldNames") === null) {
         localStorage.setItem("worldNames", "{}");
     }
     const json = JSON.parse(localStorage.getItem("worldNames"));
     if (json[worldId] === undefined) {
+        if (cacheOnly === true) {
+            callback(null, true);
+            return;
+        }
         sendGETRequest("/worlds/" + worldId, (data) => {
             json[worldId] = {
                 name: data.name

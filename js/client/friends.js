@@ -101,14 +101,20 @@ const renderPage = (data) => {
                         window.localStorage.setItem("oldScroll", window.pageYOffset.toString());
                         pageLoad();
                         setTimeout(() => {
-                            console.log(wrld);
                             document.location = "./instance.html?worldId=" + wrld.worldId + "&otherId=" + wrld.otherId;
                         }, 300);
                     });
-                    wrld.functions.push((worldName) => {
-                        friendWorld.innerText = worldName;
-                        friendWorldContainer.title = worldName;
-                    });
+	                getWorldNameCached(wrld.worldId, true, (worldNameC, wasCached) => {
+	                    if (worldNameC !== null) {
+		                    friendWorld.innerText = worldNameC;
+		                    friendWorldContainer.title = worldNameC;
+                        } else {
+		                    wrld.functions.push((worldName) => {
+			                    friendWorld.innerText = worldName;
+			                    friendWorldContainer.title = worldName;
+		                    });
+                        }
+	                });
                 }
             }
         }
@@ -154,7 +160,7 @@ const renderPage = (data) => {
     };
 
     const delayFunction = (e, callback) => {
-        getWorldNameCached(e, (data, wasCached) => {
+        getWorldNameCached(e, false, (data, wasCached) => {
             if (!wasCached) {
                 setTimeout(() => {
                     callback(data);

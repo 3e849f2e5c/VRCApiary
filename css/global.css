@@ -62,6 +62,11 @@ body {
     color: white;
 }
 
+.button-blue {
+    background-color: #2181c3;
+    color: white;
+}
+
 a:link {
     color: #6897BB;
 }
