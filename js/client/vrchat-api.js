@@ -1,37 +1,54 @@
 const baseUrl = "https://api.vrchat.cloud/api/1";
 
+
+/**
+ * Get VRChat friends list
+ * https://vrchatapi.github.io/#/UserAPI/Friends
+ * @param callback  Callback function
+ */
 const getFriends = (callback) => {
     sendGETRequest("/auth/user/friends", (data) => {
         callback(data);
     });
 };
 
+/**
+ * Get a VRChat world instance by ID and tags
+ * https://vrchatapi.github.io/#/WorldAPI/WorldInstanceTags
+ * @param worldId   ID of the world
+ * @param otherId   Instance tags
+ * @param callback  Callback function
+ */
 const getWorldInstance = (worldId, otherId, callback) => {
     sendGETRequest("/worlds/" + worldId + "/" + otherId, (data) => {
         callback(data);
     });
 };
 
-const getWorldNameCached = (worldId, cacheOnly, callback) => {
+/**
+ * Get a VRChat world by ID
+ * https://vrchatapi.github.io/#/WorldAPI/GetWorld
+ * @param worldId   ID of the world
+ * @param callback  Callback function
+ */
+const getWorld = (worldId, callback) => {
+    sendGETRequest("/worlds/" + worldId, (data) => {
+        callback(data);
+    });
+};
+
+/**
+ * Get cached VRChat world name
+ * @param worldId   ID of the world
+ * @param callback  Callback function
+ */
+const getWorldNameCached = (worldId, callback) => {
     const localStorage = window.localStorage;
-    if (localStorage.getItem("worldNames") === null) {
-        localStorage.setItem("worldNames", "{}");
-    }
     const json = JSON.parse(localStorage.getItem("worldNames"));
-    if (json[worldId] === undefined) {
-        if (cacheOnly === true) {
-            callback(null, true);
-            return;
-        }
-        sendGETRequest("/worlds/" + worldId, (data) => {
-            json[worldId] = {
-                name: data.name
-            };
-            localStorage.setItem("worldNames", JSON.stringify(json));
-            callback(data.name, false);
-        });
+    if (json[worldId] === undefined || json[worldId] === null) {
+        callback(null);
     } else {
-        callback(json[worldId].name, true);
+        callback(json[worldId].name);
     }
 };
 

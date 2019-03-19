@@ -104,17 +104,17 @@ const renderPage = (data) => {
                             document.location = "./instance.html?worldId=" + wrld.worldId + "&otherId=" + wrld.otherId;
                         }, 300);
                     });
-	                getWorldNameCached(wrld.worldId, true, (worldNameC, wasCached) => {
-	                    if (worldNameC !== null) {
-		                    friendWorld.innerText = worldNameC;
-		                    friendWorldContainer.title = worldNameC;
+                    getWorldNameCached(wrld.worldId, (worldNameC) => {
+                        if (worldNameC !== null) {
+                            friendWorld.innerText = worldNameC;
+                            friendWorldContainer.title = worldNameC;
                         } else {
-		                    wrld.functions.push((worldName) => {
-			                    friendWorld.innerText = worldName;
-			                    friendWorldContainer.title = worldName;
-		                    });
+                            wrld.functions.push((worldName) => {
+                                friendWorld.innerText = worldName;
+                                friendWorldContainer.title = worldName;
+                            });
                         }
-	                });
+                    });
                 }
             }
         }
@@ -148,8 +148,10 @@ const renderPage = (data) => {
         if (worldsToLoad.length !== 0) {
             let world = worldsToLoad.shift();
             delayFunction(world.worldId, (e) => {
-                for (let i = 0; i < world.functions.length; i++) {
-                    world.functions[i](e);
+                if (e !== null) {
+                    for (let i = 0; i < world.functions.length; i++) {
+                        world.functions[i](e);
+                    }
                 }
                 recursiveLoad();
             })
@@ -160,13 +162,22 @@ const renderPage = (data) => {
     };
 
     const delayFunction = (e, callback) => {
-        getWorldNameCached(e, false, (data, wasCached) => {
-            if (!wasCached) {
-                setTimeout(() => {
-                    callback(data);
-                }, 3000);
+        getWorldNameCached(e, (worldName) => {
+            if (worldName !== null) {
+                callback(null);
             } else {
-                callback(data);
+                getWorld(e, (data) => {
+                    console.log(e);
+                    console.log(data.name);
+                    const json = JSON.parse(localStorage.getItem("worldNames"));
+                    json[e] = {
+                        name: data.name
+                    };
+                    localStorage.setItem("worldNames", JSON.stringify(json));
+                    setTimeout(() => {
+                        callback(data.name);
+                    }, 3000);
+                });
             }
         });
     };

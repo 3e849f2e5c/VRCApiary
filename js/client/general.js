@@ -1,5 +1,9 @@
 let isMenuUp = false;
 
+if (localStorage.getItem("worldNames") === null) {
+    localStorage.setItem("worldNames", "{}");
+}
+
 const sendNotification = (title, body, image, callback) => {
     const options = {
         body: body
