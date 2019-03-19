@@ -1,5 +1,15 @@
 const baseUrl = "https://api.vrchat.cloud/api/1";
 
+/**
+ * Get VRChat notifications
+ * https://vrchatapi.github.io/#/UserAPI/Friends
+ * @param callback  Callback function
+ */
+const getNotifications = (callback) => {
+    sendGETRequest("/auth/user/notifications", (data) => {
+        callback(data);
+    });
+};
 
 /**
  * Get VRChat friends list

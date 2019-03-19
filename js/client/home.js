@@ -118,26 +118,52 @@ const newEntry = (text) => {
     return e;
 };
 
-const info = getId("appInfo");
-info.appendChild(newEntry("VRCApiary version: " + remote.app.getVersion()));
-info.appendChild(newEntry("HTTP Requests: " + localStorage.getItem("requests")));
-info.appendChild(newEntry("HTTP Errors: " + localStorage.getItem("failedRequests")));
-// TODO
-info.appendChild(newEntry("Connected to Ice Cream: " + "No"));
-info.appendChild(newEntry("Amount of friends: " + userData.friends.length));
-info.appendChild(newEntry("Last logged in: " + new Date(userData['last_login']).toLocaleDateString()));
-// TODO
-info.appendChild(newEntry("Discord Rich Presence: " + "Disabled"));
-// TODO
-info.appendChild(newEntry("Output Log: " + "Not parsing"));
+// info.appendChild(newEntry("VRCApiary version: " + remote.app.getVersion()));
+// info.appendChild(newEntry("HTTP Requests: " + localStorage.getItem("requests")));
+// info.appendChild(newEntry("HTTP Errors: " + localStorage.getItem("failedRequests")));
+// // TODO
+// info.appendChild(newEntry("Connected to Ice Cream: " + "No"));
+// info.appendChild(newEntry("Amount of friends: " + userData.friends.length));
+// info.appendChild(newEntry("Last logged in: " + new Date(userData['last_login']).toLocaleDateString()));
+// // TODO
+// info.appendChild(newEntry("Discord Rich Presence: " + "Disabled"));
+// // TODO
+// info.appendChild(newEntry("Output Log: " + "Not parsing"));
+//
+// const entry = newEntry("Saved data location: ");
+// const e = newEntry("[Open]");
+// e.setAttribute("class", "link");
+// e.addEventListener('click', () => {
+//     remote.require("./main.js").openDataFolder();
+// });
+// entry.appendChild(e);
+// info.appendChild(entry);
 
-const entry = newEntry("Saved data location: ");
-const e = newEntry("[Open]");
-e.setAttribute("class", "link");
-e.addEventListener('click', () => {
-    remote.require("./main.js").openDataFolder();
+getNotifications((data) => {
+    const area = getId("notifyArea");
+    for (let i = 0; i < data.length; i++) {
+        const notify = data[i];
+        const notifyContainer = createElement("div", "notify-container");
+        const notifyIcon = createElement("img", "notify-icon");
+        notifyContainer.appendChild(notifyIcon);
+        notifyIcon.src = "../css/images/notifications/friendrequest.png";
+        switch (notify.type) {
+            case "friendrequest":
+                notifyIcon.src = "../css/images/notifications/friendrequest.png";
+                break;
+            case "invite":
+                notifyIcon.src = "../css/images/notifications/invite.png";
+                break;
+            case "requestinvite":
+                notifyIcon.src = "../css/images/notifications/requestinvite.png";
+                break;
+            case "message":
+                notifyIcon.src = "../css/images/notifications/message.png";
+                break;
+            default:
+                notifyIcon.src = "../css/images/notifications/friendrequest.png";
+        }
+        area.appendChild(notifyContainer);
+    }
+    finishLoading();
 });
-entry.appendChild(e);
-info.appendChild(entry);
-
-finishLoading();

@@ -71,6 +71,25 @@ a:link {
     color: #6897BB;
 }
 
+
+
+*::-webkit-scrollbar {
+    width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background-color: rgba(0,0,0,0);
+}
+
+body::-webkit-scrollbar-track {
+    background-color: #2B2B2B;
+}
+
+*::-webkit-scrollbar-thumb {
+    border: 1px solid black;
+    background-color: #919191;
+}
+
 .notification-background {
     visibility: hidden;
     display: flex;
@@ -134,6 +153,7 @@ a:link {
 .field-input input {
     border: 2px solid black;
     font-size: 22px;
+    padding-left: 4px;
 }
 
 input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:focus {
@@ -210,7 +230,7 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:f
     font-size: 28px;
     cursor: pointer;
     padding: 4px;
-    border: 2px solid black;
+    border: 1px solid black;
     width: 100%;
 }
 
