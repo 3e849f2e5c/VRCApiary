@@ -43,6 +43,11 @@ const pageLoad = () => {
     getId("loadingIcon").style.opacity = "1";
 };
 
+/**
+ * Navigate to a page
+ * @param page  Name of the page
+ * @param flag  Query params for the page
+ */
 const navToPage = (page, flag) => {
     const menu = getId("navMenu");
     const content = getId("content");
@@ -56,27 +61,28 @@ const navToPage = (page, flag) => {
         }, 300);
         isMenuUp = false;
     }
+    pageLoad();
+    let destination;
     switch (page) {
         case "home": {
-            pageLoad();
-            setTimeout(() => {
-                document.location = "./home.html";
-            }, 300);
+            destination = "./home.html";
             break;
         }
-
         case "friends": {
-            pageLoad();
-            setTimeout(() => {
-                let destination = "./friends.html";
-                if (flag !== undefined) {
-                    destination += flag;
-                }
-                document.location = destination;
-            }, 300);
+            destination = "./friends.html";
+            if (flag !== undefined) {
+                destination += flag;
+            }
+            break;
+        }
+        case "avatars": {
+            destination = "./avatars.html";
             break;
         }
     }
+    setTimeout(() => {
+        document.location = destination;
+    }, 300);
 };
 
 if (getId("navMenu") !== null) {
@@ -87,8 +93,15 @@ if (getId("navMenu") !== null) {
     getId("navFriends").addEventListener('click', () => {
         navToPage("friends");
     });
+
+    getId("navAvatars").addEventListener('click', () => {
+        navToPage("avatars");
+    });
 }
 
+/**
+ * Key bindings
+ */
 document.addEventListener('keyup', (e) => {
     const menu = getId("navMenu");
     const content = getId("content");
@@ -129,6 +142,13 @@ document.addEventListener('keyup', (e) => {
     }
 });
 
+/**
+ * Create a new HTML Element
+ * @param type          Type of the Element
+ * @param css           CSS classes
+ * @param innerText     innerText property
+ * @returns {Electron.WebviewTag}
+ */
 const createElement = (type, css, innerText) => {
     const e = document.createElement(type);
     if (css !== undefined) {
@@ -140,6 +160,11 @@ const createElement = (type, css, innerText) => {
     return e;
 };
 
+/**
+ * Convert user tags to trust rank value
+ * @param tags          User tags
+ * @returns {number}    -2 to 5
+ */
 const tagsToTrustRank = (tags) => {
     let trust_level = 0;
     if (tags !== undefined) {
@@ -161,6 +186,11 @@ const tagsToTrustRank = (tags) => {
     return trust_level;
 };
 
+/**
+ * Trust rank value to a CSS color value
+ * @param rank          Value -2 to 5
+ * @returns {string}    Color
+ */
 const trustRankToColor = (rank) => {
     switch (rank) {
         case -2:
@@ -179,12 +209,20 @@ const trustRankToColor = (rank) => {
             return "#8143e6";
         case 5:
             return "#ffff00";
-        default: return "white";
+        default:
+            return "white";
     }
 };
 
+/**
+ * Get Query Params by a name
+ * @param name          Parameter name
+ * @param url           document.location
+ * @returns {String}    Query param value
+ */
 const getParameterByName = (name, url) => {
-    if (!url) url = window.location.href; name = name.replace(/[\[\]]/g, '\\$&');
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
     const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
         results = regex.exec(url);
     if (!results) return null;
@@ -192,6 +230,9 @@ const getParameterByName = (name, url) => {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 };
 
+/**
+ * Finish loading and fade in the page
+ */
 const finishLoading = () => {
     setTimeout(() => {
         getId("content").style.opacity = "1";

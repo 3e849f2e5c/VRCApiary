@@ -1,0 +1,31 @@
+.avatars-container {
+    margin-bottom: 12px;
+}
+
+.avatar-section {
+    margin-bottom: 4px;
+}
+
+.avatar-container {
+    margin-right: 4px;
+    margin-left: 4px;
+    margin-top: -8px;
+    padding-bottom: 4px;
+    display: flex;
+    overflow-x: scroll;
+}
+
+.avatar-container .card-entry-container:first-child {
+    margin-left: 0;
+}
+
+.card-description-container {
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    font-size: 24px;
+}
+
+.header {
+    margin-top: 4px;
+}

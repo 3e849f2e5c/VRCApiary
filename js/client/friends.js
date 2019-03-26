@@ -1,3 +1,7 @@
+/**
+ * Build the friends list with JSON friends list data
+ * @param data      Data from /api/1/auth/user/friends
+ */
 const renderPage = (data) => {
     window.localStorage.setItem("cachedFriends", JSON.stringify(data));
     let list = getId("friendsList");

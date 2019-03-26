@@ -1,4 +1,35 @@
+/**
+ * Base API URL
+ * @type {string}
+ */
 const baseUrl = "https://api.vrchat.cloud/api/1";
+
+/**
+ * List avatars with options
+ * @param options   Options
+ * @param callback  Callback function
+ */
+const getAvatars = (options, callback) => {
+    let queries = '?order=descending&sort=created';
+    if (options.user !== undefined) {
+        queries += "&user=" + options.user;
+    }
+    if (options.releaseStatus !== undefined) {
+        queries += "&releaseStatus=" + options.releaseStatus;
+    }
+    if (options.userId !== undefined) {
+        queries += "&userId=" + options.userId;
+    }
+    if (options.amount !== undefined) {
+        queries += "&n=" + options.amount;
+    }
+    if (options.offset !== undefined) {
+        queries += "&offset=" + options.offset;
+    }
+    sendGETRequest("/avatars" + queries, (data) => {
+        callback(data);
+    });
+};
 
 /**
  * Get VRChat notifications

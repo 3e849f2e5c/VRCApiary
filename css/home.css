@@ -182,9 +182,6 @@ body {
 @media only screen
 and (min-height: 768px)
 and (min-width: 1024px) {
-    .app-info a {
-        font-size: 24px;
-    }
 
     .display-name {
         font-size: 48px;
