@@ -23,9 +23,28 @@
     padding: 4px;
     display: flex;
     flex-direction: column;
-    font-size: 24px;
+    font-size: 18px;
+}
+
+
+
+.button {
+    text-align: center;
+    width: auto;
+    margin-left: 8px;
+    margin-top: 4px;
+    margin-right: 8px;
 }
 
 .header {
     margin-top: 4px;
+}
+
+.card-inner-container:hover {
+    background-color: inherit;
+    outline: none;
+}
+
+.card-entry-container {
+    padding-bottom: 8px;
 }

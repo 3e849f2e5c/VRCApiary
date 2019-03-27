@@ -12,7 +12,6 @@ storage.getCredentials((username, password) => {
     }
 });
 
-
 const localStorage = window.localStorage;
 if (localStorage.getItem("requests") === null) {
     localStorage.setItem("requests", "0");

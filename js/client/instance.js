@@ -1,9 +1,7 @@
 const worldId = getParameterByName("worldId", document.location);
 const otherId = getParameterByName("otherId", document.location);
 
-
 if (worldId !== null && otherId !== null) {
-    console.log(true);
     getWorldInstance(worldId, otherId, (data) => {
         document.getElementById("joinButton").addEventListener("click", () => {
             console.log("vrchat://launch?id=" + worldId + ":" + otherId);
