@@ -4,6 +4,10 @@ if (localStorage.getItem("worldNames") === null) {
     localStorage.setItem("worldNames", "{}");
 }
 
+if (localStorage.getItem("keepsakes") === null) {
+    localStorage.setItem("keepsakes", "[]");
+}
+
 const sendNotification = (title, body, image, callback) => {
     const options = {
         body: body

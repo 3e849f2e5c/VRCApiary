@@ -48,3 +48,9 @@
 .card-entry-container {
     padding-bottom: 8px;
 }
+
+.text-disclaimer {
+    font-size: 18px;
+    padding: 8px;
+    text-align: center;
+}
