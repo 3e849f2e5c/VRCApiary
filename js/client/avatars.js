@@ -1,4 +1,3 @@
-
 const renderFavorites = (data) => {
     const doc = document.getElementById("favoriteAvatars");
     for (let i = 0; i < data.length; i++) {
@@ -8,7 +7,6 @@ const renderFavorites = (data) => {
 };
 
 
-// TODO remove timeout
 const createFavoriteEntry = (avatar) => {
     return createEntry(avatar.id, avatar.name, avatar.thumbnailImageUrl, avatar.releaseStatus, [
         createButton("Equip", "button-green", () => {
@@ -28,19 +26,30 @@ const createFavoriteEntry = (avatar) => {
             popup.innerHTML = '';
             popup.style.visibility = "visible";
             popup.appendChild(createElement("a", "header", "Removing..."));
-            const removeFunc = () => {
+
+            // progress bar animations
+            let progress = 0;
+            const progressBar = setInterval(() => {
+                popup.style.background = "linear-gradient(#2B2B2B 0%, #2B2B2B " + progress +  "%, #9c4242 " + progress +  "%, #9c4242 100%)";
+                progress += 1;
+            }, 50);
+
+            // delayed remove avatar function
+            const removeFunc = setTimeout(() => {
                 options.style.visibility = "visible";
                 options.innerHTML = '';
                 options.appendChild(createElement("a", "header", "Removed"));
                 options.appendChild(createButton("Undo", "button-green", () => {
-                    options.parentElement.insertAdjacentElement('afterbegin', createFavoriteEntry(avatar));
-                    options.parentNode.removeChild(card);
+                    card.parentElement.insertAdjacentElement('afterbegin', createFavoriteEntry(avatar));
+                    card.parentNode.removeChild(card);
+                    clearInterval(progressBar);
                 }));
                 popup.style.visibility = "hidden";
-            };
-            setTimeout(removeFunc, 5000);
+            }, 5000);
+
             popup.appendChild(createButton("Cancel", "button-red", () => {
                 popup.style.visibility = "hidden";
+                clearInterval(progressBar);
                 clearTimeout(removeFunc);
             }));
 
@@ -75,7 +84,7 @@ const renderAvatars = (data) => {
 const createEntry = (id, name, image, status, extra) => {
     const entryContainer = createElement("div", "box card-entry-container");
     const entryOptions = createElement("div", "card-options");
-    const entryDeleteTimeout = createElement("div", "card-options");
+    const entryDeleteTimeout = createElement("div", "card-options card-remove-timeout");
     const avatarContainer = createElement("div", "card-inner-container");
     const avatarName = createElement("a", "card-name", name);
     const avatarImage = createElement("img", "card-image");
