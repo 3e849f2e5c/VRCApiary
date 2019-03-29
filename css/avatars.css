@@ -38,11 +38,6 @@
     margin-top: 4px;
 }
 
-.card-inner-container:hover {
-    background-color: inherit;
-    outline: none;
-}
-
 .card-entry-container {
     padding-bottom: 8px;
 }
@@ -51,4 +46,33 @@
     font-size: 18px;
     padding: 8px;
     text-align: center;
+}
+
+.card-image {
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.card-help {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 8px 4px 4px;
+    vertical-align: center;
+    text-align: center;
+    font-size: 16px;
+}
+
+.card-question-mark {
+    width: 100%;
+    height: 100%;
+    background: url(images/unknown.png) center;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.card-question-mark:hover {
+    opacity: 0;
 }

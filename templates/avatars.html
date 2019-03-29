@@ -1,83 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>VRCApiary - Avatars</title>
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="../css/global.css">
-	<link rel="stylesheet" type="text/css" href="../css/avatars.css">
+    <meta charset="UTF-8">
+    <title>VRCApiary - Avatars</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../css/global.css">
+    <link rel="stylesheet" type="text/css" href="../css/avatars.css">
 </head>
 <body>
 <div class="center-container loading-symbol" style="opacity: 1;">
-	<img src="../css/images/pageloading.png" alt="Now Loading" id="loadingIcon">
+    <img src="../css/images/pageloading.png" alt="Now Loading" id="loadingIcon">
 </div>
 
 <div class="content-container" id="content" style="opacity: 0;">
-	<div class="avatars-container">
-		<div class="avatar-section">
-			<div class="box header">
-				Favorite Avatars
-			</div>
-			<div id="favoriteAvatars" class="avatar-container">
+    <div class="avatars-container">
+        <div class="avatar-section">
+            <div class="box header">
+                Favorite Avatars
+            </div>
+            <div id="favoriteAvatars" class="avatar-container">
 
-			</div>
-		</div>
+            </div>
+        </div>
 
-		<div class="avatar-section">
-			<div class="box header">
-				Private Avatars
-			</div>
-			<div id="privateAvatars" class="avatar-container">
+        <div class="avatar-section">
+            <div class="box header">
+                Private Avatars
+            </div>
+            <div id="privateAvatars" class="avatar-container">
 
-			</div>
-		</div>
+            </div>
+        </div>
 
-		<div class="avatar-section">
-			<div class="box header">
-				Keepsakes
-			</div>
-			<div id="keepsakeAvatars" class="avatar-container">
+        <div class="avatar-section">
+            <div class="box header">
+                Keepsakes
+            </div>
+            <div id="keepsakeAvatars" class="avatar-container">
+                <div class="box card-entry-container" id="keepsakeHelp">
+                    <div class="card-help">
+                        Keepsakes are favorited avatars that are saved locally to your computer.
+                        Keepsakes work the same way as favorite slots in VRChat but you can store indefinite amount of avatars with the cost of
+                        being more inconvenient to change to. You can either equip a keepsake directly or put it back on
+                        your favorite list. Directly equipping an avatar with this app does not change your avatar
+                        in-game unless you change worlds.
+                    </div>
+                    <div class="card-question-mark">
 
-			</div>
-		</div>
-	</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="navigation-menu" style="visibility: hidden; opacity: 0;" id="navMenu">
-	<div class="center-container">
-		<div class="box nav-container">
-			<div class="nav-entry"  id="navHome">
-				<img src="../css/images/logo/logo128.png" alt="An error occurred">
-				Home
-			</div>
-			<div class="nav-entry" id="navFriends">
-				<img src="../css/images/logo/logo128.png" alt="An error occurred">
-				Friends
-			</div>
-			<div class="nav-entry" id="navWorlds">
-				<img src="../css/images/logo/logo128.png" alt="An error occurred">
-				Worlds
-			</div>
-			<div class="nav-entry" id="navSocial">
-				<img src="../css/images/logo/logo128.png" alt="An error occurred">
-				Social
-			</div>
-			<div class="nav-entry" id="navAvatars">
-				<img src="../css/images/logo/logo128.png" alt="An error occurred">
-				Avatars
-			</div>
-			<div class="nav-entry" id="navSettings">
-				<img src="../css/images/logo/logo128.png" alt="An error occurred">
-				Settings
-			</div>
-		</div>
-	</div>
+    <div class="center-container">
+        <div class="box nav-container">
+            <div class="nav-entry" id="navHome">
+                <img src="../css/images/logo/logo128.png" alt="An error occurred">
+                Home
+            </div>
+            <div class="nav-entry" id="navFriends">
+                <img src="../css/images/logo/logo128.png" alt="An error occurred">
+                Friends
+            </div>
+            <div class="nav-entry" id="navWorlds">
+                <img src="../css/images/logo/logo128.png" alt="An error occurred">
+                Worlds
+            </div>
+            <div class="nav-entry" id="navSocial">
+                <img src="../css/images/logo/logo128.png" alt="An error occurred">
+                Social
+            </div>
+            <div class="nav-entry" id="navAvatars">
+                <img src="../css/images/logo/logo128.png" alt="An error occurred">
+                Avatars
+            </div>
+            <div class="nav-entry" id="navSettings">
+                <img src="../css/images/logo/logo128.png" alt="An error occurred">
+                Settings
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="status-bar status-bar-base" id="statusBar">
-	<div class="status-bar status-bar-color" style="opacity: 0" id="statusBarColor"></div>
-	<div class="status-bar status-bar-background" style="opacity: 0" id="statusBarBg"></div>
-	<div class="status-bar status-bar-filler" style="opacity: 0" id="statusBarFiller"></div>
+    <div class="status-bar status-bar-color" style="opacity: 0" id="statusBarColor"></div>
+    <div class="status-bar status-bar-background" style="opacity: 0" id="statusBarBg"></div>
+    <div class="status-bar status-bar-filler" style="opacity: 0" id="statusBarFiller"></div>
 </div>
 <script src="../js/client/general.js"></script>
 <script src="../js/client/vrchat-api.js"></script>

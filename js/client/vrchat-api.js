@@ -21,6 +21,18 @@ const sendMessage = (userId, msg, callback) => {
 };
 
 /**
+ * Change avatar to a specified avatar ID
+ * https://vrchatapi.github.io/#/AvatarAPI/ChooseAvatar
+ * @param avatarId      Avatar ID
+ * @param callback      Callback function
+ */
+const changeAvatar = (avatarId, callback) => {
+    sendPUTRequest("/avatars/" + avatarId + "/select", {}, (data) => {
+        callback(data);
+    });
+};
+
+/**
  * List avatars with options
  * https://vrchatapi.github.io/#/AvatarAPI/ListAvatars
  * @param options   Options
@@ -163,6 +175,34 @@ const sendPOSTRequest = (location, data, callback) => {
     console.log("POST Request sent");
     sendNotification("Request sent", "a HTTP POST request was sent", getIconFor("debug"));
     xmlHttp.open("POST", baseUrl + location, true);
+    xmlHttp.setRequestHeader("Content-Type", "application/json");
+    localStorage.setItem("requests", (parseInt(localStorage.getItem("requests")) + 1).toString());
+    xmlHttp.send(JSON.stringify(data));
+};
+
+/**
+ * Send a HTTP PUT request to the target URL
+ * @param {string} location         Target URL
+ * @param {Object} data               Data to send
+ * @param {function} callback       Callback function
+ */
+const sendPUTRequest = (location, data, callback) => {
+    const localStorage = window.localStorage;
+    const xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = () => {
+        if (xmlHttp.readyState === 4) {
+            if (xmlHttp.status.toString().lastIndexOf("4", 0) === 0) {
+                localStorage.setItem("failedRequests", (parseInt(localStorage.getItem("failedRequests")) + 1).toString())
+            }
+            const data = JSON.parse(xmlHttp.responseText);
+            callback(data);
+            console.log("Request received");
+            console.log(data);
+        }
+    };
+    console.log("PUT Request sent");
+    sendNotification("Request sent", "a HTTP PUT request was sent", getIconFor("debug"));
+    xmlHttp.open("PUT", baseUrl + location, true);
     xmlHttp.setRequestHeader("Content-Type", "application/json");
     localStorage.setItem("requests", (parseInt(localStorage.getItem("requests")) + 1).toString());
     xmlHttp.send(JSON.stringify(data));
