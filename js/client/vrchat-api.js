@@ -21,6 +21,19 @@ const sendMessage = (userId, msg, callback) => {
 };
 
 /**
+ * Edit an avatar
+ * https://vrchatapi.github.io/#/AvatarAPI/SaveAvatar
+ * @param avatar        Avatar ID
+ * @param update        Update data
+ * @param callback      Callback function
+ */
+const editAvatar = (avatar, update, callback) => {
+    sendPUTRequest("/avatars/" + avatar, update, (data) => {
+       callback(data);
+    });
+};
+
+/**
  * Change avatar to a specified avatar ID
  * https://vrchatapi.github.io/#/AvatarAPI/ChooseAvatar
  * @param avatarId      Avatar ID
@@ -30,6 +43,36 @@ const changeAvatar = (avatarId, callback) => {
     sendPUTRequest("/avatars/" + avatarId + "/select", {}, (data) => {
         callback(data);
     });
+};
+
+/**
+ * Add world, friend or avatar to favorites
+ * https://vrchatapi.github.io/#/FavoritesAPI/AddFavorite
+ * @param id            Object ID
+ * @param type          Favorite type
+ * @param tags          Favorite tags
+ * @param callback      Callback function
+ */
+const addFavorite = (id, type, tags, callback) => {
+    sendPOSTRequest("/favorites", {
+        favoriteId: id,
+        type: type,
+        tags: tags
+    }, (data) => {
+        callback(data);
+    })
+};
+
+/**
+ * Remove a favorite
+ * https://vrchatapi.github.io/#/FavoritesAPI/DeleteFavorite
+ * @param id            Favorite ID
+ * @param callback      Callback function
+ */
+const removeFavorite = (id, callback) => {
+    sendDELETERequest("/favorites/" + id, (data) => {
+        callback(data);
+    })
 };
 
 /**
@@ -58,6 +101,17 @@ const getAvatars = (options, callback) => {
     sendGETRequest("/avatars" + queries, (data) => {
         callback(data);
     });
+};
+
+/**
+ * List avatar favorites
+ * https://vrchatapi.github.io/#/FavoritesAPI/ListFriendFavorites
+ * @param callback      Callback function
+ */
+const getFavoriteAvatars = (callback) => {
+    sendGETRequest("/avatars/favorites", (data) => {
+        callback(data);
+    })
 };
 
 /**
@@ -129,12 +183,11 @@ const getWorldNameCached = (worldId, callback) => {
  * @param {string} [basic]          Basic auth if required
  */
 const sendGETRequest = (location, callback, basic) => {
-    const localStorage = window.localStorage;
     const xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
             if (xmlHttp.status.toString().lastIndexOf("4", 0) === 0) {
-                localStorage.setItem("failedRequests", (parseInt(localStorage.getItem("failedRequests")) + 1).toString())
+                addFailedRequest();
             }
             const data = JSON.parse(xmlHttp.responseText);
             callback(data);
@@ -148,7 +201,7 @@ const sendGETRequest = (location, callback, basic) => {
     if (basic !== undefined) {
         xmlHttp.setRequestHeader("Authorization", "Basic " + btoa(basic));
     }
-    localStorage.setItem("requests", (parseInt(localStorage.getItem("requests")) + 1).toString());
+    addRequest();
     xmlHttp.send(null);
 };
 
@@ -159,12 +212,11 @@ const sendGETRequest = (location, callback, basic) => {
  * @param {function} callback       Callback function
  */
 const sendPOSTRequest = (location, data, callback) => {
-    const localStorage = window.localStorage;
     const xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
             if (xmlHttp.status.toString().lastIndexOf("4", 0) === 0) {
-                localStorage.setItem("failedRequests", (parseInt(localStorage.getItem("failedRequests")) + 1).toString())
+                addFailedRequest();
             }
             const data = JSON.parse(xmlHttp.responseText);
             callback(data);
@@ -176,7 +228,7 @@ const sendPOSTRequest = (location, data, callback) => {
     sendNotification("Request sent", "a HTTP POST request was sent", getIconFor("debug"));
     xmlHttp.open("POST", baseUrl + location, true);
     xmlHttp.setRequestHeader("Content-Type", "application/json");
-    localStorage.setItem("requests", (parseInt(localStorage.getItem("requests")) + 1).toString());
+    addRequest();
     xmlHttp.send(JSON.stringify(data));
 };
 
@@ -187,12 +239,11 @@ const sendPOSTRequest = (location, data, callback) => {
  * @param {function} callback       Callback function
  */
 const sendPUTRequest = (location, data, callback) => {
-    const localStorage = window.localStorage;
     const xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
             if (xmlHttp.status.toString().lastIndexOf("4", 0) === 0) {
-                localStorage.setItem("failedRequests", (parseInt(localStorage.getItem("failedRequests")) + 1).toString())
+                addFailedRequest()
             }
             const data = JSON.parse(xmlHttp.responseText);
             callback(data);
@@ -204,6 +255,48 @@ const sendPUTRequest = (location, data, callback) => {
     sendNotification("Request sent", "a HTTP PUT request was sent", getIconFor("debug"));
     xmlHttp.open("PUT", baseUrl + location, true);
     xmlHttp.setRequestHeader("Content-Type", "application/json");
-    localStorage.setItem("requests", (parseInt(localStorage.getItem("requests")) + 1).toString());
+    addRequest();
     xmlHttp.send(JSON.stringify(data));
+};
+
+/**
+ * Send a HTTP DELETE request to the target URL
+ * @param {string} location         Target URL
+ * @param {function} callback       Callback function
+ */
+const sendDELETERequest = (location, callback) => {
+    const xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = () => {
+        if (xmlHttp.readyState === 4) {
+            if (xmlHttp.status.toString().lastIndexOf("4", 0) === 0) {
+                addFailedRequest();
+            }
+            const data = JSON.parse(xmlHttp.responseText);
+            callback(data);
+            console.log("Request received");
+            console.log(data);
+        }
+    };
+    console.log("DELETE Request sent");
+    sendNotification("Request sent", "a HTTP DELETE request was sent", getIconFor("debug"));
+    xmlHttp.open("DELETE", baseUrl + location, true);
+    addRequest();
+    xmlHttp.send(JSON.stringify(data));
+};
+
+
+/**
+ * Log amount of requests
+ */
+const addRequest = () => {
+    const localStorage = window.localStorage;
+    localStorage.setItem("requests", (parseInt(localStorage.getItem("requests")) + 1).toString());
+};
+
+/**
+ * Log amount of failed requests
+ */
+const addFailedRequest = () => {
+    const localStorage = window.localStorage;
+    localStorage.setItem("failedRequests", (parseInt(localStorage.getItem("failedRequests")) + 1).toString())
 };

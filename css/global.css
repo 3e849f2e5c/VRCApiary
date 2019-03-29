@@ -24,6 +24,7 @@ body {
 }
 
 .status-bar {
+    z-index: 51;
     height: 8px;
     width: 100vw;
     position: fixed;
@@ -31,22 +32,30 @@ body {
 }
 
 .status-bar-color {
+    z-index: 51;
     opacity: 0;
     transition: opacity .2s, background-color .2s ease-in-out;
 }
 
 .status-bar-background {
+    z-index: 51;
     transition: background-position .1s;
     opacity: 0;
     background-image: url('images/bar.png');
 }
 
 .status-bar-base {
+    z-index: 51;
     opacity: 1;
     background-color: grey;
 }
 
 .button:disabled {
+    filter: grayscale(100%);
+}
+
+.disabled {
+    pointer-events: none;
     filter: grayscale(100%);
 }
 
