@@ -173,6 +173,7 @@ const tagsToTrustRank = (tags) => {
     let trust_level = 0;
     if (tags !== undefined) {
         // Nuisance
+        // noinspection JSUnusedAssignment :: This thing is so spaghetti it breaks IntelliJ IDEA...
         trust_level = tags.indexOf("system_troll") > -1 ? -2 :
             // Troll
             trust_level = tags.indexOf("system_probable_troll") > -1 ? -1 :
@@ -244,4 +245,17 @@ const finishLoading = () => {
     setTimeout(() => {
         getId("loadingIcon").style.opacity = "0";
     }, 100);
+};
+
+/**
+ * Create a generic button
+ * @param text      Button inner text
+ * @param color     Button class name
+ * @param func      onClick function
+ * @return {Electron.WebviewTag}
+ */
+const createButton = (text, color, func) => {
+	const div = createElement("div", "button " + color, text);
+	div.addEventListener("click", func);
+	return div;
 };

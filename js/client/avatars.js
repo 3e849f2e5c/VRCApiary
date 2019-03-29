@@ -152,13 +152,6 @@ const createEntry = (id, name, image, status, extra) => {
     return entryContainer;
 };
 
-
-const createButton = (text, color, func) => {
-    const div = createElement("div", "button " + color, text);
-    div.addEventListener("click", func);
-    return div;
-};
-
 renderFavorites(fakeJson);
 renderAvatars(data);
 finishLoading();

@@ -115,3 +115,30 @@ body {
     display: block;
     font-size: 18px;
 }
+
+.button {
+    text-align: center;
+    width: auto;
+    margin-left: 8px;
+    margin-top: 4px;
+    margin-right: 8px;
+}
+
+.message-container {
+    padding: 4px;
+    font-family: 'Roboto', roboto, sans-serif;
+    background-color: #373737;
+    color: #A9B7C6;
+    font-size: 28px;
+    margin-left: 8px;
+    margin-right: 8px;
+    border: 1px solid black;
+    resize: none;
+    width: auto;
+    height: 110px;
+}
+
+.message-container::-webkit-input-placeholder {
+    text-align: center;
+    vertical-align: center;
+}

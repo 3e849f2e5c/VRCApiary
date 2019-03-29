@@ -67,7 +67,9 @@ const renderPage = (data) => {
 
     for (let i = 0; i < data.length; i++) {
         const fr = data[i];
-        const entryContainer = createElement("div", "box friend-entry-container");
+        const entryContainer = createElement("div", "box card-entry-container");
+        const entryOptions = createElement("div", "card-options");
+        const entryMessage = createElement("div", "card-options message-popup");
         const friendProfileContainer = createElement("div", "friend-profile-container");
         const friendName = createElement("a", "friend-name", fr.displayName);
         const friendImage = createElement("img", "friend-image");
@@ -75,6 +77,58 @@ const renderPage = (data) => {
         const friendWorldInstance = createElement("a", "friend-world-instance", "Unknown");
         const friendWorldType = createElement("a", "friend-world-type", "Private");
         const friendWorldContainer = createElement("div", "friend-world-container");
+
+        const optionName = createElement("a", "header", fr.displayName);
+        const messageName = createElement("a", "header", fr.displayName);
+        optionName.style.marginTop = "-24px";
+        entryOptions.appendChild(optionName);
+        entryOptions.appendChild(createButton("Profile", "button-green", () => {
+        }));
+
+        const textBox = createElement("textarea", "message-container");
+        const sendButton = createButton("Send", "button-green", () => {
+            if (textBox.value !== "") {
+                load();
+                sendMessage(fr.id, textBox.value, (data) => {
+                    if (data.error === undefined) {
+                        stopLoading();
+                        blinkGreen();
+                        entryMessage.style.visibility = "hidden";
+                        textBox.value = "";
+                    } else {
+                        stopLoading();
+                        blinkRed();
+                    }
+                });
+            }
+        });
+
+        const cancelButton = createButton("Cancel", "button-red", () => {
+            textBox.value = "";
+            entryMessage.style.visibility = "hidden";
+        });
+        textBox.placeholder = "Send a nice message to " + fr.displayName;
+        entryMessage.appendChild(messageName);
+        entryMessage.appendChild(textBox);
+        entryMessage.appendChild(sendButton);
+        entryMessage.appendChild(cancelButton);
+
+        entryOptions.appendChild(createButton("Message", "button-green", () => {
+            entryMessage.style.visibility = "visible";
+        }));
+
+        entryOptions.appendChild(createButton("Unfriend", "button-red", () => {
+            entryOptions.style.visibility = "hidden";
+        }));
+
+        entryOptions.appendChild(createButton("Cancel", "button-red", () => {
+            entryOptions.style.visibility = "hidden";
+        }));
+        entryContainer.appendChild(entryOptions);
+        entryContainer.appendChild(entryMessage);
+        friendProfileContainer.addEventListener("click", () => {
+            entryOptions.style.visibility = "visible";
+        });
         friendImage.setAttribute("src", fr.currentAvatarThumbnailImageUrl);
         let status;
         switch (fr.status) {
@@ -126,7 +180,10 @@ const renderPage = (data) => {
         friendWorldContainer.appendChild(friendWorldInstance);
         friendWorldContainer.appendChild(friendWorldType);
 
-        friendName.style.color = trustRankToColor(tagsToTrustRank(fr.tags));
+        const trustColor = trustRankToColor(tagsToTrustRank(fr.tags));
+        friendName.style.color = trustColor;
+        optionName.style.color = trustColor;
+        messageName.style.color = trustColor;
 
         friendProfileContainer.appendChild(friendName);
         friendProfileContainer.appendChild(friendImage);
