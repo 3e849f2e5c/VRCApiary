@@ -1,5 +1,11 @@
 .avatars-container {
+    margin-left: 4px;
+    margin-right: 4px;
     margin-bottom: 12px;
+}
+
+.avatars-container .avatar-section:first-child {
+    padding-top: 4px;
 }
 
 .avatar-section {
@@ -99,4 +105,74 @@
 
 .card-load img:hover {
     filter: brightness(75%);
+}
+
+.edit-content {
+    margin-top: 8px;
+    display: flex;
+}
+
+.edit-image {
+    -webkit-mask-box-image: url(images/imageMask.svg);
+    width: 200px;
+    height: 150px;
+    padding: 4px;
+}
+
+.edit-image-overlay {
+    -webkit-mask-box-image: url(images/imageMask.svg);
+    width: 200px;
+    height: 150px;
+    margin-top: -158px;
+    padding: 4px;
+}
+
+.edit-image-text {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 14px;
+    margin-top: -40px;
+    margin-left: 26px;
+    z-index: 10;
+    font-weight: bold;
+    color: #6ae0f4;
+}
+
+.edit-image-container {
+    width: 208px;
+    padding: 8px;
+    border: 1px solid black;
+    display: flex;
+    flex-flow: column;
+}
+
+.editor-container {
+    width: 512px;
+    height: 384px;
+    padding: 16px 16px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-settings-container {
+    width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+    margin-top: -4px;
+    height: 234px;
+}
+
+.field-input input {
+    width: 256px;
+}
+
+.buttons-container {
+    margin-top: 8px;
+    display: flex;
+}
+
+.buttons-container .button {
+    flex: 1;
 }

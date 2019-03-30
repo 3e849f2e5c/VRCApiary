@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Roboto';
-url('./font/Roboto-Regular.ttf') format('ttf'),
+    src: url('font/Roboto-Regular.ttf') format('ttf');
 }
 
 body {
@@ -162,6 +162,13 @@ body::-webkit-scrollbar-track {
     border: 2px solid black;
     font-size: 22px;
     padding-left: 4px;
+}
+
+.field-input select {
+    border: 2px solid black;
+    font-size: 22px;
+    padding-left: 4px;
+    width: 100%;
 }
 
 input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:focus {
@@ -328,7 +335,7 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:f
 .card-image {
     border-width: 4px;
     border-style: solid;
-    width: calc(240px - 40px);
+    width: calc(200px);
     height: 150px;
     background: url(images/loading.png);
     background-size: cover;

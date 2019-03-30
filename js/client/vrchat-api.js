@@ -34,6 +34,30 @@ const editAvatar = (avatar, update, callback) => {
 };
 
 /**
+ * Delete an avatar
+ * https://vrchatapi.github.io/#/AvatarAPI/GetByID
+ * @param avatar        Avatar ID
+ * @param callback      Callback function
+ */
+const deleteAvatar = (avatar, callback) => {
+    sendDELETERequest("/avatars/" + avatar, (data) => {
+        callback(data);
+    });
+};
+
+/**
+ * Get avatar by ID
+ * https://vrchatapi.github.io/#/AvatarAPI/GetByID
+ * @param avatar        Avatar ID
+ * @param callback      Callback function
+ */
+const getAvatar = (avatar, callback) => {
+    sendGETRequest("/avatars/" + avatar, (data) => {
+        callback(data);
+    });
+};
+
+/**
  * Change avatar to a specified avatar ID
  * https://vrchatapi.github.io/#/AvatarAPI/ChooseAvatar
  * @param avatarId      Avatar ID

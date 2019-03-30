@@ -113,6 +113,9 @@ const renderPage = (data) => {
         entryMessage.appendChild(sendButton);
         entryMessage.appendChild(cancelButton);
 
+        friendProfileContainer.title = fr.statusDescription;
+
+
         entryOptions.appendChild(createButton("Message", "button-green", () => {
             entryMessage.style.visibility = "visible";
         }));

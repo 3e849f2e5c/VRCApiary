@@ -29,7 +29,7 @@ const getIconFor = (name) => {
         case "ok":
             return "https://i.imgur.com/mX6fF8K.png";
         default:
-            return;
+            return "https://i.imgur.com/mX6fF8K.png";
     }
 };
 

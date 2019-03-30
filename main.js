@@ -2,6 +2,7 @@ const {app, BrowserWindow} = require('electron');
 const {session} = require('electron');
 const {shell} = require('electron');
 const storage = require('electron-json-storage');
+const dl = require('electron-dl');
 
 let mainWindow;
 
@@ -36,6 +37,9 @@ const createWindow = () => {
     });
 };
 
+const download = (url) => {
+    dl.download(mainWindow, url, {saveAs: true, openFolderWhenDone: true});
+};
 
 app.on('ready', createWindow);
 
@@ -57,5 +61,8 @@ const openDataFolder = () => {
 };
 
 module.exports = {
-    openDataFolder: openDataFolder
+    openDataFolder: openDataFolder,
+    download: (url) => {
+        download(url);
+    }
 };
