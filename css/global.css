@@ -295,6 +295,11 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:f
     cursor: pointer;
 }
 
+.nav-container .nav-entry img {
+    width: 128px;
+    height: 128px;
+}
+
 .nav-container .nav-entry:hover {
     background-color: #323232;
     outline: 1px solid black;
