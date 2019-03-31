@@ -92,6 +92,10 @@ body {
     background-position: center;
 }
 
+.user-list-entry a {
+    cursor: pointer;
+}
+
 .back-button {
     padding: 8px;
 }

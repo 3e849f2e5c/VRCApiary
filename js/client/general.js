@@ -86,6 +86,13 @@ const navToPage = (page, flag) => {
             }
             break;
         }
+        case "instance": {
+            destination = "./instance.html";
+            if (flag !== undefined) {
+                destination += flag;
+            }
+            break;
+        }
         case "avatars": {
             destination = "./avatars.html";
             break;
