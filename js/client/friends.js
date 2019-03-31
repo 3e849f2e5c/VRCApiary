@@ -122,7 +122,7 @@ const renderPage = (data) => {
             entryMessage.style.visibility = "visible";
         }));
 
-        entryOptions.appendChild(createButton("Unfriend", "button-red", () => {
+        entryOptions.appendChild(createButton("Unfriend", "button-red disabled", () => {
             entryOptions.style.visibility = "hidden";
         }));
 
