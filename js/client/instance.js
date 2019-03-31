@@ -17,7 +17,9 @@ const renderPage = (data) => {
         const a = createElement("a");
         a.addEventListener("click", () => {
             window.localStorage.setItem("instanceCache", JSON.stringify(data));
-            navToPage("profile", "?u=" + user.id + "&back=instance&backtags=" + btoa("?cache=1&worldId=" + worldId + "&otherId=" + otherId));
+            const string = ("?cache=1&worldId=" + worldId.toString() + "&otherId=" + otherId.toString()).toString();
+            const encoded = encodeURIComponent(string);
+            navToPage("profile", ("?u=" + user.id + "&back=instance&backtags=") + encoded);
         });
         a.style.color = trustRankToColor(tagsToTrustRank(user.tags));
         a.innerText = user.displayName;

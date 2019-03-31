@@ -4,7 +4,6 @@
  */
 const baseUrl = "https://api.vrchat.cloud/api/1";
 
-
 /**
  * Get user by ID
  * @param userId        User ID

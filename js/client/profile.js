@@ -135,7 +135,8 @@ const renderPage = (profile) => {
     // }
 
     btn.appendChild(createButton("Back", "button-red", (e) => {
-        navToPage(getParameterByName("back", document.location), atob(getParameterByName("backtags", document.location)));
+        console.log(getParameterByName("backtags", document.location));
+        navToPage(getParameterByName("back", document.location), decodeURIComponent(getParameterByName("backtags", document.location)));
     }));
     finishLoading();
 };
