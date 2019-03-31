@@ -61,7 +61,7 @@ const createFavoriteEntry = (avatar) => {
             });
         }),
         createButton("View author", "button-green", () => {
-
+            navToPage("profile", "?u=" + avatar.authorId);
         }),
         createButton("Keepsake", "button-green", () => {
             const doc = document.getElementById("keepsakeAvatars");
@@ -372,7 +372,6 @@ const removeKeepsake = (avatar) => {
 
 const editAvatarPopup = (avatar) => {
     let isError = false;
-
     const body = getId("content");
     const popup = document.getElementById("editMenu");
     const edit = document.getElementById("editContent");
@@ -520,9 +519,5 @@ const editAvatarPopup = (avatar) => {
         }, 0);
     }, 100);
 };
-
-// renderFavorites(fakeJson);
-// renderAvatars(data);
-
 renderKeepsakes();
 finishLoading();

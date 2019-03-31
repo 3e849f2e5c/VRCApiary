@@ -1,5 +1,3 @@
-const {remote} = require('electron');
-
 const userData = JSON.parse(localStorage.getItem("userData"));
 
 getId("user-name").innerText = userData.username;
@@ -118,27 +116,6 @@ const newEntry = (text) => {
     return e;
 };
 
-// info.appendChild(newEntry("VRCApiary version: " + remote.app.getVersion()));
-// info.appendChild(newEntry("HTTP Requests: " + localStorage.getItem("requests")));
-// info.appendChild(newEntry("HTTP Errors: " + localStorage.getItem("failedRequests")));
-//
-// info.appendChild(newEntry("Connected to Ice Cream: " + "No"));
-// info.appendChild(newEntry("Amount of friends: " + userData.friends.length));
-// info.appendChild(newEntry("Last logged in: " + new Date(userData['last_login']).toLocaleDateString()));
-//
-// info.appendChild(newEntry("Discord Rich Presence: " + "Disabled"));
-//
-// info.appendChild(newEntry("Output Log: " + "Not parsing"));
-//
-// const entry = newEntry("Saved data location: ");
-// const e = newEntry("[Open]");
-// e.setAttribute("class", "link");
-// e.addEventListener('click', () => {
-//     remote.require("./main.js").openDataFolder();
-// });
-// entry.appendChild(e);
-// info.appendChild(entry);
-
 /**
  * Load notifications
  */
@@ -170,3 +147,13 @@ getNotifications((data) => {
     }
     finishLoading();
 });
+
+if (localStorage.getItem("neverSee") === null) {
+    sendNotification("Press Esc to begin navigation",
+        "Click here to never see this notification again",
+        getIconFor("info"),
+        () => {
+            localStorage.setItem("neverSee", "1");
+        }
+    );
+}

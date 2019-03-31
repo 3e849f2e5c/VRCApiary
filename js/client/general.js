@@ -8,6 +8,13 @@ if (localStorage.getItem("keepsakes") === null) {
     localStorage.setItem("keepsakes", "[]");
 }
 
+if (localStorage.getItem("requests") === null) {
+    localStorage.setItem("requests", "0");
+}
+if (localStorage.getItem("failedRequests") === null) {
+    localStorage.setItem("failedRequests", "0");
+}
+
 const sendNotification = (title, body, image, callback) => {
     const options = {
         body: body
@@ -81,6 +88,13 @@ const navToPage = (page, flag) => {
         }
         case "avatars": {
             destination = "./avatars.html";
+            break;
+        }
+        case "profile": {
+            destination = "./profile.html";
+            if (flag !== undefined) {
+                destination += flag;
+            }
             break;
         }
     }

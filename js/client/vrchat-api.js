@@ -4,6 +4,18 @@
  */
 const baseUrl = "https://api.vrchat.cloud/api/1";
 
+
+/**
+ * Get user by ID
+ * @param userId        User ID
+ * @param callback      Callback function
+ */
+const getUser = (userId, callback) => {
+    sendGETRequest("/users/" + userId, (data) => {
+        callback(data);
+    });
+};
+
 /**
  * Send a message to user
  * https://vrchatapi.github.io/#/NotificationAPI/SendNotification

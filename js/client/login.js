@@ -12,16 +12,6 @@ storage.getCredentials((username, password) => {
     }
 });
 
-const localStorage = window.localStorage;
-if (localStorage.getItem("requests") === null) {
-    localStorage.setItem("requests", "0");
-}
-if (localStorage.getItem("failedRequests") === null) {
-    localStorage.setItem("failedRequests", "0");
-}
-
-console.log(localStorage.getItem("delayFunction"));
-
 document.getElementById("login-button").addEventListener('click', () => {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
@@ -51,12 +41,6 @@ document.getElementById("login-button").addEventListener('click', () => {
             setTimeout(() => {
                 window.location = "home.html";
             }, 300);
-
-            sendNotification("Press Esc to begin navigation",
-                "Click here to never see this notification again",
-                getIconFor("info"),
-                () => {
-            });
         }
         stopLoading();
     }, username + ':' + password);

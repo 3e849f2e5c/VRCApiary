@@ -83,6 +83,8 @@ const renderPage = (data) => {
         optionName.style.marginTop = "-24px";
         entryOptions.appendChild(optionName);
         entryOptions.appendChild(createButton("Profile", "button-green", () => {
+            window.localStorage.setItem("oldScroll", window.pageYOffset.toString());
+            navToPage("profile", "?u=" + fr.id + "&back=friends&backtags=" + btoa("?"));
         }));
 
         const textBox = createElement("textarea", "message-container");
