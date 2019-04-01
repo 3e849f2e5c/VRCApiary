@@ -316,7 +316,7 @@ const sendDELETERequest = (location, callback) => {
     sendNotification("Request sent", "a HTTP DELETE request was sent", getIconFor("debug"));
     xmlHttp.open("DELETE", baseUrl + location, true);
     addRequest();
-    xmlHttp.send(JSON.stringify(data));
+    xmlHttp.send(null);
 };
 
 
