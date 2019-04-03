@@ -43,47 +43,51 @@ const renderPage = (data) => {
             }
         }
 
-        if (was === false && fr.location !== "private" && fr.location !== "offline") {
-            const regex = /(.+?):(.+?)($|~((.+?)\(.+))$/;
-            const match = regex.exec(fr.location);
-            if (match !== undefined && match.length !== 0) {
-                let type = "";
-                let instance = "";
-                let otherId = "";
-                let worldId = "";
-                if (match.length >= 5) {
-                    switch (match[5]) {
-                        case "hidden": {
-                            type = "Friends+";
-                            instance = match[2];
-                            otherId = match[2] + match[3];
-                            worldId = match[1];
-                            break;
-                        }
-                        case "friends": {
-                            type = "Friends Only";
-                            instance = match[2];
-                            otherId = match[2] + match[3];
-                            worldId = match[1];
-                            break;
-                        }
-                        default: {
-                            type = "Public";
-                            instance = match[2];
-                            otherId = match[2];
-                            worldId = match[1];
-                            break;
+        if (was === false && fr.location !== "private" && fr.location !== "offline" && fr.location !== "") {
+            try {
+                const regex = /(.+?):(.+?)($|~((.+?)\(.+))$/;
+                const match = regex.exec(fr.location);
+                if (match !== undefined && match.length !== 0) {
+                    let type = "";
+                    let instance = "";
+                    let otherId = "";
+                    let worldId = "";
+                    if (match.length >= 5) {
+                        switch (match[5]) {
+                            case "hidden": {
+                                type = "Friends+";
+                                instance = match[2];
+                                otherId = match[2] + match[3];
+                                worldId = match[1];
+                                break;
+                            }
+                            case "friends": {
+                                type = "Friends Only";
+                                instance = match[2];
+                                otherId = match[2] + match[3];
+                                worldId = match[1];
+                                break;
+                            }
+                            default: {
+                                type = "Public";
+                                instance = match[2];
+                                otherId = match[2];
+                                worldId = match[1];
+                                break;
+                            }
                         }
                     }
+                    worldsToLoad.push({
+                        world: fr.location,
+                        type: type,
+                        instance: instance,
+                        otherId: otherId,
+                        worldId: worldId,
+                        functions: []
+                    });
                 }
-                worldsToLoad.push({
-                    world: fr.location,
-                    type: type,
-                    instance: instance,
-                    otherId: otherId,
-                    worldId: worldId,
-                    functions: []
-                });
+            } catch (e) {
+                sendNotification("Error", e.message, getIconFor("error"));
             }
         }
     }

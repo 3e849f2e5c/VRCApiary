@@ -174,9 +174,43 @@ body {
     display: inline-block;
 }
 
+.notify-icon:hover {
+    outline: 1px solid black;
+    background-color: #323232;
+}
+
 .notify-icon {
+    cursor: pointer;
     width: auto;
     height: 100%;
+}
+
+.popup-container {
+    width: calc(100% - 8px);
+}
+
+.popup-message {
+    padding: 4px;
+    font-family: 'Roboto', roboto, sans-serif;
+    background-color: #373737;
+    color: #A9B7C6;
+    font-size: 28px;
+    margin-left: 8px;
+    margin-right: 8px;
+    border: 1px solid black;
+    resize: none;
+    width: calc(100% - 18px);
+    height: 150px;
+}
+
+.popup-buttons-container {
+    width: 100%;
+    display: flex;
+    margin-left: 4px;
+}
+
+.popup-buttons-container .button {
+    margin: 4px;
 }
 
 @media only screen

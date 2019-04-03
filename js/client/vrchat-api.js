@@ -40,7 +40,7 @@ const sendMessage = (userId, msg, callback) => {
  */
 const editAvatar = (avatar, update, callback) => {
     sendPUTRequest("/avatars/" + avatar, update, (data) => {
-       callback(data);
+        callback(data);
     });
 };
 
@@ -147,6 +147,42 @@ const getFavoriteAvatars = (callback) => {
     sendGETRequest("/avatars/favorites", (data) => {
         callback(data);
     })
+};
+
+/**
+ * Accept a friends request
+ * https://vrchatapi.github.io/#/NotificationAPI/Delete
+ * @param id            Notification ID
+ * @param callback      Callback function
+ */
+const acceptFriendsRequest = (id, callback) => {
+    sendPUTRequest("/auth/user/notifications/" + id + "/accept", {}, (data) => {
+        callback(data);
+    });
+};
+
+/**
+ * Delete a notification
+ * https://vrchatapi.github.io/#/NotificationAPI/Delete
+ * @param id            Notification ID
+ * @param callback      Callback function
+ */
+const deleteNotification = (id, callback) => {
+    sendPUTRequest("/auth/user/notifications/" + id + "/hide", {}, (data) => {
+        callback(data);
+    });
+};
+
+/**
+ * Marks a notification as seen
+ * https://vrchatapi.github.io/#/NotificationAPI/MarkAsSeen
+ * @param id            Notification ID
+ * @param callback      Callback function
+ */
+const markNotificationAsSeen = (id, callback) => {
+    sendPUTRequest("/auth/user/notifications/" + id + "/see", {}, (data) => {
+        callback(data);
+    });
 };
 
 /**

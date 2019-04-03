@@ -23,26 +23,7 @@ switch (userData.status) {
 
 const tags = userData.tags;
 
-let trust_level = 0;
-
-if (tags === undefined) {
-    trust_level = 0;
-} else {
-    // Nuisance
-    trust_level = tags.indexOf("system_troll") > -1 ? -2 :
-        // Troll
-        trust_level = tags.indexOf("system_probable_troll") > -1 ? -1 :
-            // Veteran a.k.a Legend
-            trust_level = tags.indexOf("system_trust_legend") > -1 ? 5 :
-                // Trusted
-                trust_level = tags.indexOf("system_trust_veteran") > -1 ? 4 :
-                    // Known
-                    trust_level = tags.indexOf("system_trust_trusted") > -1 ? 3 :
-                        // User
-                        trust_level = tags.indexOf("system_trust_known") > -1 ? 2 :
-                            // Visitor
-                            trust_level = tags.indexOf("system_trust_basic") > -1 ? 1 : 0;
-}
+let trust_level = tagsToTrustRank(tags);
 
 const trustMeterShrinker = getId("trustBarShrink");
 const trustBar = getId("trustBar");
@@ -110,16 +91,10 @@ switch (trust_level) {
     }
 }
 
-const newEntry = (text) => {
-    const e = document.createElement('a');
-    e.innerText = text;
-    return e;
-};
-
 /**
  * Load notifications
  */
-getNotifications((data) => {
+const renderNotifications = (data) => {
     const area = getId("notifyArea");
     for (let i = 0; i < data.length; i++) {
         const notify = data[i];
@@ -128,24 +103,141 @@ getNotifications((data) => {
         notifyContainer.appendChild(notifyIcon);
         notifyIcon.src = "../css/images/notifications/friendrequest.png";
         switch (notify.type) {
-            case "friendrequest":
+            case "friendRequest":
+                notifyIcon.title = "Friend request from " + notify.senderUsername;
                 notifyIcon.src = "../css/images/notifications/friendrequest.png";
                 break;
             case "invite":
+                notifyIcon.title = "Invite from " + notify.senderUsername;
                 notifyIcon.src = "../css/images/notifications/invite.png";
                 break;
             case "requestinvite":
+                notifyIcon.title = "Invite request from " + notify.senderUsername;
                 notifyIcon.src = "../css/images/notifications/requestinvite.png";
                 break;
             case "message":
+                notifyIcon.title = "Message from " + notify.senderUsername;
                 notifyIcon.src = "../css/images/notifications/message.png";
                 break;
             default:
+                notifyIcon.title = "[Unknown] from  " + notify.senderUsername;
                 notifyIcon.src = "../css/images/notifications/friendrequest.png";
         }
+
+        notifyIcon.addEventListener("click", () => {
+            openNotification(notify, notifyContainer);
+        });
         area.appendChild(notifyContainer);
     }
     finishLoading();
+};
+
+const openNotification = (data, element) => {
+    const popupMenu = getId("popupMenu");
+    const popup = getId("notifyPopup");
+    const body = getId("content");
+    popup.innerHTML = '';
+    const div = createElement("div", "popup-container");
+    const header = createElement("a", "header", "Unknown");
+    const buttonsContainer = createElement("div", "popup-buttons-container");
+    const messageContainer = createElement("div", "popup-message-container");
+    const message = createElement("textarea", "popup-message");
+    const endings = ["Sincerely, ", "Yours truly, ", "Best regards, ", "Best wishes, ", "Regards, ", "XOXO, ", "Love, "];
+    const randomEnding = endings[Math.floor(Math.random() * endings.length)];
+    message.readOnly = true;
+    let details = JSON.parse(data.details);
+    switch (data.type) {
+        case "friendRequest":
+            header.innerText = "Friend request";
+            message.innerHTML = "Dear " + userData.displayName + ".\nI would like to be your friend.\n" + randomEnding + "\n    - " + data.senderUsername;
+            buttonsContainer.appendChild(createButton("Accept", "button-green", () => {
+                load();
+                acceptFriendsRequest(data.id, (resp) => {
+                    if (resp.error === undefined) {
+                        getId("notifyArea").removeChild(element);
+                        setTimeout(() => {
+                            popupMenu.style.visibility = "hidden";
+                            if (body !== null) {
+                                body.style.filter = "none";
+                            }
+                        }, 100);
+                        stopLoading();
+                        blinkGreen();
+                    } else {
+                        sendNotification("Error", resp.error.message, getIconFor("error"));
+                        stopLoading();
+                        blinkRed();
+                    }
+                })
+            }));
+            break;
+        case "invite":
+            header.innerText = "Invite";
+            message.innerHTML = "Dear " + userData.displayName + ".\nJoin me in " + details.worldName + ".\n" + randomEnding + "\n    - " + data.senderUsername;
+            buttonsContainer.appendChild(createButton("Join", "button-blue", () => {
+                document.location = "vrchat://launch?id=" + details.worldId;
+            }));
+            break;
+        case "requestinvite":
+            header.innerText = "Invite request";
+            message.innerHTML = "Dear " + userData.displayName + ".\nPlease invite me to your world.\n" + randomEnding + "\n    - " + data.senderUsername;
+            buttonsContainer.appendChild(createButton("Invite", "button-blue disabled", () => {
+
+            }));
+            break;
+        case "message":
+            header.innerText = "Message";
+            message.innerHTML = "Dear " + userData.displayName + ".\n" + data.message + "\n" + randomEnding + "\n    - " + data.senderUsername;
+            break;
+    }
+
+    console.log(data);
+    buttonsContainer.appendChild(createButton("Hide", "button-green", () => {
+        load();
+        deleteNotification(data.id, (resp) => {
+            if (resp.error === undefined) {
+                getId("notifyArea").removeChild(element);
+                setTimeout(() => {
+                    popupMenu.style.visibility = "hidden";
+                    if (body !== null) {
+                        body.style.filter = "none";
+                    }
+                }, 100);
+                stopLoading();
+                blinkGreen();
+            } else {
+                sendNotification("Error", resp.error.message, getIconFor("error"));
+                stopLoading();
+                blinkRed();
+            }
+        })
+    }));
+    buttonsContainer.appendChild(createButton("Cancel", "button-red", () => {
+        setTimeout(() => {
+            popupMenu.style.visibility = "hidden";
+            if (body !== null) {
+                body.style.filter = "none";
+            }
+        }, 100);
+    }));
+    div.appendChild(header);
+    messageContainer.appendChild(message);
+    div.appendChild(messageContainer);
+    div.appendChild(buttonsContainer);
+    popup.appendChild(div);
+    setTimeout(() => {
+        if (body !== null) {
+            body.style.filter = "blur(4px)";
+        }
+        popupMenu.style.visibility = "visible";
+        setTimeout(() => {
+            popupMenu.style.opacity = "1";
+        }, 0);
+    }, 100);
+};
+
+getNotifications((data) => {
+    renderNotifications(data);
 });
 
 if (localStorage.getItem("neverSee") === null) {
