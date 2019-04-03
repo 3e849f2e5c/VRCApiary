@@ -1,3 +1,28 @@
+getId("offlineLoad").addEventListener("click", () => {
+    load();
+    getFriends({offline: true}, (data) => {
+        if (data.error === undefined) {
+            stopLoading();
+            blinkGreen();
+            renderOfflines(data);
+            window.localStorage.setItem("cachedOffline", JSON.stringify(data));
+        } else {
+            stopLoading();
+            blinkRed();
+            sendNotification("Error", data.error.message, getIconFor("error"));
+        }
+    })
+});
+
+const renderOfflines = (data) => {
+    getId("offlineList").removeChild(getId("offlineLoad").parentNode);
+    const list = getId("offlineList");
+    for (let i = 0; i < data.length; i++) {
+        const fr = data[i];
+        list.appendChild(createOfflineFriendEntry(fr));
+    }
+};
+
 /**
  * Build the friends list with JSON friends list data
  * @param data      Data from /api/1/auth/user/friends
@@ -252,11 +277,115 @@ const renderPage = (data) => {
     finishLoading();
 };
 
+const createOfflineFriendEntry = (fr) => {
+    const entryContainer = createElement("div", "box card-entry-container offline-entry");
+    const entryOptions = createElement("div", "card-options");
+    const entryMessage = createElement("div", "card-options message-popup");
+    const friendProfileContainer = createElement("div", "friend-profile-container");
+    const friendName = createElement("a", "friend-name", fr.displayName);
+    const friendImage = createElement("img", "friend-image");
+    const friendWorld = createElement("a", "friend-world", "Loading...");
+    const friendWorldContainer = createElement("div", "friend-world-container");
+
+    const optionName = createElement("a", "header", fr.displayName);
+    const messageName = createElement("a", "header", fr.displayName);
+    optionName.style.marginTop = "-24px";
+    messageName.style.fontSize = "24px";
+    optionName.style.fontSize = "24px";
+    entryOptions.appendChild(optionName);
+    entryOptions.appendChild(createButton("Profile", "button-green", () => {
+        window.localStorage.setItem("oldScroll", window.pageYOffset.toString());
+        navToPage("profile", "?u=" + fr.id + "&back=friends&backtags=" + encodeURIComponent("?cache=1"));
+    }));
+
+    const textBox = createElement("textarea", "message-container");
+    textBox.style.height = "100px";
+    textBox.style.fontSize = "26px";
+    const sendButton = createButton("Send", "button-green", () => {
+        if (textBox.value !== "") {
+            load();
+            sendMessage(fr.id, textBox.value, (data) => {
+                if (data.error === undefined) {
+                    stopLoading();
+                    blinkGreen();
+                    entryMessage.style.visibility = "hidden";
+                    textBox.value = "";
+                } else {
+                    stopLoading();
+                    blinkRed();
+                }
+            });
+        }
+    });
+
+    const cancelButton = createButton("Cancel", "button-red", () => {
+        textBox.value = "";
+        entryMessage.style.visibility = "hidden";
+    });
+    textBox.placeholder = "Send a nice message to " + fr.displayName;
+    entryMessage.appendChild(messageName);
+    entryMessage.appendChild(textBox);
+    entryMessage.appendChild(sendButton);
+    entryMessage.appendChild(cancelButton);
+
+    friendProfileContainer.title = fr.statusDescription;
+
+    entryOptions.appendChild(createButton("Message", "button-green", () => {
+        entryMessage.style.visibility = "visible";
+    }));
+
+    entryOptions.appendChild(createButton("Unfriend", "button-red disabled", () => {
+        entryOptions.style.visibility = "hidden";
+    }));
+
+    entryOptions.appendChild(createButton("Cancel", "button-red", () => {
+        entryOptions.style.visibility = "hidden";
+    }));
+    entryContainer.appendChild(entryOptions);
+    entryContainer.appendChild(entryMessage);
+    friendProfileContainer.addEventListener("click", () => {
+        entryOptions.style.visibility = "visible";
+    });
+    friendImage.setAttribute("src", fr.currentAvatarThumbnailImageUrl);
+    let status;
+    switch (fr.status) {
+        case "active":
+            status = "green";
+            break;
+        case "join me":
+            status = "aqua";
+            break;
+        case "busy":
+            status = "red";
+            break;
+        default:
+            status = "white";
+    }
+    friendImage.setAttribute("style", "border-color: " + status);
+
+    friendWorld.innerText = "Offline";
+    friendWorldContainer.appendChild(friendWorld);
+
+    const trustColor = trustRankToColor(tagsToTrustRank(fr.tags));
+    friendName.style.color = trustColor;
+    optionName.style.color = trustColor;
+    messageName.style.color = trustColor;
+
+    friendProfileContainer.appendChild(friendName);
+    friendProfileContainer.appendChild(friendImage);
+    entryContainer.appendChild(friendProfileContainer);
+    entryContainer.appendChild(friendWorldContainer);
+    return entryContainer;
+};
+
 if (getParameterByName("cache") === "1") {
     renderPage(JSON.parse(window.localStorage.getItem("cachedFriends")));
+    if (window.localStorage.getItem("cachedOffline") !== null) {
+        renderOfflines(JSON.parse(window.localStorage.getItem("cachedOffline")));
+    }
     window.scrollTo(0, parseInt(window.localStorage.getItem("oldScroll")));
 } else {
-    getFriends((data) => {
+    getFriends(undefined, (data) => {
         renderPage(data);
     });
 }

@@ -160,13 +160,22 @@ const getNotifications = (callback) => {
     });
 };
 
+
+// TODO check listing amount
 /**
  * Get VRChat friends list
  * https://vrchatapi.github.io/#/UserAPI/Friends
+ * @param options   Options
  * @param callback  Callback function
  */
-const getFriends = (callback) => {
-    sendGETRequest("/auth/user/friends", (data) => {
+const getFriends = (options, callback) => {
+    let params = "";
+    if (options !== undefined) {
+        if (options.offline !== undefined && typeof options.offline === "boolean") {
+            params = "?offline=" + options.offline;
+        }
+    }
+    sendGETRequest("/auth/user/friends" + params, (data) => {
         callback(data);
     });
 };

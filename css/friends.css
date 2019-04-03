@@ -142,3 +142,27 @@ body {
     text-align: center;
     vertical-align: center;
 }
+
+.card-load {
+    width: 180px;
+    height: 180px;
+}
+
+.card-load-container {
+    justify-content: center;
+    width: 242px;
+    margin-top: 7px;
+    height: 274px;
+    display: flex;
+    align-items: center;
+}
+
+.card-load img {
+    width: 180px;
+    height: 180px;
+    cursor: pointer;
+}
+
+.card-load img:hover {
+    filter: brightness(75%);
+}
