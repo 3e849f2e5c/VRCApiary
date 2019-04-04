@@ -4,13 +4,19 @@ const {session} = require('electron');
 const {shell} = require('electron');
 const storage = require('electron-json-storage');
 const dl = require('electron-dl');
+const path = require('path');
+const isDev = require('electron-is-dev');
+
+
 
 let mainWindow;
 
 const createWindow = () => {
     console.log("ok");
-    app.setAppUserModelId(process.execPath);
-    mainWindow = new BrowserWindow({width: 800, height: 600});
+    if (isDev) {
+        app.setAppUserModelId(process.execPath);
+    }
+    mainWindow = new BrowserWindow({width: 800, height: 600, icon: path.join(__dirname, '/css/images/logo/icon.ico')});
     storage.has('login', function (error, hasKey) {
         if (error) throw error;
 

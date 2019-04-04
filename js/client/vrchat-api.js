@@ -1,4 +1,10 @@
 /**
+ * Log HTTP requests by sending notifications
+ * @type {boolean}
+ */
+const notify = false;
+
+/**
  * Base API URL
  * @type {string}
  */
@@ -276,7 +282,9 @@ const sendGETRequest = (location, callback, basic) => {
         }
     };
     console.log("Request sent");
-    sendNotification("Request sent", "a HTTP GET request was sent", getIconFor("debug"));
+    if (notify === true) {
+        sendNotification("Request sent", "a HTTP GET request was sent", getIconFor("debug"));
+    }
     xmlHttp.open("GET", baseUrl + location, true);
     if (basic !== undefined) {
         xmlHttp.setRequestHeader("Authorization", "Basic " + btoa(basic));
@@ -305,7 +313,9 @@ const sendPOSTRequest = (location, data, callback) => {
         }
     };
     console.log("POST Request sent");
-    sendNotification("Request sent", "a HTTP POST request was sent", getIconFor("debug"));
+    if (notify === true) {
+        sendNotification("Request sent", "a HTTP POST request was sent", getIconFor("debug"));
+    }
     xmlHttp.open("POST", baseUrl + location, true);
     xmlHttp.setRequestHeader("Content-Type", "application/json");
     addRequest();
@@ -332,7 +342,9 @@ const sendPUTRequest = (location, data, callback) => {
         }
     };
     console.log("PUT Request sent");
-    sendNotification("Request sent", "a HTTP PUT request was sent", getIconFor("debug"));
+    if (notify === true) {
+        sendNotification("Request sent", "a HTTP PUT request was sent", getIconFor("debug"));
+    }
     xmlHttp.open("PUT", baseUrl + location, true);
     xmlHttp.setRequestHeader("Content-Type", "application/json");
     addRequest();
@@ -358,7 +370,9 @@ const sendDELETERequest = (location, callback) => {
         }
     };
     console.log("DELETE Request sent");
-    sendNotification("Request sent", "a HTTP DELETE request was sent", getIconFor("debug"));
+    if (notify === true) {
+        sendNotification("Request sent", "a HTTP DELETE request was sent", getIconFor("debug"));
+    }
     xmlHttp.open("DELETE", baseUrl + location, true);
     addRequest();
     xmlHttp.send(null);
