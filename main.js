@@ -1,13 +1,14 @@
+if (require('electron-squirrel-startup')) return;
 const {app, BrowserWindow} = require('electron');
 const {session} = require('electron');
 const {shell} = require('electron');
 const storage = require('electron-json-storage');
 const dl = require('electron-dl');
-require('update-electron-app')();
 
 let mainWindow;
 
 const createWindow = () => {
+    console.log("ok");
     app.setAppUserModelId(process.execPath);
     mainWindow = new BrowserWindow({width: 800, height: 600});
     storage.has('login', function (error, hasKey) {
@@ -56,13 +57,7 @@ app.on('activate', function () {
     }
 });
 
-
-const openDataFolder = () => {
-    shell.openItem(storage.getDataPath())
-};
-
 module.exports = {
-    openDataFolder: openDataFolder,
     download: (url) => {
         download(url);
     }

@@ -1,11 +1,15 @@
 {
   "name": "vrcapiary",
-  "version": "0.0.1-ALPHA",
+  "author": "3e849f2e5c",
+  "version": "0.0.2-ALPHA",
   "description": "A client for the VRChat API",
   "private": true,
+  "repository": "github:3e849f2e5c/VRCApiary",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "keywords": [
     "REST",
@@ -19,10 +23,44 @@
   },
   "license": "WTFNMFPL-1.0",
   "dependencies": {
-    "update-electron-app": "^1.3.0",
-    "electron": "^4.0.2",
     "electron-dl": "^1.12.0",
     "electron-json-storage": "^4.1.5",
+    "electron-squirrel-startup": "^1.0.0",
     "https": "^1.0.0"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.33",
+    "@electron-forge/maker-deb": "^6.0.0-beta.33",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.33",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.33",
+    "@electron-forge/maker-zip": "^6.0.0-beta.33",
+    "electron": "^4.1.3"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "vrcapiary"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }
