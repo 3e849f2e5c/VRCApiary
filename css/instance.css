@@ -82,7 +82,7 @@ body {
     background-color: transparent;
     margin: 8px;
     margin-top: 0;
-    height: calc(100vh - 100px - 56px);
+    height: calc(100vh - 156px);
 }
 
 .user-list-entry {
@@ -107,16 +107,6 @@ body {
 .button {
     text-align: center;
     width: auto;
-}
-
-.user-list-entry img {
-    height: 60px;
-    float: left;
-    margin-left: 4px;
-    border-width: 2px;
-    border-style: solid;
-    background: url(images/loading.png);
-    background-size: cover;
 }
 
 .user-list-entry a {

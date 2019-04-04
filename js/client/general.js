@@ -97,6 +97,10 @@ const navToPage = (page, flag) => {
             destination = "./avatars.html";
             break;
         }
+        case "mods": {
+            destination = "./moderations.html";
+            break;
+        }
         case "profile": {
             destination = "./profile.html";
             if (flag !== undefined) {

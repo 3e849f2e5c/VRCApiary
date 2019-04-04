@@ -10,6 +10,29 @@ const notify = false;
  */
 const baseUrl = "https://api.vrchat.cloud/api/1";
 
+
+/**
+ * Get player moderations against you
+ * https://vrchatapi.github.io/#/ModerationAPI/Against
+ * @param callback      Callback function
+ */
+const getPlayermodsAgainst = (callback) => {
+    sendGETRequest("/auth/user/playermoderated", (data) => {
+        callback(data);
+    });
+};
+
+/**
+ * Get player moderations by you
+ * https://vrchatapi.github.io/#/ModerationAPI/Players
+ * @param callback      Callback functions
+ */
+const getPlayermods = (callback) => {
+    sendGETRequest("/auth/user/playermoderations", (data) => {
+        callback(data);
+    });
+};
+
 /**
  * Get user by ID
  * @param userId        User ID
