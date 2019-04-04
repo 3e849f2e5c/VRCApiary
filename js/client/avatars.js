@@ -92,7 +92,6 @@ const createFavoriteEntry = (avatar) => {
             // delayed remove avatar function
             const removeFunc = setTimeout(() => {
                 load();
-                disableDiv();
                 removeFavorite(avatar.id, (data) => {
                     if (data.error !== undefined) {
                         popup.style.visibility = "hidden";
