@@ -150,8 +150,9 @@ const openNotification = (data, element) => {
         case "friendRequest":
             header.innerText = "Friend request";
             message.innerHTML = "Dear " + userData.displayName + ".\nI would like to be your friend.\n" + randomEnding + "\n    - " + data.senderUsername;
-            buttonsContainer.appendChild(createButton("Accept", "button-green", () => {
+            buttonsContainer.appendChild(createButton("Accept", "button-green", (e) => {
                 load();
+                disableDiv(e.srcElement);
                 acceptFriendsRequest(data.id, (resp) => {
                     if (resp.error === undefined) {
                         getId("notifyArea").removeChild(element);
@@ -164,6 +165,7 @@ const openNotification = (data, element) => {
                         stopLoading();
                         blinkGreen();
                     } else {
+                        enableDiv(e.srcElement);
                         sendNotification("Error", resp.error.message, getIconFor("error"));
                         stopLoading();
                         blinkRed();
@@ -192,9 +194,11 @@ const openNotification = (data, element) => {
     }
 
     console.log(data);
-    buttonsContainer.appendChild(createButton("Hide", "button-green", () => {
+    buttonsContainer.appendChild(createButton("Hide", "button-green", (e) => {
         load();
+        disableDiv(e.srcElement);
         deleteNotification(data.id, (resp) => {
+            enableDiv(e.srcElement);
             if (resp.error === undefined) {
                 getId("notifyArea").removeChild(element);
                 setTimeout(() => {

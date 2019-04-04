@@ -5,12 +5,14 @@ let avatarPage = 0;
 
 favoriteLoad.addEventListener("click", () => {
     load();
+    disableDiv(favoriteLoad);
     getFavoriteAvatars((data) => {
         if (data.error === undefined) {
             stopLoading();
             blinkGreen();
             renderFavorites(data);
         } else {
+            enableDiv(favoriteLoad);
             stopLoading();
             blinkRed();
             sendNotification("Error", data.error.message, getIconFor("error"));
@@ -20,7 +22,9 @@ favoriteLoad.addEventListener("click", () => {
 
 privateLoad.addEventListener("click", () => {
     load();
+    disableDiv(privateLoad);
     getAvatars({offset: avatarPage, releaseStatus: "all", user: "me"}, (data) => {
+        enableDiv(privateLoad);
         if (data.error === undefined) {
             stopLoading();
             blinkGreen();
@@ -61,12 +65,13 @@ const createFavoriteEntry = (avatar) => {
             });
         }),
         createButton("View author", "button-green", () => {
-            navToPage("profile", "?u=" + avatar.authorId);
+            navToPage("profile", "?u=" + avatar.authorId + "&back=avatars");
         }),
         createButton("Keepsake", "button-green", () => {
             const doc = document.getElementById("keepsakeAvatars");
             doc.appendChild(createKeepsakeEntry(avatar));
             addKeepsake(avatar);
+            blinkGreen();
         }),
         createButton("Remove", "button-red", (e) => {
             // There's gotta be a better way to do this but honestly I just don't care
@@ -87,6 +92,7 @@ const createFavoriteEntry = (avatar) => {
             // delayed remove avatar function
             const removeFunc = setTimeout(() => {
                 load();
+                disableDiv();
                 removeFavorite(avatar.id, (data) => {
                     if (data.error !== undefined) {
                         popup.style.visibility = "hidden";
@@ -99,12 +105,14 @@ const createFavoriteEntry = (avatar) => {
                         options.style.visibility = "visible";
                         options.innerHTML = '';
                         options.appendChild(createElement("a", "header", "Removed"));
-                        options.appendChild(createButton("Undo", "button-green", () => {
+                        options.appendChild(createButton("Undo", "button-green", (e) => {
                             load();
+                            disableDiv(e.srcElement);
                             addFavorite(avatar.id, "avatar", ["avatars1"], (data) => {
                                 if (data.error !== undefined) {
                                     stopLoading();
                                     blinkRed();
+                                    enableDiv(e.srcElement);
                                     sendNotification("Error", data.error.message, getIconFor("error"));
                                 } else {
                                     card.parentElement.insertAdjacentElement('afterbegin', createFavoriteEntry(avatar));
@@ -146,9 +154,11 @@ const renderAvatars = (data) => {
 
 const createPrivateEntry = (avatar) => {
     return createEntry(avatar.id, avatar.name, avatar.thumbnailImageUrl, avatar.releaseStatus, [
-        createButton("Equip", "button-green", () => {
+        createButton("Equip", "button-green", (e) => {
             load();
+            disableDiv(e.srcElement);
             changeAvatar(avatar.id, (data) => {
+                enableDiv(e.srcElement);
                 if (data.error !== undefined) {
                     stopLoading();
                     blinkRed();
@@ -163,9 +173,11 @@ const createPrivateEntry = (avatar) => {
         createButton("Edit", "button-green", () => {
             editAvatarPopup(avatar);
         }),
-        createButton("Download", "button-green", () => {
+        createButton("Download", "button-green", (e) => {
             load();
+            disableDiv(e.srcElement);
             getAvatar(avatar.id, (data) => {
+                enableDiv(e.srcElement);
                 if (data.error === undefined) {
                     if (data.unityPackageUrl !== "") {
                         sendNotification("Download started", avatar.name, getIconFor("error"));
@@ -277,9 +289,11 @@ const renderKeepsakes = () => {
 
 const createKeepsakeEntry = (avatar) => {
     return createEntry(avatar.id, avatar.name, avatar.thumbnailImageUrl, avatar.releaseStatus, [
-        createButton("Equip", "button-green", () => {
+        createButton("Equip", "button-green", (e) => {
             load();
+            disableDiv(e.srcElement);
             changeAvatar(avatar.id, (data) => {
+                enableDiv(e.srcElement);
                 if (data.error !== undefined) {
                     stopLoading();
                     blinkRed();
@@ -291,9 +305,11 @@ const createKeepsakeEntry = (avatar) => {
                 }
             });
         }),
-        createButton("Favorite", "button-green", () => {
+        createButton("Favorite", "button-green", (e) => {
             load();
+            disableDiv(e.srcElement);
             addFavorite(avatar.id, "avatar", ["avatars1"], (data) => {
+                enableDiv(e.srcElement);
                 if (data.error !== undefined) {
                     stopLoading();
                     blinkRed();
@@ -446,7 +462,7 @@ const editAvatarPopup = (avatar) => {
     releaseLabel.appendChild(releaseField);
     settingsContent.appendChild(releaseLabel);
 
-    buttonContent.appendChild(createButton("Update", "button-green", () => {
+    buttonContent.appendChild(createButton("Update", "button-green", (e) => {
         const options = {};
 
         if (imageField.value !== '') {
@@ -468,6 +484,7 @@ const editAvatarPopup = (avatar) => {
         if (JSON.stringify(options) !== "{}") {
             if (isError !== true) {
                 load();
+                disableDiv(e.srcElement);
                 editAvatar(avatar.id, options, (data) => {
                     if (data.error === undefined) {
                         sendNotification("Avatar updated", "Please give VRChat servers couple minutes to process your changes", getIconFor("ok"));

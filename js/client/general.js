@@ -280,3 +280,19 @@ const createButton = (text, color, func) => {
 	div.addEventListener("click", func);
 	return div;
 };
+
+/**
+ * Disables an element that doesn't support the disabled tag
+ * @param div       The element
+ */
+const disableDiv = (div) => {
+    div.classList.add("disabled");
+};
+
+/**
+ * Enables an element that has been disabled with {@see disableDiv}
+ * @param div       The element
+ */
+const enableDiv = (div) => {
+    div.classList.remove("disabled");
+};

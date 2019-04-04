@@ -1,5 +1,7 @@
-getId("offlineLoad").addEventListener("click", () => {
+const loadButton = getId("offlineLoad");
+loadButton.addEventListener("click", () => {
     load();
+    disableDiv(loadButton);
     getFriends({offline: true}, (data) => {
         if (data.error === undefined) {
             stopLoading();
@@ -7,6 +9,7 @@ getId("offlineLoad").addEventListener("click", () => {
             renderOfflines(data);
             window.localStorage.setItem("cachedOffline", JSON.stringify(data));
         } else {
+            enableDiv(loadButton);
             stopLoading();
             blinkRed();
             sendNotification("Error", data.error.message, getIconFor("error"));
@@ -113,6 +116,9 @@ const renderPage = (data) => {
         entryOptions.appendChild(optionName);
         entryOptions.appendChild(createButton("Profile", "button-green", () => {
             window.localStorage.setItem("oldScroll", window.pageYOffset.toString());
+            if (getId("offlineLoad") !== null) {
+                window.localStorage.setItem("cachedOffline", null);
+            }
             navToPage("profile", "?u=" + fr.id + "&back=friends&backtags=" + encodeURIComponent("?cache=1"));
         }));
 
@@ -239,6 +245,7 @@ const renderPage = (data) => {
         list.appendChild(sortedList[i].div);
     }
 
+    // TODO this thing sometimes gets stuck but honestly I have no idea how I wrote this and I'm too afraid to touch it
     const recursiveLoad = () => {
         if (worldsToLoad.length !== 0) {
             let world = worldsToLoad.shift();
@@ -297,8 +304,11 @@ const createOfflineFriendEntry = (fr) => {
     messageName.style.fontSize = "24px";
     optionName.style.fontSize = "24px";
     entryOptions.appendChild(optionName);
-    entryOptions.appendChild(createButton("Profile", "button-green", () => {
+    entryOptions.appendChild(createButton("Profile", "button-green", (e) => {
         window.localStorage.setItem("oldScroll", window.pageYOffset.toString());
+        if (getId("offlineLoad") !== null) {
+            window.localStorage.setItem("cachedOffline", null);
+        }
         navToPage("profile", "?u=" + fr.id + "&back=friends&backtags=" + encodeURIComponent("?cache=1"));
     }));
 
@@ -307,14 +317,18 @@ const createOfflineFriendEntry = (fr) => {
     textBox.style.fontSize = "26px";
     const sendButton = createButton("Send", "button-green", () => {
         if (textBox.value !== "") {
+            disableDiv(sendButton);
             load();
             sendMessage(fr.id, textBox.value, (data) => {
                 if (data.error === undefined) {
+                    enableDiv(sendButton);
                     stopLoading();
                     blinkGreen();
                     entryMessage.style.visibility = "hidden";
                     textBox.value = "";
                 } else {
+                    enableDiv(sendButton);
+                    sendNotification("Error", data.error.message, getIconFor("error"));
                     stopLoading();
                     blinkRed();
                 }
@@ -384,8 +398,9 @@ const createOfflineFriendEntry = (fr) => {
 
 if (getParameterByName("cache") === "1") {
     renderPage(JSON.parse(window.localStorage.getItem("cachedFriends")));
-    if (window.localStorage.getItem("cachedOffline") !== null) {
-        renderOfflines(JSON.parse(window.localStorage.getItem("cachedOffline")));
+    const cachedOffline = window.localStorage.getItem("cachedOffline");
+    if (cachedOffline !== null && cachedOffline !== "null") {
+        renderOfflines(JSON.parse(cachedOffline));
     }
     window.scrollTo(0, parseInt(window.localStorage.getItem("oldScroll")));
 } else {

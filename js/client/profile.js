@@ -1,9 +1,12 @@
 let avatarPage = 0;
 
 const renderPage = (profile) => {
-    getId("publicLoad").addEventListener("click", () => {
+    const publicLoad = getId("publicLoad");
+    publicLoad.addEventListener("click", () => {
         load();
+        disableDiv(publicLoad);
         getAvatars({offset: avatarPage, releaseStatus: "public", userId: profile.id}, (data) => {
+            enableDiv(publicLoad);
             if (data.error === undefined) {
                 stopLoading();
                 blinkGreen();
@@ -26,7 +29,11 @@ const renderPage = (profile) => {
     getId("user-id").innerText = profile.id;
     getId("avatar-image").src = profile.currentAvatarThumbnailImageUrl;
     if (profile.statusDescription !== undefined) {
-        getId("status").innerText = profile.statusDescription;
+        if (profile.statusDescription === "") {
+            getId("status").innerText = "None";
+        } else {
+            getId("status").innerText = profile.statusDescription;
+        }
     }
 
     if (profile.status !== undefined) {
@@ -195,6 +202,7 @@ const addKeepsake = (avatar) => {
     const json = JSON.parse(localStorage.getItem("keepsakes"));
     json.push(avatar);
     localStorage.setItem("keepsakes", JSON.stringify(json));
+    blinkGreen();
 };
 
 const createEntry = (id, name, image, status, extra) => {

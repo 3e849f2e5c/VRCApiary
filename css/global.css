@@ -50,6 +50,11 @@ body {
     background-color: grey;
 }
 
+.div:disabled {
+    pointer-events: none;
+    filter: grayscale(100%);
+}
+
 .button:disabled {
     filter: grayscale(100%);
 }

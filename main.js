@@ -3,6 +3,7 @@ const {session} = require('electron');
 const {shell} = require('electron');
 const storage = require('electron-json-storage');
 const dl = require('electron-dl');
+require('update-electron-app')();
 
 let mainWindow;
 

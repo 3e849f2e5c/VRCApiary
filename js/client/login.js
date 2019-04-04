@@ -12,7 +12,7 @@ storage.getCredentials((username, password) => {
     }
 });
 
-document.getElementById("login-button").addEventListener('click', () => {
+document.getElementById("login-button").addEventListener('click', (e) => {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     const rememberMe = document.getElementById("checkbox").checked;
@@ -23,10 +23,12 @@ document.getElementById("login-button").addEventListener('click', () => {
         return;
     }
     load();
+    disableDiv(e.srcElement);
     sendGETRequest("/auth/user", (data) => {
         if (data.error !== undefined) {
             blinkRed();
             sendNotification("Login Error", data.error.message);
+            enableDiv(e.srcElement);
         } else {
             if (rememberMe === true) {
                 storage.saveCredentials(username, password);
