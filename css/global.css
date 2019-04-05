@@ -388,3 +388,41 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:f
 
 .card-remove-timeout {
 }
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    font-size: 24px;
+    visibility: hidden;
+    background-color: black;
+    color: #A9B7C6;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    width: 200px;
+    top: 100%;
+    left: 50%;
+    margin-left: -100px;
+
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}

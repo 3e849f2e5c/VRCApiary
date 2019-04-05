@@ -57,10 +57,27 @@ getId("mineButton").addEventListener("click", () => {
                 }
             }
         }
+        let blocked = 0;
+        let muted = 0;
+        let hidden = 0;
+        const tooltip = getId("mineTooltip");
         for (let j = 0; j < usersSorted.length; j++) {
             const user = usersSorted[j];
+            if (user.block === true) {
+                blocked++;
+            }
+
+            if (user.mute === true) {
+                muted++;
+            }
+
+            if (user.avatar === true) {
+                hidden++;
+            }
             mine.appendChild(createEntry(user));
         }
+
+        tooltip.innerHTML = "Blocked: " + blocked + "<br>Muted: " + muted + "<br> Hidden: " + hidden
     });
 });
 
@@ -123,10 +140,27 @@ againstButton.addEventListener("click", () => {
                 }
             }
         }
+
+        let blocked = 0;
+        let muted = 0;
+        let hidden = 0;
+        const tooltip = getId("againstTooltip");
         for (let j = 0; j < usersSorted.length; j++) {
             const user = usersSorted[j];
+            if (user.block === true) {
+                blocked++;
+            }
+
+            if (user.mute === true) {
+                muted++;
+            }
+
+            if (user.avatar === true) {
+                hidden++;
+            }
             against.appendChild(createEntry(user));
         }
+        tooltip.innerHTML = "Blocked: " + blocked + "<br>Muted: " + muted + "<br> Hidden: " + hidden
     });
 });
 
@@ -136,7 +170,7 @@ const createEntry = (data) => {
     const icons = createElement("div", "icons-container");
     a.innerText = data.name;
     const d = new Date(data.timestamp);
-    a.title = d.getDate()  + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
+    a.title = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
     div.appendChild(a);
     div.appendChild(icons);
     if (data.block === true) {
