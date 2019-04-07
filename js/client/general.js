@@ -167,6 +167,18 @@ if (getId("navButton") !== null) {
 /**
  * Key bindings
  */
+document.addEventListener('keydown', (e) => {
+    switch (e.key) {
+        case "Shift": {
+            getId("navButton").parentElement.classList.add("nav-hidden");
+            break;
+        }
+    }
+});
+
+/**
+ * Key bindings
+ */
 document.addEventListener('keyup', (e) => {
     const menu = getId("navMenu");
     const content = getId("content");
@@ -184,6 +196,12 @@ document.addEventListener('keyup', (e) => {
         }
         case "F2": {
             navToPage("friends");
+            break;
+        }
+        case "Shift": {
+            if (getId("navButton").parentElement.classList.contains("nav-hidden")) {
+                getId("navButton").parentElement.classList.remove("nav-hidden");
+            }
             break;
         }
     }

@@ -464,6 +464,7 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:f
 }
 
 .tooltip .tooltip-top {
+    margin-bottom: 4px;
     width: 120px;
     bottom: 100%;
     left: 50%;
@@ -478,4 +479,13 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:f
     margin-left: -5px;
     border: 5px solid transparent;
     border-top-color: black;
+}
+
+.nav-hidden {
+    pointer-events: none;
+    opacity: 0.2 !important;
+}
+
+.nav-hidden img {
+    pointer-events: none;
 }
