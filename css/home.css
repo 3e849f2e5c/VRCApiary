@@ -213,48 +213,48 @@ body {
     margin: 4px;
 }
 
-@media only screen
-and (min-height: 768px)
-and (min-width: 1024px) {
+/*@media only screen*/
+/*and (min-height: 768px)*/
+/*and (min-width: 1024px) {*/
 
-    .display-name {
-        font-size: 48px;
-    }
+    /*.display-name {*/
+        /*font-size: 48px;*/
+    /*}*/
 
-    .user-name {
-        font-size: 32px;
-    }
+    /*.user-name {*/
+        /*font-size: 32px;*/
+    /*}*/
 
-    .user-id {
-        font-size: 24px;
-    }
+    /*.user-id {*/
+        /*font-size: 24px;*/
+    /*}*/
 
-    .welcome-container .header a {
-        font-size: 72px;
-    }
+    /*.welcome-container .header a {*/
+        /*font-size: 72px;*/
+    /*}*/
 
-    .header {
-        font-size: 48px;
-    }
+    /*.header {*/
+        /*font-size: 48px;*/
+    /*}*/
 
-    .trust-info {
-        font-size: 32px;
-    }
+    /*.trust-info {*/
+        /*font-size: 32px;*/
+    /*}*/
 
-    .avatar-image {
-        height: 260px;
-        width: 350px;
-    }
+    /*.avatar-image {*/
+        /*height: 260px;*/
+        /*width: 350px;*/
+    /*}*/
 
-    .trust-info-container {
-        margin-bottom: 17px;
-    }
+    /*.trust-info-container {*/
+        /*margin-bottom: 17px;*/
+    /*}*/
 
-    .bottom-side {
-        height: calc(100% - 476px - 10px);
-    }
+    /*.bottom-side {*/
+        /*height: calc(100% - 476px - 10px);*/
+    /*}*/
 
-    .status-container div input {
-        width: auto;
-    }
-}
+    /*.status-container div input {*/
+        /*width: auto;*/
+    /*}*/
+/*}*/

@@ -60,8 +60,15 @@ const pageLoad = () => {
  * @param flag  Query params for the page
  */
 const navToPage = (page, flag) => {
+    const nav = getId("navButton");
     const menu = getId("navMenu");
     const content = getId("content");
+    if (nav !== null) {
+        nav.style.visibility = "visible";
+        setTimeout(() => {
+            nav.style.opacity = "1";
+        }, 100);
+    }
     if (menu !== null && isMenuUp === true) {
         menu.style.opacity = "0";
         setTimeout(() => {
@@ -114,17 +121,46 @@ const navToPage = (page, flag) => {
     }, 300);
 };
 
-if (getId("navMenu") !== null) {
-    getId("navHome").addEventListener('click', () => {
-        navToPage("home");
-    });
+const toggleMenu = () => {
+    const menu = getId("navMenu");
+    const content = getId("content");
+    const nav = getId("navButton");
+    if (isMenuUp === false) {
+        menu.style.visibility = "visible";
+        if (nav !== null) {
+            nav.style.opacity = "0";
+            setTimeout(() => {
+               nav.style.visibility = "hidden";
+            }, 100);
+        }
+        setTimeout(() => {
+            menu.style.opacity = "1";
+            if (content !== null) {
+                content.style.filter = "blur(4px)";
+            }
+        });
+        isMenuUp = true;
+    } else {
+        menu.style.opacity = "0";
+        if (nav !== null) {
+            nav.style.visibility = "visible";
+            setTimeout(() => {
+                nav.style.opacity = "1";
+            }, 100);
+        }
+        setTimeout(() => {
+            menu.style.visibility = "hidden";
+            if (content !== null) {
+                content.style.filter = "none";
+            }
+        }, 100);
+        isMenuUp = false;
+    }
+};
 
-    getId("navFriends").addEventListener('click', () => {
-        navToPage("friends");
-    });
-
-    getId("navAvatars").addEventListener('click', () => {
-        navToPage("avatars");
+if (getId("navButton") !== null) {
+    getId("navButton").addEventListener('click', () => {
+        toggleMenu();
     });
 }
 
@@ -139,25 +175,7 @@ document.addEventListener('keyup', (e) => {
     }
     switch (e.key) {
         case "Escape": {
-            if (isMenuUp === false) {
-                menu.style.visibility = "visible";
-                setTimeout(() => {
-                    menu.style.opacity = "1";
-                    if (content !== null) {
-                        content.style.filter = "blur(4px)";
-                    }
-                });
-                isMenuUp = true;
-            } else {
-                menu.style.opacity = "0";
-                setTimeout(() => {
-                    menu.style.visibility = "hidden";
-                    if (content !== null) {
-                        content.style.filter = "none";
-                    }
-                }, 100);
-                isMenuUp = false;
-            }
+            toggleMenu();
             break;
         }
         case "F1": {
@@ -300,3 +318,22 @@ const disableDiv = (div) => {
 const enableDiv = (div) => {
     div.classList.remove("disabled");
 };
+
+if (getId("navMenu") !== null) {
+    getId("navHome").addEventListener('click', () => {
+        navToPage("home");
+    });
+
+    getId("navFriends").addEventListener('click', () => {
+        navToPage("friends");
+    });
+
+    getId("navAvatars").addEventListener('click', () => {
+        navToPage("avatars");
+    });
+
+    disableDiv(getId("navParser"));
+    disableDiv(getId("navWorlds"));
+    disableDiv(getId("navSocial"));
+    disableDiv(getId("navSettings"));
+}

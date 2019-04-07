@@ -2,7 +2,7 @@
  * Log HTTP requests by sending notifications
  * @type {boolean}
  */
-const notify = false;
+const notify = true;
 
 /**
  * Base API URL
