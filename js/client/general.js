@@ -139,21 +139,25 @@ const toggleMenu = () => {
                 content.style.filter = "blur(4px)";
             }
         });
+        popOut();
         isMenuUp = true;
     } else {
-        menu.style.opacity = "0";
         if (nav !== null) {
             nav.style.visibility = "visible";
             setTimeout(() => {
                 nav.style.opacity = "1";
-            }, 100);
+            }, 150);
         }
+        popIn();
         setTimeout(() => {
-            menu.style.visibility = "hidden";
-            if (content !== null) {
-                content.style.filter = "none";
-            }
-        }, 100);
+            menu.style.opacity = "0";
+            setTimeout(() => {
+                menu.style.visibility = "hidden";
+                if (content !== null) {
+                    content.style.filter = "none";
+                }
+            }, 100);
+        }, 150);
         isMenuUp = false;
     }
 };
@@ -355,3 +359,23 @@ if (getId("navMenu") !== null) {
     disableDiv(getId("navSocial"));
     disableDiv(getId("navSettings"));
 }
+
+const popOut = () => {
+    getId("navFriends").style.transform = "none";
+    getId("navAvatars").style.transform = "none";
+    getId("navParser").style.transform = "none";
+    getId("navWorlds").style.transform = "none";
+    getId("navSocial").style.transform = "none";
+    getId("navSettings").style.transform = "none";
+};
+
+const popIn = () => {
+    getId("navFriends").style.transform = "translate(80px, 160px)";
+    getId("navAvatars").style.transform = "translateX(-160px)";
+    getId("navParser").style.transform = "translate(-80px, -160px)";
+    getId("navWorlds").style.transform = "translateX(160px)";
+    getId("navSocial").style.transform = "translate(-80px, 160px)";
+    getId("navSettings").style.transform = "translate(80px, -160px)";
+};
+
+popIn();

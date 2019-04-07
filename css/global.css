@@ -294,11 +294,16 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:f
     font-size: 24px;
     user-select: none;
     cursor: pointer;
+    transition: transform 0.15s ease-in-out;
 }
 
 .navigator-container .nav-entry img {
     width: 160px;
     height: 160px;
+}
+
+#navHome {
+    z-index: 99;
 }
 
 .navigator-container {
@@ -414,7 +419,7 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:f
     width: 200px;
 
     position: absolute;
-    z-index: 1;
+    z-index: 101;
 }
 
 .tooltip:hover .tooltiptext {
