@@ -71,6 +71,7 @@ const navToPage = (page, flag) => {
     }
     if (menu !== null && isMenuUp === true) {
         menu.style.opacity = "0";
+        popIn();
         setTimeout(() => {
             menu.style.visibility = "hidden";
             if (content !== null) {
@@ -185,7 +186,6 @@ document.addEventListener('keydown', (e) => {
  */
 document.addEventListener('keyup', (e) => {
     const menu = getId("navMenu");
-    const content = getId("content");
     if (menu === undefined) {
         return;
     }
@@ -300,6 +300,24 @@ const getParameterByName = (name, url) => {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 };
 
+const popOut = () => {
+    getId("navFriends").style.transform = "none";
+    getId("navAvatars").style.transform = "none";
+    getId("navParser").style.transform = "none";
+    getId("navWorlds").style.transform = "none";
+    getId("navSocial").style.transform = "none";
+    getId("navSettings").style.transform = "none";
+};
+
+const popIn = () => {
+    getId("navFriends").style.transform = "translate(80px, 160px)";
+    getId("navAvatars").style.transform = "translateX(-160px)";
+    getId("navParser").style.transform = "translate(-80px, -160px)";
+    getId("navWorlds").style.transform = "translateX(160px)";
+    getId("navSocial").style.transform = "translate(-80px, 160px)";
+    getId("navSettings").style.transform = "translate(80px, -160px)";
+};
+
 /**
  * Finish loading and fade in the page
  */
@@ -358,24 +376,29 @@ if (getId("navMenu") !== null) {
     disableDiv(getId("navWorlds"));
     disableDiv(getId("navSocial"));
     disableDiv(getId("navSettings"));
+
+    getId("navExit").addEventListener('click', () => {
+        const menu = getId("navMenu");
+        const content = getId("content");
+        const nav = getId("navButton");
+        if (nav !== null) {
+            nav.style.visibility = "visible";
+            setTimeout(() => {
+                nav.style.opacity = "1";
+            }, 150);
+        }
+        popIn();
+        setTimeout(() => {
+            menu.style.opacity = "0";
+            setTimeout(() => {
+                menu.style.visibility = "hidden";
+                if (content !== null) {
+                    content.style.filter = "none";
+                }
+            }, 100);
+        }, 150);
+        isMenuUp = false;
+    });
 }
-
-const popOut = () => {
-    getId("navFriends").style.transform = "none";
-    getId("navAvatars").style.transform = "none";
-    getId("navParser").style.transform = "none";
-    getId("navWorlds").style.transform = "none";
-    getId("navSocial").style.transform = "none";
-    getId("navSettings").style.transform = "none";
-};
-
-const popIn = () => {
-    getId("navFriends").style.transform = "translate(80px, 160px)";
-    getId("navAvatars").style.transform = "translateX(-160px)";
-    getId("navParser").style.transform = "translate(-80px, -160px)";
-    getId("navWorlds").style.transform = "translateX(160px)";
-    getId("navSocial").style.transform = "translate(-80px, 160px)";
-    getId("navSettings").style.transform = "translate(80px, -160px)";
-};
 
 popIn();

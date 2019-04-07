@@ -427,6 +427,7 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:f
 }
 
 .nav-menu-button {
+    user-select: none;
     width: 96px;
     height: 96px;
     cursor: pointer;
@@ -493,4 +494,23 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:f
 
 .nav-hidden img {
     pointer-events: none;
+}
+
+.nav-exit {
+    user-select: none;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 64px;
+    height: 64px;
+    cursor: pointer;
+}
+
+.nav-exit:hover {
+    filter: brightness(80%);
+}
+
+.nav-exit img {
+    width: 64px;
+    height: 64px;
 }
