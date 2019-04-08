@@ -140,6 +140,47 @@ const removeFavorite = (id, callback) => {
 };
 
 /**
+ * List worlds with options
+ * https://vrchatapi.github.io/#/WorldAPI/ListWorlds
+ * @param options   Options
+ * @param callback  Callback function
+ */
+const getWorlds = (options, callback) => {
+    let queries = '?order=descending';
+    if (options.active === true) {
+        queries = "/active?order=descending";
+    }
+    if (options.recent === true) {
+        queries = "/recent?order=descending";
+    }
+    if (options.favorites === true) {
+        queries = "/favorites?order=descending";
+    }
+    if (options.releaseStatus !== undefined) {
+        queries += "&releaseStatus=" + options.releaseStatus;
+    }
+    if (options.sort !== undefined) {
+        queries += "&sort=" + options.sort;
+    }
+    if (options.userId !== undefined) {
+        queries += "&userId=" + options.userId;
+    }
+    if (options.offset !== undefined) {
+        queries += "&offset=" + options.offset;
+    }
+    if (options.amount !== undefined) {
+        queries += "&n=" + options.amount;
+    }
+    if (options.search !== undefined) {
+        queries += "&search=" + options.search;
+    }
+    sendGETRequest("/worlds" + queries, (data) => {
+        console.log("test1");
+        callback(data);
+    });
+};
+
+/**
  * List avatars with options
  * https://vrchatapi.github.io/#/AvatarAPI/ListAvatars
  * @param options   Options

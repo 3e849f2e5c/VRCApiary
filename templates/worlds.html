@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VRCApiary - Avatars</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../css/global.css">
+    <link rel="stylesheet" type="text/css" href="../css/avatars.css">
+    <link rel="stylesheet" type="text/css" href="../css/worlds.css">
+</head>
+<body>
+<div class="center-container loading-symbol" style="opacity: 1;">
+    <img src="../css/images/pageloading.png" alt="Now Loading" id="loadingIcon">
+</div>
+
+<div class="content-container" id="content" style="opacity: 0;">
+    <div class="avatars-container">
+        <div class="avatar-section">
+            <div class="box header">
+                Search
+                <div class="field-container">
+                    <label class="field-input">
+                        <input type="text" style="height: 32px; font-size: 32px; width: 50%; text-align: center;">
+                    </label>
+                </div>
+            </div>
+            <div id="searchWorlds" class="avatar-container">
+
+            </div>
+        </div>
+        <div class="avatar-section">
+            <div class="box header">
+                Community Spotlight
+            </div>
+            <div id="spotlightWorlds" class="avatar-container">
+                <div class="card-load-container">
+                    <div class="box card-load" id="spotlightLoad">
+                        <img src="../css/images/loadmore.png" alt="An error occurred">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="avatar-section">
+            <div class="box header">
+                Active
+            </div>
+            <div id="activeWorlds" class="avatar-container">
+                <div class="card-load-container">
+                    <div class="box card-load" id="activeLoad">
+                        <img src="../css/images/loadmore.png" alt="An error occurred">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="avatar-section">
+            <div class="box header">
+                Popular
+            </div>
+            <div id="popularWorlds" class="avatar-container">
+                <div class="card-load-container">
+                    <div class="box card-load" id="popularLoad">
+                        <img src="../css/images/loadmore.png" alt="An error occurred">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="avatar-section">
+            <div class="box header">
+                Avatar Worlds
+            </div>
+            <div id="avatarWorlds" class="avatar-container">
+                <div class="card-load-container">
+                    <div class="box card-load" id="avatarLoad">
+                        <img src="../css/images/loadmore.png" alt="An error occurred">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="avatar-section">
+            <div class="box header">
+                New
+            </div>
+            <div id="newWorlds" class="avatar-container">
+                <div class="card-load-container">
+                    <div class="box card-load" id="newLoad">
+                        <img src="../css/images/loadmore.png" alt="An error occurred">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="avatar-section">
+            <div class="box header">
+                Recently Updated
+            </div>
+            <div id="updatedWorlds" class="avatar-container">
+                <div class="card-load-container">
+                    <div class="box card-load" id="updatedLoad">
+                        <img src="../css/images/loadmore.png" alt="An error occurred">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="avatar-section">
+            <div class="box header">
+                History
+            </div>
+            <div id="historyWorlds" class="avatar-container">
+                <div class="card-load-container">
+                    <div class="box card-load" id="historyLoad">
+                        <img src="../css/images/loadmore.png" alt="An error occurred">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="avatar-section">
+            <div class="box header">
+                Mine
+            </div>
+            <div id="myWorlds" class="avatar-container">
+                <div class="card-load-container">
+                    <div class="box card-load" id="myLoad">
+                        <img src="../css/images/loadmore.png" alt="An error occurred">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="avatar-section">
+            <div class="box header">
+                Community Labs
+            </div>
+            <div id="labsWorlds" class="avatar-container">
+                <div class="card-load-container">
+                    <div class="box card-load" id="labsLoad">
+                        <img src="../css/images/loadmore.png" alt="An error occurred">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="avatar-section">
+            <div class="box header">
+                Favorites
+            </div>
+            <div id="favoriteWorlds" class="avatar-container">
+                <div class="card-load-container">
+                    <div class="box card-load" id="favoriteLoad">
+                        <img src="../css/images/loadmore.png" alt="An error occurred">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit menu -->
+<div class="navigation-menu" style="visibility: hidden; opacity: 0;" id="editMenu">
+    <div class="center-container">
+        <div class="box editor-container" id="editContent">
+        </div>
+    </div>
+</div>
+
+<div class="nav-menu-container">
+    <div class="nav-menu-button tooltip" id="navButton">
+        <img src="../css/images/logo/logo128.png">
+        <label class="tooltiptext tooltip-top">
+            Menu
+        </label>
+    </div>
+</div>
+
+<div class="navigation-menu" style="visibility: hidden; opacity: 0;" id="navMenu">
+    <div class="nav-exit" id="navExit">
+        <img src="../css/images/nav/exit.png" alt="An error occurred">
+    </div>
+    <div class="center-container">
+        <div class="navigator-container">
+            <div class="row">
+                <div class="nav-entry tooltip" id="navFriends">
+                    <img src="../css/images/nav/friends.png" alt="An error occurred">
+                    <label class="tooltiptext tooltip-top">
+                        Friends
+                    </label>
+                </div>
+                <div class="nav-entry tooltip" id="navSocial">
+                    <img src="../css/images/nav/social.png" alt="An error occurred">
+                    <label class="tooltiptext tooltip-top">
+                        Social
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="nav-entry tooltip" id="navWorlds">
+                    <img src="../css/images/nav/worlds.png" alt="An error occurred">
+                    <label class="tooltiptext tooltip-top">
+                        Worlds
+                    </label>
+                </div>
+                <div class="nav-entry tooltip" id="navHome">
+                    <img src="../css/images/nav/home.png" alt="An error occurred">
+                    <label class="tooltiptext tooltip-top">
+                        Home
+                    </label>
+                </div>
+                <div class="nav-entry tooltip" id="navAvatars">
+                    <img src="../css/images/nav/avatar.png" alt="An error occurred">
+                    <label class="tooltiptext tooltip-top">
+                        Avatars
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="nav-entry tooltip" id="navSettings">
+                    <img src="../css/images/nav/settings.png" alt="An error occurred">
+                    <label class="tooltiptext tooltip-top">
+                        Settings
+                    </label>
+                </div>
+
+                <div class="nav-entry tooltip" id="navParser">
+                    <img src="../css/images/nav/parser.png" alt="An error occurred">
+                    <label class="tooltiptext tooltip-top">
+                        Parser
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="status-bar status-bar-base" id="statusBar">
+    <div class="status-bar status-bar-color" style="opacity: 0" id="statusBarColor"></div>
+    <div class="status-bar status-bar-background" style="opacity: 0" id="statusBarBg"></div>
+    <div class="status-bar status-bar-filler" style="opacity: 0" id="statusBarFiller"></div>
+</div>
+<script src="../js/client/general.js"></script>
+<script src="../js/client/vrchat-api.js"></script>
+<script src="../js/client/statusBar.js"></script>
+<script src="../js/client/download.js"></script>
+<script src="../js/client/worlds.js"></script>
+</body>
+</html>

@@ -116,6 +116,13 @@ const navToPage = (page, flag) => {
             }
             break;
         }
+        case "worlds": {
+            destination = "./worlds.html";
+            if (flag !== undefined) {
+                destination += flag;
+            }
+            break;
+        }
     }
     setTimeout(() => {
         document.location = destination;
@@ -372,8 +379,12 @@ if (getId("navMenu") !== null) {
         navToPage("avatars");
     });
 
+
+    getId("navWorlds").addEventListener('click', () => {
+        navToPage("worlds");
+    });
+
     disableDiv(getId("navParser"));
-    disableDiv(getId("navWorlds"));
     disableDiv(getId("navSocial"));
     disableDiv(getId("navSettings"));
 
