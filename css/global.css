@@ -326,7 +326,9 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:f
 /** === CARDS === **/
 
 .card-description-container {
-    display: block;
+    font-size: 24px;
+    display: flex;
+    flex-direction: column;
     text-align: center;
     margin: 8px;
     margin-top: 0;
