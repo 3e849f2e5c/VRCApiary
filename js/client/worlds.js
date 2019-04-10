@@ -11,6 +11,8 @@ const prevNewWorlds = [];
 const newWorlds = getId("newWorlds");
 const newLoad = getId("newLoad");
 // history
+let historyPage = 0;
+const prevHistoryWorlds = [];
 const historyWorlds = getId("historyWorlds");
 const historyLoad = getId("historyLoad");
 // mine
@@ -99,6 +101,9 @@ const renderActive = () => {
                         createButton("Quick join", "button-green disabled", () => {
 
                         }),
+                        createButton("Set home", "button-green disabled", () => {
+
+                        }),
                         createButton("View author", "button-green", () => {
 
                         }),
@@ -143,6 +148,9 @@ const renderNew = () => {
                         createButton("Quick join", "button-green disabled", () => {
 
                         }),
+                        createButton("Set home", "button-green disabled", () => {
+
+                        }),
                         createButton("View author", "button-green", () => {
 
                         }),
@@ -180,7 +188,26 @@ const renderMine = () => {
                     }
                 }
                 if (was === false) {
-                    myWorlds.appendChild(createWorldEntry(wrld, []));
+                    myWorlds.appendChild(createWorldEntry(wrld, [
+                        createButton("Details", "button-green disabled", () => {
+
+                        }),
+                        createButton("Quick join", "button-green disabled", () => {
+
+                        }),
+                        createButton("Edit", "button-green", () => {
+
+                        }),
+                        createButton("Download", "button-green", () => {
+
+                        }),
+                        createButton("Remove", "button-red disabled", () => {
+
+                        }),
+                        createButton("Cancel", "button-red", () => {
+
+                        })
+                    ]));
                     prevMyWorlds.push(wrld.id);
                 }
             }
@@ -196,6 +223,53 @@ const renderMine = () => {
     });
 };
 
+const renderHistory = () => {
+    load();
+    disableDiv(historyLoad);
+    getWorlds({offset: historyPage, recent: true}, (data) => {
+        stopLoading();
+        if (data.error === undefined) {
+            for (let i = 0; i < data.length; i++) {
+                const wrld = data[i];
+                let was = false;
+                for (let j = 0; j < prevHistoryWorlds.length; j++) {
+                    if (wrld.id === prevHistoryWorlds[j]) {
+                        was = true;
+                    }
+                }
+                if (was === false) {
+                    historyWorlds.appendChild(createWorldEntry(wrld, [
+                        createButton("Details", "button-green disabled", () => {
+
+                        }),
+                        createButton("Quick join", "button-green disabled", () => {
+
+                        }),
+                        createButton("Set home", "button-green disabled", () => {
+
+                        }),
+                        createButton("View author", "button-green", () => {
+
+                        }),
+                        createButton("Cancel", "button-red", () => {
+
+                        })
+                    ]));
+                    prevHistoryWorlds.push(wrld.id);
+                }
+            }
+            const parent = historyLoad.parentElement;
+            historyWorlds.appendChild(parent);
+            newPage += 10;
+            blinkGreen();
+        } else {
+            blinkRed();
+            sendNotification("Error", data.error.message, getIconFor("error"));
+        }
+        enableDiv(historyLoad);
+    });
+};
+
 activeLoad.addEventListener('click', () => {
     renderActive();
 });
@@ -205,8 +279,8 @@ newLoad.addEventListener('click', () => {
 myLoad.addEventListener('click', () => {
     renderMine();
 });
-
-    // })
-// });
+historyLoad.addEventListener('click', () => {
+    renderHistory();
+});
 
 finishLoading();

@@ -175,7 +175,7 @@ const getWorlds = (options, callback) => {
         queries += "&search=" + options.search;
     }
     if (options.user !== undefined) {
-        queries += "&user=" + options.search;
+        queries += "&user=" + options.user;
     }
     sendGETRequest("/worlds" + queries, (data) => {
         console.log("test1");
