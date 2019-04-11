@@ -315,6 +315,19 @@ const getWorld = (worldId, callback) => {
 };
 
 /**
+ * Edit a world
+ * https://vrchatapi.github.io/#/AvatarAPI/SaveAvatar
+ * @param world         World ID
+ * @param update        Update data
+ * @param callback      Callback function
+ */
+const editWorld = (world, update, callback) => {
+    sendPUTRequest("/worlds/" + world, update, (data) => {
+        callback(data);
+    });
+};
+
+/**
  * Get cached VRChat world name
  * @param worldId   ID of the world
  * @param callback  Callback function
