@@ -105,8 +105,8 @@ const renderNotifications = (data) => {
         const notifyIcon = createElement("img", "notify-icon");
         notifyContainer.appendChild(notifyIcon);
         notifyIcon.src = "../css/images/notifications/friendrequest.png";
-        switch (notify.type) {
-            case "friendRequest":
+        switch (notify.type.toLowerCase()) {
+            case "friendrequest":
                 notifyIcon.title = "Friend request from " + notify.senderUsername;
                 notifyIcon.src = "../css/images/notifications/friendrequest.png";
                 break;
@@ -149,8 +149,8 @@ const openNotification = (data, element) => {
     const randomEnding = endings[Math.floor(Math.random() * endings.length)];
     message.readOnly = true;
     let details = JSON.parse(data.details);
-    switch (data.type) {
-        case "friendRequest":
+    switch (data.type.toLowerCase()) {
+        case "friendrequest":
             header.innerText = "Friend request";
             message.innerHTML = "Dear " + userData.displayName + ".\nI would like to be your friend.\n" + randomEnding + "\n    - " + data.senderUsername;
             buttonsContainer.appendChild(createButton("Accept", "button-green", (e) => {
