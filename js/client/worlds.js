@@ -95,8 +95,8 @@ const renderActive = () => {
                 }
                 if (was === false) {
                     activeWorlds.appendChild(createWorldEntry(wrld, [
-                        createButton("Details", "button-green disabled", () => {
-
+                        createButton("Details", "button-green", () => {
+                            navToPage("world", "?w=" + wrld.id + "&back=worlds")
                         }),
                         createButton("Quick join", "button-green disabled", () => {
 
@@ -143,7 +143,7 @@ const renderNew = () => {
                 if (was === false) {
                     newWorlds.appendChild(createWorldEntry(wrld, [
                         createButton("Details", "button-green disabled", () => {
-
+                            navToPage("world", "?w=" + wrld.id + "&back=worlds")
                         }),
                         createButton("Quick join", "button-green disabled", () => {
 
@@ -190,7 +190,7 @@ const renderMine = () => {
                 if (was === false) {
                     myWorlds.appendChild(createWorldEntry(wrld, [
                         createButton("Details", "button-green disabled", () => {
-
+                            navToPage("world", "?w=" + wrld.id + "&back=worlds")
                         }),
                         createButton("Quick join", "button-green disabled", () => {
 
@@ -240,15 +240,12 @@ const renderHistory = () => {
                 if (was === false) {
                     historyWorlds.appendChild(createWorldEntry(wrld, [
                         createButton("Details", "button-green disabled", () => {
-
+                            navToPage("world", "?w=" + wrld.id + "&back=worlds")
                         }),
                         createButton("Quick join", "button-green disabled", () => {
 
                         }),
                         createButton("Set home", "button-green disabled", () => {
-
-                        }),
-                        createButton("View author", "button-green", () => {
 
                         }),
                         createButton("Cancel", "button-red", () => {

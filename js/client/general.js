@@ -123,6 +123,13 @@ const navToPage = (page, flag) => {
             }
             break;
         }
+        case "world": {
+            destination = "./world.html";
+            if (flag !== undefined) {
+                destination += flag;
+            }
+            break;
+        }
     }
     setTimeout(() => {
         document.location = destination;
