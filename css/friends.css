@@ -71,6 +71,9 @@ body {
     width: 100%;
     font-size: 28px;
     text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .friend-world-container {

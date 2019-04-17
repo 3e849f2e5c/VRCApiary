@@ -137,6 +137,14 @@ const navToPage = (page, flag) => {
             }
             break;
         }
+
+        case "social": {
+            destination = "./social.html";
+            if (flag !== undefined) {
+                destination += flag;
+            }
+            break;
+        }
     }
     setTimeout(() => {
         document.location = destination;
@@ -400,6 +408,23 @@ const localStoragePut = (name, sibling, data) => {
     storage.setItem(name, JSON.stringify(json));
 };
 
+const localStorageSet = (name, sibling, data) => {
+    const storage = window.localStorage;
+    if (storage.getItem(name) === null) {
+        storage.setItem(name, "{}");
+    }
+    const json = JSON.parse(storage.getItem(name));
+    json[sibling] = [];
+    if (Array.isArray(data)) {
+        for (let i = 0; i < data.length; i++) {
+            json[sibling].push(data[i]);
+        }
+    } else {
+        json[sibling].push(data);
+    }
+    storage.setItem(name, JSON.stringify(json));
+};
+
 const localStorageFetch = (name, sibling) => {
     const storage = window.localStorage;
     if (storage.getItem(name) === null) {
@@ -479,7 +504,9 @@ if (getId("navMenu") !== null) {
     });
 
     disableDiv(getId("navParser"));
-    disableDiv(getId("navSocial"));
+    getId("navSocial").addEventListener('click', () => {
+        navToPage("social");
+    });
     disableDiv(getId("navSettings"));
 
     getId("navExit").addEventListener('click', () => {

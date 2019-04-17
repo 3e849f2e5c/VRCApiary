@@ -1,5 +1,27 @@
 let avatarPage = 0;
 
+let worldPage = 0;
+const publicWorlds = getId("publicWorlds");
+const worldsLoad = getId("worldsLoad");
+
+const setHome = (wrld) => {
+    load();
+    const userData = JSON.parse(window.localStorage.getItem("userData"));
+    editUser(userData.id, {
+        homeLocation: wrld.id
+    }, (data) => {
+        stopLoading();
+        if (data.error === undefined) {
+            window.localStorage.setItem("userData", JSON.stringify(data));
+            sendNotification("Home world set", wrld.name, getIconFor("ok"));
+            blinkGreen();
+        } else {
+            sendError(data, "VRChat API");
+            blinkRed();
+        }
+    })
+};
+
 const renderPage = (profile) => {
     const publicLoad = getId("publicLoad");
     publicLoad.addEventListener("click", () => {
@@ -18,6 +40,10 @@ const renderPage = (profile) => {
                 sendError(data, "VRChat API");
             }
         })
+    });
+
+    worldsLoad.addEventListener('click', () => {
+        renderWorlds(profile.id);
     });
 
     // let isFriend = (profile.friendKey !== undefined);
@@ -202,6 +228,98 @@ const addKeepsake = (avatar) => {
     json.push(avatar);
     localStorage.setItem("keepsakes", JSON.stringify(json));
     blinkGreen();
+};
+
+const renderWorlds = (id) => {
+    const loadWorlds = (data) => {
+        for (let i = 0; i < data.length; i++) {
+            const wrld = data[i];
+            publicWorlds.appendChild(createPublicWorldEntry(wrld, [
+                createButton("Details", "button-green", () => {
+                    navWithBacktags("world", "?w=" + wrld.id, "profile", "?u=" + id);
+                }),
+                createButton("Quick join", "button-green", () => {
+                    createAndJoinWorld(wrld.id);
+                }),
+                createButton("Set home", "button-green", () => {
+                    setHome(wrld);
+                }),
+                createButton("Cancel", "button-red", () => {
+
+                })
+            ]));
+        }
+        const parent = worldsLoad.parentElement;
+        publicWorlds.appendChild(parent);
+    };
+    load();
+    disableDiv(worldsLoad);
+    getWorlds({userId: id, offset: worldPage}, (data) => {
+        stopLoading();
+        if (data.error === undefined) {
+            loadWorlds(data);
+            worldPage += 10;
+            blinkGreen();
+        } else {
+            blinkRed();
+            sendError(data, "VRChat API");
+        }
+        enableDiv(worldsLoad);
+    });
+};
+
+const createWorldEntry = (world, id, name, image, status, extra) => {
+    const entryContainer = createElement("div", "box card-entry-container");
+    const entryOptions = createElement("div", "card-options");
+    const entryDeleteTimeout = createElement("div", "card-options card-remove-timeout");
+    const avatarContainer = createElement("div", "card-inner-container");
+    const avatarName = createElement("a", "card-name", name);
+    const avatarImage = createElement("img", "card-image");
+    avatarImage.setAttribute("src", image);
+    switch (status) {
+        case "private": {
+            avatarImage.style.borderColor = "red";
+            break;
+        }
+        case "public": {
+            avatarImage.style.borderColor = "aqua";
+            break;
+        }
+    }
+
+    if (world.tags.indexOf("system_labs") !== -1) {
+        avatarImage.style.borderColor = "green";
+    }
+    avatarContainer.addEventListener('click', () => {
+        entryOptions.style.visibility = "visible";
+    });
+    avatarContainer.setAttribute("title", name);
+    avatarContainer.appendChild(avatarName);
+    avatarContainer.appendChild(avatarImage);
+    entryContainer.appendChild(avatarContainer);
+    if (extra !== undefined && extra.length !== 0) {
+        for (let i = 0; i < extra.length; i++) {
+            extra[i].addEventListener('click', () => {
+                entryOptions.style.visibility = "hidden";
+            });
+            entryOptions.appendChild(extra[i]);
+        }
+    }
+    const cardDescription = createElement("div", "card-description-container");
+    const heatBar = createElement("div", "box heat-bar");
+    const heatPercentage = Math.floor((world.heat * 100) / 7);
+    heatBar.style.background = "linear-gradient(90deg, #CB772F " + heatPercentage + "%, rgba(0,0,0,0) " + heatPercentage + "%, rgba(0,0,0,0) 100%)";
+    heatBar.title = "Heat";
+    cardDescription.appendChild(heatBar);
+    cardDescription.appendChild(createElement("a", "", "Users: " + world.occupants));
+    entryContainer.appendChild(cardDescription);
+    entryContainer.appendChild(entryOptions);
+    entryContainer.appendChild(entryDeleteTimeout);
+    return entryContainer;
+};
+
+const createPublicWorldEntry = (world, buttons) => {
+    return createWorldEntry(world, world.id, world.name, world.thumbnailImageUrl, world.releaseStatus, buttons)
 };
 
 const createEntry = (id, name, image, status, extra) => {

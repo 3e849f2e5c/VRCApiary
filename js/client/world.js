@@ -57,7 +57,7 @@ const createWorldEntry = (instance, world) => {
         createButton("Join", "button-green", () => {
             joinWorld(world.id + ":" + instance[0].toString());
         }),
-        createButton("Invite friends", "button-green", () => {
+        createButton("Invite friends", "button-green disabled", () => {
 
         }),
         createButton("Preview", "button-green", () => {

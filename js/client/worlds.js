@@ -1,5 +1,6 @@
 // search
 const searchWorlds = getId("searchWorlds");
+const searchField = getId("searchInput");
 // active
 let activePage = 0;
 let prevActiveWorlds = [];
@@ -20,9 +21,9 @@ let myPage = 0;
 const prevMyWorlds = [];
 const myWorlds = getId("myWorlds");
 const myLoad = getId("myLoad");
-// favorites
-const favoriteWorlds = getId("favoriteWorlds");
-const favoriteLoad = getId("favoriteLoad");
+// TODO favorites
+// const favoriteWorlds = getId("favoriteWorlds");
+// const favoriteLoad = getId("favoriteLoad");
 
 const setHome = (wrld) => {
     load();
@@ -96,6 +97,56 @@ const createWorldEntry = (world, buttons) => {
     return createEntry(world, world.id, world.name, world.thumbnailImageUrl, world.releaseStatus, buttons)
 };
 
+searchField.addEventListener("keyup", (e) => {
+    if (e.key === "Enter" && searchField.classList.contains("disabled") === false) {
+        if (searchField.value !== "") {
+            renderSearch(encodeURIComponent(searchField.value));
+        }
+    }
+});
+
+const renderSearch = (word, cache) => {
+    const loadWorlds = (data) => {
+        for (let i = 0; i < data.length; i++) {
+            const wrld = data[i];
+            searchWorlds.appendChild(createWorldEntry(wrld, [
+                createButton("Details", "button-green", () => {
+                    navWithBacktags("world", "?w=" + wrld.id, "worlds", "?cache=1");
+                }),
+                createButton("Quick join", "button-green", () => {
+                    createAndJoinWorld(wrld.id);
+                }),
+                createButton("Set home", "button-green", () => {
+                    setHome(wrld);
+                }),
+                createButton("Cancel", "button-red", () => {
+
+                })
+            ]));
+        }
+    };
+
+    if (cache !== undefined && cache !== null) {
+        loadWorlds(cache);
+    } else {
+        load();
+        disableDiv(searchField);
+        getWorlds({search: word, amount: 25}, (data) => {
+            stopLoading();
+            if (data.error === undefined) {
+                localStorageSet("worldsList", "search", data);
+                searchWorlds.innerHTML = '';
+                loadWorlds(data);
+                blinkGreen();
+            } else {
+                blinkRed();
+                sendError(data, "VRChat API");
+            }
+            enableDiv(searchField);
+        });
+    }
+};
+
 // activeLoad.addEventListener("click", () => {
 const renderActive = (cache) => {
     const loadWorlds = (data) => {
@@ -164,7 +215,7 @@ const renderNew = (cache) => {
             if (was === false) {
                 newWorlds.appendChild(createWorldEntry(wrld, [
                     createButton("Details", "button-green", () => {
-                        navToPage("world", "?w=" + wrld.id + "&back=worlds&backtags=" + encodeURIComponent("?cache=1"));
+                        navWithBacktags("world", "?w=" + wrld.id, "worlds", "?cache=1");
                     }),
                     createButton("Quick join", "button-green", () => {
                         createAndJoinWorld(wrld.id);
@@ -238,7 +289,7 @@ const renderMine = (cache) => {
                                     stopLoading();
                                     blinkGreen();
                                 } else {
-                                    sendError({error:{message:"World was not uploaded with future proofing enabled."}}, "VRCApiary");
+                                    sendError({error: {message: "World was not uploaded with future proofing enabled."}}, "VRCApiary");
                                     stopLoading();
                                     blinkRed();
                                 }
@@ -297,7 +348,7 @@ const renderHistory = (cache) => {
             if (was === false) {
                 historyWorlds.appendChild(createWorldEntry(wrld, [
                     createButton("Details", "button-green", () => {
-                        navToPage("world", "?w=" + wrld.id + "&back=worlds&backtags=" + encodeURIComponent("?cache=1"));
+                        navWithBacktags("world", "?w=" + wrld.id, "worlds", "?cache=1");
                     }),
                     createButton("Quick join", "button-green", () => {
                         createAndJoinWorld(wrld.id);
@@ -505,6 +556,11 @@ historyLoad.addEventListener('click', () => {
 });
 
 if (getParameterByName("cache") === "1") {
+    const search = localStorageFetch("worldsList", "search");
+    if (search !== null && search !== undefined) {
+        renderSearch("", search);
+    }
+
     const active = localStorageFetch("worldsList", "active");
     if (active !== null && active !== undefined) {
         renderActive(active);

@@ -140,6 +140,28 @@ const removeFavorite = (id, callback) => {
 };
 
 /**
+ * List users with options
+ * https://vrchatapi.github.io/#/UserAPI/List
+ * @param options   Options
+ * @param callback  Callback function
+ */
+const getUsers = (options, callback) => {
+    let queries = '?order=descending';
+    if (options.offset !== undefined) {
+        queries += "&offset=" + options.offset;
+    }
+    if (options.amount !== undefined) {
+        queries += "&n=" + options.amount;
+    }
+    if (options.search !== undefined) {
+        queries += "&search=" + options.search;
+    }
+    sendGETRequest("/users" + queries, (data) => {
+        callback(data);
+    });
+};
+
+/**
  * List worlds with options
  * https://vrchatapi.github.io/#/WorldAPI/ListWorlds
  * @param options   Options
