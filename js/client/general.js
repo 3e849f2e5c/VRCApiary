@@ -152,7 +152,7 @@ const toggleMenu = () => {
         if (nav !== null) {
             nav.style.opacity = "0";
             setTimeout(() => {
-               nav.style.visibility = "hidden";
+                nav.style.visibility = "hidden";
             }, 100);
         }
         setTimeout(() => {
@@ -359,9 +359,9 @@ const finishLoading = () => {
  * @return {Electron.WebviewTag}
  */
 const createButton = (text, color, func) => {
-	const div = createElement("div", "button " + color, text);
-	div.addEventListener("click", func);
-	return div;
+    const div = createElement("div", "button " + color, text);
+    div.addEventListener("click", func);
+    return div;
 };
 
 /**
@@ -378,6 +378,44 @@ const disableDiv = (div) => {
  */
 const enableDiv = (div) => {
     div.classList.remove("disabled");
+};
+
+const localStoragePut = (name, sibling, data) => {
+    const storage = window.localStorage;
+    if (storage.getItem(name) === null) {
+        storage.setItem(name, "{}");
+    }
+    const json = JSON.parse(storage.getItem(name));
+    if (json[sibling] === undefined || json[sibling] === null) {
+        json[sibling] = [];
+    }
+
+    if (Array.isArray(data)) {
+        for (let i = 0; i < data.length; i++) {
+            json[sibling].push(data[i]);
+        }
+    } else {
+        json[sibling].push(data);
+    }
+    storage.setItem(name, JSON.stringify(json));
+};
+
+const localStorageFetch = (name, sibling) => {
+    const storage = window.localStorage;
+    if (storage.getItem(name) === null) {
+        return null;
+    }
+    const json = JSON.parse(storage.getItem(name));
+    if (json[sibling] !== undefined && json[sibling] !== null) {
+
+        return json[sibling];
+    }
+    return null;
+};
+
+const localStorageClear = (name) => {
+    const storage = window.localStorage;
+    storage.setItem(name, "{}")
 };
 
 if (getId("navMenu") !== null) {

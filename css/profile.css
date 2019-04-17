@@ -108,3 +108,16 @@
     padding-top: 14px;
     padding-bottom: 13px;
 }
+
+.description-area {
+    padding: 4px;
+    font-family: 'Roboto', roboto, sans-serif;
+    background-color: #373737;
+    color: #A9B7C6;
+    font-size: 28px;
+    border: 1px solid black;
+    resize: none;
+    width: calc(100% - 24px);
+    height: 100px;
+    margin-bottom: 4px;
+}

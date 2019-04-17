@@ -79,192 +79,250 @@ const createWorldEntry = (world, buttons) => {
 };
 
 // activeLoad.addEventListener("click", () => {
-const renderActive = () => {
-    load();
-    disableDiv(activeLoad);
-    getWorlds({active: true, offset: activePage}, (data) => {
-        stopLoading();
-        if (data.error === undefined) {
-            for (let i = 0; i < data.length; i++) {
-                const wrld = data[i];
-                let was = false;
-                for (let j = 0; j < prevActiveWorlds.length; j++) {
-                    if (wrld.id === prevActiveWorlds[j]) {
-                        was = true;
-                    }
-                }
-                if (was === false) {
-                    activeWorlds.appendChild(createWorldEntry(wrld, [
-                        createButton("Details", "button-green", () => {
-                            navToPage("world", "?w=" + wrld.id + "&back=worlds")
-                        }),
-                        createButton("Quick join", "button-green disabled", () => {
-
-                        }),
-                        createButton("Set home", "button-green disabled", () => {
-
-                        }),
-                        createButton("View author", "button-green", () => {
-
-                        }),
-                        createButton("Cancel", "button-red", () => {
-
-                        })
-                    ]));
-                    prevActiveWorlds.push(wrld.id);
+const renderActive = (cache) => {
+    const loadWorlds = (data) => {
+        for (let i = 0; i < data.length; i++) {
+            const wrld = data[i];
+            let was = false;
+            for (let j = 0; j < prevActiveWorlds.length; j++) {
+                if (wrld.id === prevActiveWorlds[j]) {
+                    was = true;
                 }
             }
-            const parent = activeLoad.parentElement;
-            activeWorlds.appendChild(parent);
-            activePage += 10;
-            blinkGreen();
-        } else {
-            blinkRed();
-            sendError(data, "VRChat API");
+            if (was === false) {
+                activeWorlds.appendChild(createWorldEntry(wrld, [
+                    createButton("Details", "button-green", () => {
+                        navToPage("world", "?w=" + wrld.id + "&back=worlds&backtags=" + encodeURIComponent("?cache=1"));
+                    }),
+                    createButton("Quick join", "button-green disabled", () => {
+
+                    }),
+                    createButton("Set home", "button-green disabled", () => {
+
+                    }),
+                    createButton("View author", "button-green", () => {
+
+                    }),
+                    createButton("Cancel", "button-red", () => {
+
+                    })
+                ]));
+                prevActiveWorlds.push(wrld.id);
+            }
         }
-        enableDiv(activeLoad);
-    });
+        const parent = activeLoad.parentElement;
+        activeWorlds.appendChild(parent);
+    };
+
+    if (cache !== undefined && cache !== null) {
+        loadWorlds(cache);
+        activePage = cache.length;
+    } else {
+        load();
+        disableDiv(activeLoad);
+        getWorlds({active: true, offset: activePage}, (data) => {
+            stopLoading();
+            if (data.error === undefined) {
+                localStoragePut("worldsList", "active", data);
+                loadWorlds(data);
+                activePage += 11;
+                blinkGreen();
+            } else {
+                blinkRed();
+                sendError(data, "VRChat API");
+            }
+            enableDiv(activeLoad);
+        });
+    }
 };
 
-const renderNew = () => {
-    load();
-    disableDiv(newLoad);
-    getWorlds({offset: newPage, sort: "created"}, (data) => {
-        stopLoading();
-        if (data.error === undefined) {
-            for (let i = 0; i < data.length; i++) {
-                const wrld = data[i];
-                let was = false;
-                for (let j = 0; j < prevNewWorlds.length; j++) {
-                    if (wrld.id === prevNewWorlds[j]) {
-                        was = true;
-                    }
-                }
-                if (was === false) {
-                    newWorlds.appendChild(createWorldEntry(wrld, [
-                        createButton("Details", "button-green disabled", () => {
-                            navToPage("world", "?w=" + wrld.id + "&back=worlds")
-                        }),
-                        createButton("Quick join", "button-green disabled", () => {
-
-                        }),
-                        createButton("Set home", "button-green disabled", () => {
-
-                        }),
-                        createButton("View author", "button-green", () => {
-
-                        }),
-                        createButton("Cancel", "button-red", () => {
-
-                        })
-                    ]));
-                    prevNewWorlds.push(wrld.id);
+const renderNew = (cache) => {
+    const loadWorlds = (data) => {
+        for (let i = 0; i < data.length; i++) {
+            const wrld = data[i];
+            let was = false;
+            for (let j = 0; j < prevNewWorlds.length; j++) {
+                if (wrld.id === prevNewWorlds[j]) {
+                    was = true;
                 }
             }
-            const parent = newLoad.parentElement;
-            newWorlds.appendChild(parent);
-            newPage += 10;
-            blinkGreen();
-        } else {
-            blinkRed();
-            sendError(data, "VRChat API");
+            if (was === false) {
+                newWorlds.appendChild(createWorldEntry(wrld, [
+                    createButton("Details", "button-green", () => {
+                        navToPage("world", "?w=" + wrld.id + "&back=worlds&backtags=" + encodeURIComponent("?cache=1"));
+                    }),
+                    createButton("Quick join", "button-green disabled", () => {
+
+                    }),
+                    createButton("Set home", "button-green disabled", () => {
+
+                    }),
+                    createButton("View author", "button-green", () => {
+
+                    }),
+                    createButton("Cancel", "button-red", () => {
+
+                    })
+                ]));
+                prevNewWorlds.push(wrld.id);
+            }
         }
-        enableDiv(newLoad);
-    });
+        const parent = newLoad.parentElement;
+        newWorlds.appendChild(parent);
+    };
+    if (cache !== undefined && cache !== null) {
+        loadWorlds(cache);
+        newPage = cache.length;
+    } else {
+        load();
+        disableDiv(newLoad);
+        getWorlds({offset: newPage, sort: "created"}, (data) => {
+            stopLoading();
+            if (data.error === undefined) {
+                localStoragePut("worldsList", "new", data);
+                loadWorlds(data);
+                newPage += 10;
+                blinkGreen();
+            } else {
+                blinkRed();
+                sendError(data, "VRChat API");
+            }
+            enableDiv(newLoad);
+        });
+    }
+
 };
 
-const renderMine = () => {
-    load();
-    disableDiv(myLoad);
-    getWorlds({offset: myPage, sort: "created", user: "me", releaseStatus: "all"}, (data) => {
-        stopLoading();
-        if (data.error === undefined) {
-            for (let i = 0; i < data.length; i++) {
-                const wrld = data[i];
-                let was = false;
-                for (let j = 0; j < prevMyWorlds.length; j++) {
-                    if (wrld.id === prevMyWorlds[j]) {
-                        was = true;
-                    }
-                }
-                if (was === false) {
-                    myWorlds.appendChild(createWorldEntry(wrld, [
-                        createButton("Details", "button-green disabled", () => {
-                            navToPage("world", "?w=" + wrld.id + "&back=worlds")
-                        }),
-                        createButton("Quick join", "button-green disabled", () => {
-
-                        }),
-                        createButton("Edit", "button-green", () => {
-                            editWorldPopup(wrld);
-                        }),
-                        createButton("Download", "button-green", () => {
-
-                        }),
-                        createButton("Remove", "button-red disabled", () => {
-
-                        }),
-                        createButton("Cancel", "button-red", () => {
-
-                        })
-                    ]));
-                    prevMyWorlds.push(wrld.id);
+const renderMine = (cache) => {
+    const loadWorlds = (data) => {
+        for (let i = 0; i < data.length; i++) {
+            const wrld = data[i];
+            let was = false;
+            for (let j = 0; j < prevMyWorlds.length; j++) {
+                if (wrld.id === prevMyWorlds[j]) {
+                    was = true;
                 }
             }
-            const parent = myLoad.parentElement;
-            myWorlds.appendChild(parent);
-            myPage += 10;
-            blinkGreen();
-        } else {
-            blinkRed();
-            sendError(data, "VRChat API");
+            if (was === false) {
+                myWorlds.appendChild(createWorldEntry(wrld, [
+                    createButton("Details", "button-green", () => {
+                        navToPage("world", "?w=" + wrld.id + "&back=worlds&backtags=" + encodeURIComponent("?cache=1"));
+                    }),
+                    createButton("Quick join", "button-green disabled", () => {
+
+                    }),
+                    createButton("Edit", "button-green", () => {
+                        editWorldPopup(wrld);
+                    }),
+                    createButton("Download", "button-green", (e) => {
+                        load();
+                        disableDiv(e.srcElement);
+                        getWorld(wrld.id, (data) => {
+                            enableDiv(e.srcElement);
+                            if (data.error === undefined) {
+                                if (data.unityPackageUrl !== "") {
+                                    sendNotification("Download started", wrld.name, getIconFor("ok"));
+                                    downloadFile(data.unityPackageUrl);
+                                    stopLoading();
+                                    blinkGreen();
+                                } else {
+                                    sendError({error:{message:"World was not uploaded with future proofing enabled."}}, "VRCApiary");
+                                    stopLoading();
+                                    blinkRed();
+                                }
+                            } else {
+                                sendError(data, "VRChat API");
+                                stopLoading();
+                                blinkRed();
+                            }
+                        });
+                    }),
+                    createButton("Remove", "button-red disabled", () => {
+
+                    }),
+                    createButton("Cancel", "button-red", () => {
+
+                    })
+                ]));
+                prevMyWorlds.push(wrld.id);
+            }
         }
-        enableDiv(myLoad);
-    });
+        const parent = myLoad.parentElement;
+        myWorlds.appendChild(parent);
+    };
+    if (cache !== undefined && cache !== null) {
+        loadWorlds(cache);
+        myPage = cache.length;
+    } else {
+        load();
+        disableDiv(myLoad);
+        getWorlds({offset: myPage, sort: "created", user: "me", releaseStatus: "all"}, (data) => {
+            stopLoading();
+            if (data.error === undefined) {
+                localStoragePut("worldsList", "mine", data);
+                loadWorlds(data);
+                myPage += 10;
+                blinkGreen();
+            } else {
+                blinkRed();
+                sendError(data, "VRChat API");
+            }
+            enableDiv(myLoad);
+        });
+    }
 };
 
-const renderHistory = () => {
-    load();
-    disableDiv(historyLoad);
-    getWorlds({offset: historyPage, recent: true}, (data) => {
-        stopLoading();
-        if (data.error === undefined) {
-            for (let i = 0; i < data.length; i++) {
-                const wrld = data[i];
-                let was = false;
-                for (let j = 0; j < prevHistoryWorlds.length; j++) {
-                    if (wrld.id === prevHistoryWorlds[j]) {
-                        was = true;
-                    }
-                }
-                if (was === false) {
-                    historyWorlds.appendChild(createWorldEntry(wrld, [
-                        createButton("Details", "button-green disabled", () => {
-                            navToPage("world", "?w=" + wrld.id + "&back=worlds")
-                        }),
-                        createButton("Quick join", "button-green disabled", () => {
-
-                        }),
-                        createButton("Set home", "button-green disabled", () => {
-
-                        }),
-                        createButton("Cancel", "button-red", () => {
-
-                        })
-                    ]));
-                    prevHistoryWorlds.push(wrld.id);
+const renderHistory = (cache) => {
+    const loadWorlds = (data) => {
+        for (let i = 0; i < data.length; i++) {
+            const wrld = data[i];
+            let was = false;
+            for (let j = 0; j < prevHistoryWorlds.length; j++) {
+                if (wrld.id === prevHistoryWorlds[j]) {
+                    was = true;
                 }
             }
-            const parent = historyLoad.parentElement;
-            historyWorlds.appendChild(parent);
-            newPage += 10;
-            blinkGreen();
-        } else {
-            blinkRed();
-            sendError(data, "VRChat API");
+            if (was === false) {
+                historyWorlds.appendChild(createWorldEntry(wrld, [
+                    createButton("Details", "button-green", () => {
+                        navToPage("world", "?w=" + wrld.id + "&back=worlds&backtags=" + encodeURIComponent("?cache=1"));
+                    }),
+                    createButton("Quick join", "button-green disabled", () => {
+
+                    }),
+                    createButton("Set home", "button-green disabled", () => {
+
+                    }),
+                    createButton("Cancel", "button-red", () => {
+
+                    })
+                ]));
+                prevHistoryWorlds.push(wrld.id);
+            }
         }
-        enableDiv(historyLoad);
-    });
+        const parent = historyLoad.parentElement;
+        historyWorlds.appendChild(parent);
+    };
+    if (cache !== undefined && cache !== null) {
+        loadWorlds(cache);
+        historyPage = cache.length;
+    } else {
+        load();
+        disableDiv(historyLoad);
+        getWorlds({offset: historyPage, recent: true}, (data) => {
+            stopLoading();
+            if (data.error === undefined) {
+                localStoragePut("worldsList", "history", data);
+                loadWorlds(data);
+                historyPage += 10;
+                blinkGreen();
+            } else {
+                blinkRed();
+                sendError(data, "VRChat API");
+            }
+            enableDiv(historyLoad);
+        });
+    }
 };
 
 const editWorldPopup = (world) => {
@@ -388,7 +446,7 @@ const editWorldPopup = (world) => {
                     }
                 })
             } else {
-                sendError({error:{message:"Image must be a direct link to an image"}}, "VRCApiary");
+                sendError({error: {message: "Image must be a direct link to an image"}}, "VRCApiary");
             }
         }
     }));
@@ -434,4 +492,27 @@ historyLoad.addEventListener('click', () => {
     renderHistory();
 });
 
+if (getParameterByName("cache") === "1") {
+    const active = localStorageFetch("worldsList", "active");
+    if (active !== null && active !== undefined) {
+        renderActive(active);
+    }
+
+    const news = localStorageFetch("worldsList", "new");
+    if (news !== null && news !== undefined) {
+        renderNew(news);
+    }
+
+    const mine = localStorageFetch("worldsList", "mine");
+    if (mine !== null && mine !== undefined) {
+        renderMine(mine);
+    }
+
+    const history = localStorageFetch("worldsList", "history");
+    if (history !== null && history !== undefined) {
+        renderHistory(history);
+    }
+} else {
+    localStorageClear("worldsList");
+}
 finishLoading();

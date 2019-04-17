@@ -8,16 +8,22 @@ const renderPage = (world) => {
     getId("avatar-image").src = world.thumbnailImageUrl;
     if (world.description !== undefined) {
         if (world.description === "") {
-            getId("status").innerText = "None";
+            getId("description").innerText = "None";
         } else {
-            getId("status").innerText = world.description;
+            getId("description").innerText = world.description;
         }
+    }
+
+    try {
+        getId("status").innerText = ("" + world.visits).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    } catch (e) {
+        sendError({error:{message:"Parsing error: " + e.message}}, "VRCApiary");
     }
 
     if (world.releaseStatus !== undefined) {
         switch (world.releaseStatus) {
             case "public": {
-                if (world.tags.indexOf("system_labs")) {
+                if (world.tags.indexOf("system_labs") !== -1) {
                     getId("avatar-image").setAttribute("style", "border-color: green;");
                 } else {
                     getId("avatar-image").setAttribute("style", "border-color: aqua;");
@@ -30,71 +36,6 @@ const renderPage = (world) => {
             }
         }
     }
-
-    // const trustMeterShrinker = getId("trustBarShrink");
-    // const trustBar = getId("trustBar");
-    // const trustImage = getId("trustImage");
-    // const trustInfo = getId("trustInfo");
-    //
-    // switch (tagsToTrustRank(world.tags)) {
-    //     case -2: {
-    //         trustMeterShrinker.style.width = "100%";
-    //         trustImage.setAttribute("src", "../css/images/trust/0.png");
-    //         trustInfo.innerText = "Nuisance";
-    //         trustMeterShrinker.style.width = "0";
-    //         trustBar.style.backgroundColor = "#ff2328";
-    //         break;
-    //     }
-    //     case -1: {
-    //         trustMeterShrinker.style.width = "50%";
-    //         trustImage.setAttribute("src", "../css/images/trust/1.png");
-    //         trustInfo.innerText = "Troll";
-    //         trustBar.style.backgroundColor = "#ff2328";
-    //         break;
-    //     }
-    //     case 0: {
-    //         trustMeterShrinker.style.width = "83%";
-    //         trustImage.setAttribute("src", "../css/images/trust/2.png");
-    //         trustInfo.innerText = "Visitor";
-    //         trustBar.style.backgroundColor = "#cccccc";
-    //         break;
-    //     }
-    //     case 1: {
-    //         trustMeterShrinker.style.width = "66.4%";
-    //         trustImage.setAttribute("src", "../css/images/trust/3.png");
-    //         trustInfo.innerText = "New User";
-    //         trustBar.style.backgroundColor = "#1778ff";
-    //         break;
-    //     }
-    //     case 2: {
-    //         trustMeterShrinker.style.width = "49.8%";
-    //         trustImage.setAttribute("src", "../css/images/trust/4.png");
-    //         trustInfo.innerText = "User";
-    //         trustBar.style.backgroundColor = "#2bcf5c";
-    //         break;
-    //     }
-    //     case 3: {
-    //         trustMeterShrinker.style.width = "33.2%";
-    //         trustInfo.innerText = "Known User";
-    //         trustImage.setAttribute("src", "../css/images/trust/5.png");
-    //         trustBar.style.backgroundColor = "#ff7b42";
-    //         break;
-    //     }
-    //     case 4: {
-    //         trustMeterShrinker.style.width = "16.6%";
-    //         trustInfo.innerText = "Trusted User";
-    //         trustImage.setAttribute("src", "../css/images/trust/6.png");
-    //         trustBar.style.backgroundColor = "#8143e6";
-    //         break;
-    //     }
-    //     case 5: {
-    //         trustMeterShrinker.style.width = "0";
-    //         trustInfo.innerText = "Veteran";
-    //         trustImage.setAttribute("src", "../css/images/trust/7.png");
-    //         trustBar.style.backgroundColor = "#ffff00";
-    //         break;
-    //     }
-    // }
     const btn = getId("buttons");
 
     btn.appendChild(createButton("Back", "button-red", (e) => {
@@ -106,13 +47,13 @@ const renderPage = (world) => {
 const renderWorlds = (data) => {
     const doc = document.getElementById("worldInstances");
     for (let i = 0; i < data.instances.length; i++) {
-        const instance = data[i];
-        doc.appendChild(createWorldEntry(data));
+        const instance = data.instances[i];
+        doc.appendChild(createWorldEntry(instance, data));
     }
 };
 
-const createWorldEntry = (world) => {
-    return createEntry(world.id, world.name, world.thumbnailImageUrl, world.releaseStatus, [
+const createWorldEntry = (instance, world) => {
+    return createEntry(world.id, instance[1].toString() + "/" + world.capacity, world.thumbnailImageUrl, world.releaseStatus, "#" + instance[0], [
         createButton("Join", "button-green disabled", () => {
 
         }),
@@ -128,7 +69,7 @@ const createWorldEntry = (world) => {
     ])
 };
 
-const createEntry = (id, name, image, status, extra) => {
+const createEntry = (id, name, image, status, capacity, extra) => {
     const entryContainer = createElement("div", "box card-entry-container");
     const entryOptions = createElement("div", "card-options");
     const entryDeleteTimeout = createElement("div", "card-options card-remove-timeout");
@@ -146,7 +87,7 @@ const createEntry = (id, name, image, status, extra) => {
             break;
         }
     }
-    avatarContainer.setAttribute("title", name);
+    avatarContainer.setAttribute("title", capacity);
     avatarContainer.appendChild(avatarName);
     avatarContainer.appendChild(avatarImage);
     entryContainer.appendChild(avatarContainer);
