@@ -435,7 +435,7 @@ const createAndJoinWorld = (worldId) => {
 };
 
 const joinWorld = (worldId) => {
-    document.location = worldId;
+    document.location = "vrchat://launch/?id=" + worldId;
 };
 
 if (getId("navMenu") !== null) {
