@@ -124,6 +124,10 @@ const renderPage = (data) => {
 
         const textBox = createElement("textarea", "message-container");
         const sendButton = createButton("Send", "button-green", () => {
+            if (fr.status === 'busy') {
+                sendNotification("Error", "The user is busy, please respect it", getIconFor("error"));
+                return;
+            }
             if (textBox.value !== "") {
                 load();
                 sendMessage(fr.id, textBox.value, (data) => {
@@ -152,10 +156,14 @@ const renderPage = (data) => {
 
         friendProfileContainer.title = fr.statusDescription;
 
-
-        entryOptions.appendChild(createButton("Message", "button-green", () => {
+        const messageButton = createButton("Message", "button-green", () => {
             entryMessage.style.visibility = "visible";
-        }));
+        });
+        if (fr.status === 'busy') {
+            messageButton.classList.add("disabled");
+        }
+        console.log(fr.status);
+        entryOptions.appendChild(messageButton);
 
         entryOptions.appendChild(createButton("Unfriend", "button-red disabled", () => {
             entryOptions.style.visibility = "hidden";
@@ -348,9 +356,13 @@ const createOfflineFriendEntry = (fr) => {
 
     friendProfileContainer.title = fr.statusDescription;
 
-    entryOptions.appendChild(createButton("Message", "button-green", () => {
+    const messageButton = createButton("Message", "button-green", () => {
         entryMessage.style.visibility = "visible";
-    }));
+    });
+    if (fr.status === 'busy') {
+        messageButton.classList.add("disabled");
+    }
+    entryOptions.appendChild(messageButton);
 
     entryOptions.appendChild(createButton("Unfriend", "button-red disabled", () => {
         entryOptions.style.visibility = "hidden";
