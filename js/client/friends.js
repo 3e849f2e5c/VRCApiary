@@ -12,7 +12,7 @@ loadButton.addEventListener("click", () => {
             enableDiv(loadButton);
             stopLoading();
             blinkRed();
-            sendNotification("Error", data.error.message, getIconFor("error"));
+            sendError(data, "VRChat API");
         }
     })
 });
@@ -90,7 +90,7 @@ const renderPage = (data) => {
                     });
                 }
             } catch (e) {
-                sendNotification("Error", e.message, getIconFor("error"));
+                sendError({error: {message: e.message}}, "VRCApiary");
             }
         }
     }
@@ -125,7 +125,8 @@ const renderPage = (data) => {
         const textBox = createElement("textarea", "message-container");
         const sendButton = createButton("Send", "button-green", () => {
             if (fr.status === 'busy') {
-                sendNotification("Error", "The user is busy, please respect it", getIconFor("error"));
+                sendError({error: {message: "The user is busy, please respect it"}}, "VRCApiary");
+                blinkRed();
                 return;
             }
             if (textBox.value !== "") {
@@ -324,6 +325,11 @@ const createOfflineFriendEntry = (fr) => {
     textBox.style.height = "100px";
     textBox.style.fontSize = "26px";
     const sendButton = createButton("Send", "button-green", () => {
+        if (fr.status === 'busy') {
+            sendError({error: {message: "The user is busy, please respect it"}}, "VRCApiary");
+            blinkRed();
+            return;
+        }
         if (textBox.value !== "") {
             disableDiv(sendButton);
             load();
@@ -336,7 +342,7 @@ const createOfflineFriendEntry = (fr) => {
                     textBox.value = "";
                 } else {
                     enableDiv(sendButton);
-                    sendNotification("Error", data.error.message, getIconFor("error"));
+                    sendError(data, "VRChat API");
                     stopLoading();
                     blinkRed();
                 }

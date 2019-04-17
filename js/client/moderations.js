@@ -9,7 +9,7 @@ getId("mineButton").addEventListener("click", () => {
         if (data.error !== undefined) {
             enableDiv(againstButton);
             blinkRed();
-            sendNotification("Error", data.error.message, getIconFor("error"));
+            sendError(data, "VRChat API");
         }
         mineButton.parentNode.parentNode.removeChild(mineButton.parentNode);
         blinkGreen();
@@ -92,7 +92,7 @@ againstButton.addEventListener("click", () => {
         if (data.error !== undefined) {
             enableDiv(againstButton);
             blinkRed();
-            sendNotification("Error", data.error.message, getIconFor("error"));
+            sendError(data, "VRChat API");
         }
         againstButton.parentNode.parentNode.removeChild(againstButton.parentNode);
         blinkGreen();

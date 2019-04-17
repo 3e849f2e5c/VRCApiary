@@ -15,7 +15,7 @@ favoriteLoad.addEventListener("click", () => {
             enableDiv(favoriteLoad);
             stopLoading();
             blinkRed();
-            sendNotification("Error", data.error.message, getIconFor("error"));
+            sendError(data, "VRChat API");
         }
     })
 });
@@ -33,7 +33,7 @@ privateLoad.addEventListener("click", () => {
         } else {
             stopLoading();
             blinkRed();
-            sendNotification("Error", data.error.message, getIconFor("error"));
+            sendError(data, "VRChat API");
         }
     })
 });
@@ -56,7 +56,7 @@ const createFavoriteEntry = (avatar) => {
                 if (data.error !== undefined) {
                     stopLoading();
                     blinkRed();
-                    sendNotification("Error", data.error.message, getIconFor("error"));
+                    sendError(data, "VRChat API");
                 } else {
                     stopLoading();
                     blinkGreen();
@@ -99,7 +99,7 @@ const createFavoriteEntry = (avatar) => {
                         clearTimeout(removeFunc);
                         stopLoading();
                         blinkRed();
-                        sendNotification("Error", data.error.message, getIconFor("error"));
+                        sendError(data, "VRChat API");
                     } else {
                         options.style.visibility = "visible";
                         options.innerHTML = '';
@@ -112,7 +112,7 @@ const createFavoriteEntry = (avatar) => {
                                     stopLoading();
                                     blinkRed();
                                     enableDiv(e.srcElement);
-                                    sendNotification("Error", data.error.message, getIconFor("error"));
+                                    sendError(data, "VRChat API");
                                 } else {
                                     card.parentElement.insertAdjacentElement('afterbegin', createFavoriteEntry(avatar));
                                     card.parentNode.removeChild(card);
@@ -161,7 +161,7 @@ const createPrivateEntry = (avatar) => {
                 if (data.error !== undefined) {
                     stopLoading();
                     blinkRed();
-                    sendNotification("Error", data.error.message, getIconFor("error"));
+                    sendError(data, "VRChat API");
                 } else {
                     stopLoading();
                     blinkGreen();
@@ -219,7 +219,7 @@ const createPrivateEntry = (avatar) => {
                         stopLoading();
                         blinkGreen();
                     } else {
-                        sendNotification("Error", data.error.message, getIconFor("error"));
+                        sendError(data, "VRChat API");
                         stopLoading();
                         blinkRed();
                     }
@@ -296,7 +296,7 @@ const createKeepsakeEntry = (avatar) => {
                 if (data.error !== undefined) {
                     stopLoading();
                     blinkRed();
-                    sendNotification("Error", data.error.message, getIconFor("error"));
+                    sendError(data, "VRChat API");
                 } else {
                     stopLoading();
                     blinkGreen();
@@ -312,7 +312,7 @@ const createKeepsakeEntry = (avatar) => {
                 if (data.error !== undefined) {
                     stopLoading();
                     blinkRed();
-                    sendNotification("Error", data.error.message, getIconFor("error"));
+                    sendError(data, "VRChat API");
                 } else {
                     stopLoading();
                     blinkGreen();
@@ -497,7 +497,7 @@ const editAvatarPopup = (avatar) => {
                         stopLoading();
                         blinkGreen();
                     } else {
-                        sendNotification("Error", data.error.message, getIconFor("error"));
+                        sendError(data, "VRChat API");
                         stopLoading();
                         blinkRed();
                     }

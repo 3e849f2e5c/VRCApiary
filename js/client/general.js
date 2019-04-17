@@ -26,6 +26,13 @@ const sendNotification = (title, body, image, callback) => {
     notify.onclick = callback;
 };
 
+const sendError = (data, from) => {
+    println("--- THE APP ENCOUNTERED AN ERROR ---");
+    println(data);
+    println("--- END OF ERROR ---");
+    sendNotification("Error", data.error.message + " -" + from, getIconFor("error"));
+};
+
 // TODO proper icons and copyright
 const getIconFor = (name) => {
     switch (name) {

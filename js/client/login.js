@@ -18,7 +18,7 @@ document.getElementById("login-button").addEventListener('click', (e) => {
     const rememberMe = document.getElementById("checkbox").checked;
 
     if (username === "" || password === "" || username.indexOf(":") !== -1) {
-        sendNotification("Login Error", "Invalid username or password");
+        sendError({error:{message:"Invalid username or password"}}, "VRCApiary");
         blinkRed();
         return;
     }
@@ -27,13 +27,12 @@ document.getElementById("login-button").addEventListener('click', (e) => {
     sendGETRequest("/auth/user", (data) => {
         if (data.error !== undefined) {
             blinkRed();
-            sendNotification("Login Error", data.error.message);
+            sendError(data, "VRChat API");
             enableDiv(e.srcElement);
         } else {
             if (rememberMe === true) {
                 storage.saveCredentials(username, password);
             }
-            sendNotification("Login Successful", "Welcome " + data.displayName, getIconFor("ok"));
             stopLoading();
             blinkGreen();
             console.log(data);

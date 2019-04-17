@@ -15,7 +15,7 @@ const renderPage = (profile) => {
             } else {
                 stopLoading();
                 blinkRed();
-                sendNotification("Error", data.error.message, getIconFor("error"));
+                sendError(data, "VRChat API");
             }
         })
     });
@@ -166,7 +166,7 @@ const createPublicEntry = (avatar) => {
                 if (data.error !== undefined) {
                     stopLoading();
                     blinkRed();
-                    sendNotification("Error", data.error.message, getIconFor("error"));
+                    sendError(data, "VRChat API");
                 } else {
                     stopLoading();
                     blinkGreen();
@@ -180,7 +180,7 @@ const createPublicEntry = (avatar) => {
                 if (data.error !== undefined) {
                     stopLoading();
                     blinkRed();
-                    sendNotification("Error", data.error.message, getIconFor("error"));
+                    sendError(data, "VRChat API");
                 } else {
                     stopLoading();
                     blinkGreen();

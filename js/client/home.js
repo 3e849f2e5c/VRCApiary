@@ -169,7 +169,7 @@ const openNotification = (data, element) => {
                         blinkGreen();
                     } else {
                         enableDiv(e.srcElement);
-                        sendNotification("Error", resp.error.message, getIconFor("error"));
+                        sendError(resp, "VRChat API");
                         stopLoading();
                         blinkRed();
                     }
@@ -213,7 +213,7 @@ const openNotification = (data, element) => {
                 stopLoading();
                 blinkGreen();
             } else {
-                sendNotification("Error", resp.error.message, getIconFor("error"));
+                sendError(resp, "VRChat API");
                 stopLoading();
                 blinkRed();
             }

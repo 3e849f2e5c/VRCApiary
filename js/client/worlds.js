@@ -120,7 +120,7 @@ const renderActive = () => {
             blinkGreen();
         } else {
             blinkRed();
-            sendNotification("Error", data.error.message, getIconFor("error"));
+            sendError(data, "VRChat API");
         }
         enableDiv(activeLoad);
     });
@@ -167,7 +167,7 @@ const renderNew = () => {
             blinkGreen();
         } else {
             blinkRed();
-            sendNotification("Error", data.error.message, getIconFor("error"));
+            sendError(data, "VRChat API");
         }
         enableDiv(newLoad);
     });
@@ -217,7 +217,7 @@ const renderMine = () => {
             blinkGreen();
         } else {
             blinkRed();
-            sendNotification("Error", data.error.message, getIconFor("error"));
+            sendError(data, "VRChat API");
         }
         enableDiv(myLoad);
     });
@@ -261,7 +261,7 @@ const renderHistory = () => {
             blinkGreen();
         } else {
             blinkRed();
-            sendNotification("Error", data.error.message, getIconFor("error"));
+            sendError(data, "VRChat API");
         }
         enableDiv(historyLoad);
     });
@@ -382,13 +382,13 @@ const editWorldPopup = (world) => {
                         stopLoading();
                         blinkGreen();
                     } else {
-                        sendNotification("Error", data.error.message, getIconFor("error"));
+                        sendError(data, "VRChat API");
                         stopLoading();
                         blinkRed();
                     }
                 })
             } else {
-                sendNotification("Image is not valid", "Image must be a direct link to an image", getIconFor("error"));
+                sendError({error:{message:"Image must be a direct link to an image"}}, "VRCApiary");
             }
         }
     }));
