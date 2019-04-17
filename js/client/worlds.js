@@ -110,7 +110,7 @@ const renderActive = (cache) => {
             if (was === false) {
                 activeWorlds.appendChild(createWorldEntry(wrld, [
                     createButton("Details", "button-green", () => {
-                        navToPage("world", "?w=" + wrld.id + "&back=worlds&backtags=" + encodeURIComponent("?cache=1"));
+                        navWithBacktags("world", "?w=" + wrld.id, "worlds", "?cache=1");
                     }),
                     createButton("Quick join", "button-green", () => {
                         createAndJoinWorld(wrld.id);
@@ -218,7 +218,7 @@ const renderMine = (cache) => {
             if (was === false) {
                 myWorlds.appendChild(createWorldEntry(wrld, [
                     createButton("Details", "button-green", () => {
-                        navToPage("world", "?w=" + wrld.id + "&back=worlds&backtags=" + encodeURIComponent("?cache=1"));
+                        navWithBacktags("world", "?w=" + wrld.id, "worlds", "?cache=1");
                     }),
                     createButton("Quick join", "button-green", () => {
                         createAndJoinWorld(wrld.id);

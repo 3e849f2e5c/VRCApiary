@@ -16,10 +16,7 @@ const renderPage = (data) => {
         const div = createElement("div", "user-list-entry");
         const a = createElement("a");
         a.addEventListener("click", () => {
-            window.localStorage.setItem("instanceCache", JSON.stringify(data));
-            const string = ("?cache=1&worldId=" + worldId.toString() + "&otherId=" + otherId.toString()).toString();
-            const encoded = encodeURIComponent(string);
-            navToPage("profile", ("?u=" + user.id + "&back=instance&backtags=") + encoded);
+            navWithBacktags("profile", "?u=" + user.id, "instance", "?w=" + "?cache=1&worldId=" + worldId.toString() + "&otherId=" + otherId.toString());
         });
         a.style.color = trustRankToColor(tagsToTrustRank(user.tags));
         a.innerText = user.displayName;
@@ -49,6 +46,6 @@ document.getElementById("backButton").addEventListener("click", () => {
     if (getParameterByName("back", document.location) === null) {
         navToPage("friends", "?cache=1");
     } else {
-        navToPage(getParameterByName("back", document.location), decodeURIComponent(getParameterByName("backtags", document.location)));
+        goBack();
     }
 });

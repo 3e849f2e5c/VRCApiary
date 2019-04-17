@@ -438,6 +438,28 @@ const joinWorld = (worldId) => {
     document.location = "vrchat://launch/?id=" + worldId;
 };
 
+const navWithBacktags = (location, tags, back, backtags) => {
+    let string = backtags;
+    const backBack = getParameterByName("back", document.location);
+    const backBacktags = getParameterByName("backtags", document.location);
+    let toAdd = "";
+    if (backBack !== null) {
+        toAdd += "&back=" + backBack;
+    }
+    if (backBacktags !== null) {
+        toAdd += "&backtags=" + backBacktags;
+    }
+    if (toAdd !== "") {
+        string += encodeURIComponent(toAdd);
+    }
+    const encoded = encodeURIComponent(string);
+    navToPage(location, tags + "&back=" + back + "&backtags=" + encoded);
+};
+
+const goBack = () => {
+    navToPage(getParameterByName("back", document.location), decodeURIComponent(getParameterByName("backtags", document.location)));
+};
+
 if (getId("navMenu") !== null) {
     getId("navHome").addEventListener('click', () => {
         navToPage("home");

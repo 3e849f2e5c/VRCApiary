@@ -39,7 +39,7 @@ const renderPage = (world) => {
     const btn = getId("buttons");
 
     btn.appendChild(createButton("Back", "button-red", (e) => {
-        navToPage(getParameterByName("back", document.location), decodeURIComponent(getParameterByName("backtags", document.location)));
+        goBack();
     }));
     finishLoading();
 };
@@ -61,9 +61,7 @@ const createWorldEntry = (instance, world) => {
 
         }),
         createButton("Preview", "button-green", () => {
-            const string = "?w=" + world.id.toString();
-            const encoded = encodeURIComponent(string);
-            navToPage("instance", ("?worldId=" + world.id + "&otherId=" + instance[0].toString() + "&back=world&backtags=") + encoded);
+            navWithBacktags("instance", "?worldId=" + world.id + "&otherId=" + instance[0].toString(), "world", "?w=" + world.id.toString());
         }),
         createButton("Cancel", "button-red", () => {
 
