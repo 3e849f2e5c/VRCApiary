@@ -315,6 +315,20 @@ const getWorld = (worldId, callback) => {
 };
 
 /**
+ * Edit user
+ * https://vrchatapi.github.io/#/UserAPI/UpdateInfo
+ * @param user          User ID
+ * @param update        Update data
+ * @param callback      Callback function
+ */
+const editUser = (user, update, callback) => {
+    sendPUTRequest("/users/" + user, update, (data) => {
+        callback(data);
+    });
+};
+
+
+/**
  * Edit a world
  * https://vrchatapi.github.io/#/AvatarAPI/SaveAvatar
  * @param world         World ID

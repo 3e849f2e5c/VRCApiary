@@ -418,6 +418,26 @@ const localStorageClear = (name) => {
     storage.setItem(name, "{}")
 };
 
+const newGUID = () => {
+    const S4 = () => {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    };
+    return "VRCApiary_" + (S4() + S4() + "-" + S4() + "-4" + S4().substr(0, 3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
+};
+
+const newInstance = () => {
+    return Math.floor(Math.random() * 9999);
+};
+
+const createAndJoinWorld = (worldId) => {
+    const userId = JSON.parse(window.localStorage.getItem("userData")).id;
+    joinWorld(worldId + ":" + newInstance() + "~hidden(" + userId + ")" + "~nonce(" + newGUID() + ")");
+};
+
+const joinWorld = (worldId) => {
+    document.location = worldId;
+};
+
 if (getId("navMenu") !== null) {
     getId("navHome").addEventListener('click', () => {
         navToPage("home");

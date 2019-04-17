@@ -54,14 +54,16 @@ const renderWorlds = (data) => {
 
 const createWorldEntry = (instance, world) => {
     return createEntry(world.id, instance[1].toString() + "/" + world.capacity, world.thumbnailImageUrl, world.releaseStatus, "#" + instance[0], [
-        createButton("Join", "button-green disabled", () => {
-
+        createButton("Join", "button-green", () => {
+            joinWorld(world.id + ":" + instance[0].toString());
         }),
         createButton("Invite friends", "button-green", () => {
 
         }),
         createButton("Preview", "button-green", () => {
-
+            const string = "?w=" + world.id.toString();
+            const encoded = encodeURIComponent(string);
+            navToPage("instance", ("?worldId=" + world.id + "&otherId=" + instance[0].toString() + "&back=world&backtags=") + encoded);
         }),
         createButton("Cancel", "button-red", () => {
 

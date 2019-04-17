@@ -46,5 +46,9 @@ if (worldId !== null && otherId !== null) {
 }
 
 document.getElementById("backButton").addEventListener("click", () => {
-    navToPage("friends", "?cache=1");
+    if (getParameterByName("back", document.location) === null) {
+        navToPage("friends", "?cache=1");
+    } else {
+        navToPage(getParameterByName("back", document.location), decodeURIComponent(getParameterByName("backtags", document.location)));
+    }
 });

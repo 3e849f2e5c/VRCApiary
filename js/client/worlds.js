@@ -24,6 +24,24 @@ const myLoad = getId("myLoad");
 const favoriteWorlds = getId("favoriteWorlds");
 const favoriteLoad = getId("favoriteLoad");
 
+const setHome = (wrld) => {
+    load();
+    const userData = JSON.parse(window.localStorage.getItem("userData"));
+    editUser(userData.id, {
+        homeLocation: wrld.id
+    }, (data) => {
+        stopLoading();
+        if (data.error === undefined) {
+            window.localStorage.setItem("userData", JSON.stringify(data));
+            sendNotification("Home world set", wrld.name, getIconFor("ok"));
+            blinkGreen();
+        } else {
+            sendError(data, "VRChat API");
+            blinkRed();
+        }
+    })
+};
+
 const createEntry = (world, id, name, image, status, extra) => {
     const entryContainer = createElement("div", "box card-entry-container");
     const entryOptions = createElement("div", "card-options");
@@ -94,14 +112,11 @@ const renderActive = (cache) => {
                     createButton("Details", "button-green", () => {
                         navToPage("world", "?w=" + wrld.id + "&back=worlds&backtags=" + encodeURIComponent("?cache=1"));
                     }),
-                    createButton("Quick join", "button-green disabled", () => {
-
+                    createButton("Quick join", "button-green", () => {
+                        createAndJoinWorld(wrld.id);
                     }),
-                    createButton("Set home", "button-green disabled", () => {
-
-                    }),
-                    createButton("View author", "button-green", () => {
-
+                    createButton("Set home", "button-green", () => {
+                        setHome(wrld);
                     }),
                     createButton("Cancel", "button-red", () => {
 
@@ -151,14 +166,11 @@ const renderNew = (cache) => {
                     createButton("Details", "button-green", () => {
                         navToPage("world", "?w=" + wrld.id + "&back=worlds&backtags=" + encodeURIComponent("?cache=1"));
                     }),
-                    createButton("Quick join", "button-green disabled", () => {
-
+                    createButton("Quick join", "button-green", () => {
+                        createAndJoinWorld(wrld.id);
                     }),
-                    createButton("Set home", "button-green disabled", () => {
-
-                    }),
-                    createButton("View author", "button-green", () => {
-
+                    createButton("Set home", "button-green", () => {
+                        setHome(wrld);
                     }),
                     createButton("Cancel", "button-red", () => {
 
@@ -208,8 +220,8 @@ const renderMine = (cache) => {
                     createButton("Details", "button-green", () => {
                         navToPage("world", "?w=" + wrld.id + "&back=worlds&backtags=" + encodeURIComponent("?cache=1"));
                     }),
-                    createButton("Quick join", "button-green disabled", () => {
-
+                    createButton("Quick join", "button-green", () => {
+                        createAndJoinWorld(wrld.id);
                     }),
                     createButton("Edit", "button-green", () => {
                         editWorldPopup(wrld);
@@ -287,11 +299,11 @@ const renderHistory = (cache) => {
                     createButton("Details", "button-green", () => {
                         navToPage("world", "?w=" + wrld.id + "&back=worlds&backtags=" + encodeURIComponent("?cache=1"));
                     }),
-                    createButton("Quick join", "button-green disabled", () => {
-
+                    createButton("Quick join", "button-green", () => {
+                        createAndJoinWorld(wrld.id);
                     }),
-                    createButton("Set home", "button-green disabled", () => {
-
+                    createButton("Set home", "button-green", () => {
+                        setHome(wrld);
                     }),
                     createButton("Cancel", "button-red", () => {
 
