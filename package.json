@@ -23,6 +23,7 @@
   },
   "license": "WTFNMFPL-1.0",
   "dependencies": {
+    "discord-rich-presence": "^0.0.8",
     "electron-dl": "^1.12.0",
     "electron-json-storage": "^4.1.5",
     "electron-squirrel-startup": "^1.0.0",

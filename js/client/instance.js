@@ -1,6 +1,41 @@
 const worldId = getParameterByName("worldId", document.location);
 const otherId = getParameterByName("otherId", document.location);
 
+const tooltipSpan = document.getElementById('tooltip-span');
+
+let offsetY = 20;
+let offsetX = 20;
+
+let lastX = 0;
+let lastY = 0;
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === "Shift") {
+        offsetX = -220;
+        offsetY = -170;
+        tooltipSpan.style.top = (lastY + offsetY) + 'px';
+        tooltipSpan.style.left = (lastX + offsetX) + 'px';
+    }
+});
+
+document.addEventListener('keyup', (e) => {
+    if (e.key === "Shift") {
+        offsetX = 20;
+        offsetY = 20;
+        tooltipSpan.style.top = (lastY + offsetY) + 'px';
+        tooltipSpan.style.left = (lastX + offsetX) + 'px';
+    }
+});
+
+window.onmousemove = function (e) {
+    const x = e.clientX,
+        y = e.clientY;
+    lastX = x;
+    lastY = y;
+    tooltipSpan.style.top = (y + offsetY) + 'px';
+    tooltipSpan.style.left = (x + offsetX) + 'px';
+};
+
 const renderPage = (data) => {
     document.getElementById("joinButton").addEventListener("click", () => {
         console.log("vrchat://launch?id=" + worldId + ":" + otherId);
@@ -15,8 +50,13 @@ const renderPage = (data) => {
         }
         const div = createElement("div", "user-list-entry");
         const a = createElement("a");
-        a.addEventListener("click", () => {
-            navWithBacktags("profile", "?u=" + user.id, "instance", "?w=" + "?cache=1&worldId=" + worldId.toString() + "&otherId=" + otherId.toString());
+        a.addEventListener("mouseover", () => {
+            getId("tooltip-image").src = user.currentAvatarThumbnailImageUrl;
+            tooltipSpan.style.visibility = "visible";
+        });
+        a.addEventListener("mouseout", () => {
+            getId("tooltip-image").src = "../css/images/loading.png";
+            tooltipSpan.style.visibility = "hidden";
         });
         a.style.color = trustRankToColor(tagsToTrustRank(user.tags));
         a.innerText = user.displayName;

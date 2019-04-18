@@ -7,8 +7,6 @@ const dl = require('electron-dl');
 const path = require('path');
 const isDev = require('electron-is-dev');
 
-
-
 let mainWindow;
 
 const createWindow = () => {
