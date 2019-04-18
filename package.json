@@ -1,7 +1,7 @@
 {
   "name": "vrcapiary",
   "author": "3e849f2e5c",
-  "version": "0.0.2-ALPHA",
+  "version": "0.0.4-ALPHA",
   "description": "A client for the VRChat API",
   "private": true,
   "repository": "github:3e849f2e5c/VRCApiary",

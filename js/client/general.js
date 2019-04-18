@@ -145,6 +145,10 @@ const navToPage = (page, flag) => {
             }
             break;
         }
+        case "parser": {
+            destination = "./parser.html";
+            break;
+        }
     }
     setTimeout(() => {
         document.location = destination;
@@ -503,7 +507,10 @@ if (getId("navMenu") !== null) {
         navToPage("worlds");
     });
 
-    disableDiv(getId("navParser"));
+    getId("navParser").addEventListener('click', () => {
+        navToPage("parser");
+    });
+
     getId("navSocial").addEventListener('click', () => {
         navToPage("social");
     });
