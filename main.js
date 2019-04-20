@@ -1,7 +1,6 @@
 if (require('electron-squirrel-startup')) return;
 const {app, BrowserWindow} = require('electron');
 const {session} = require('electron');
-const {shell} = require('electron');
 const storage = require('electron-json-storage');
 const dl = require('electron-dl');
 const path = require('path');
@@ -17,7 +16,6 @@ const createWindow = () => {
     mainWindow = new BrowserWindow({width: 800, height: 600, icon: path.join(__dirname, '/css/images/logo/icon.ico')});
     storage.has('login', function (error, hasKey) {
         if (error) throw error;
-
         if (hasKey) {
             storage.get('login', function (error, data) {
                 if (error) throw error;
@@ -61,8 +59,26 @@ app.on('activate', function () {
     }
 });
 
+const sendNotification = (title, body, icon) => {
+    mainWindow.webContents.send('notify', JSON.stringify({
+        title: title,
+        body: body,
+        image: icon
+    }));
+};
+
+const sendToWindow = (type, data) => {
+    mainWindow.webContents.send(type, data);
+};
+
 module.exports = {
     download: (url) => {
         download(url);
+    },
+    sendNotification: (title, body, icon) => {
+        sendNotification(title, body, icon);
+    },
+    sendToWindow: (type, data) => {
+        sendToWindow(type, data);
     }
 };

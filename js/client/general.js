@@ -11,8 +11,17 @@ if (localStorage.getItem("keepsakes") === null) {
 if (localStorage.getItem("requests") === null) {
     localStorage.setItem("requests", "0");
 }
+
 if (localStorage.getItem("failedRequests") === null) {
     localStorage.setItem("failedRequests", "0");
+}
+
+if (localStorage.getItem("parserSettings") === null) {
+    localStorage.setItem("parserSettings", JSON.stringify({
+        enableParser: false,
+        enableDiscord: false,
+        enableNotifications: false
+    }));
 }
 
 const sendNotification = (title, body, image, callback) => {
