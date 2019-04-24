@@ -8,15 +8,36 @@ const main = require('./main.js');
 const logFolder = require('os').homedir() + "\\AppData\\LocalLow\\VRChat\\vrchat\\";
 let status = "In app";
 let world = "Not in game";
+let users = 0;
+let type = "Public";
 let sendNotifications = true;
 
 let parserEnabled = false;
 let discordEnabled = false;
 let notifyEnabled = false;
 
-if (discordEnabled === true) {
-    client = require('discord-rich-presence')('551621567948390401');
-}
+const exec = require('child_process').exec;
+
+const isVRChatRunning = (query, cb) => {
+    let platform = process.platform;
+    let cmd = '';
+    switch (platform) {
+        case 'win32' :
+            cmd = `tasklist`;
+            break;
+        case 'darwin' :
+            cmd = `ps -ax | grep ${query}`;
+            break;
+        case 'linux' :
+            cmd = `ps -A`;
+            break;
+        default:
+            break;
+    }
+    exec(cmd, (err, stdout, stderr) => {
+        cb(stdout.toLowerCase().indexOf(query.toLowerCase()) > -1);
+    });
+};
 
 /**
  * Ice Cream edition websocket
@@ -48,12 +69,55 @@ wss.on('connection', (ws) => {
 let tail;
 let interval;
 
+let vrchatCheck;
+
+let lastStatus = false;
+let userCountUpdater;
+
 const enableParser = () => {
     if (parserEnabled === true) {
         return;
     }
     parserEnabled = true;
-    start();
+    vrchatCheck = setInterval(() => {
+        if (parserEnabled === false) {
+            clearInterval(vrchatCheck);
+            return;
+        }
+
+        isVRChatRunning('vrchat.exe', (status) => {
+            if (lastStatus !== status) {
+                lastStatus = status;
+                return;
+            }
+            if (tail === undefined) {
+                if (status === true) {
+                    getAvailableLogFiles((logs) => {
+                        if (logs.length === 0) {
+                            return;
+                        }
+                        console.log("start parsing");
+                        update("Logging in...", "In game | Login screen", Date.now());
+                        const options = {
+                            interval: 500,
+                            startAtEnd: true
+                        };
+                        tail = new Tail(logFolder + logs[0].name, /\n{1,4}\r\n/, options);
+                        tail.on("line", function (data) {
+                            parse(data);
+                        });
+                    });
+                }
+            } else if (status === false) {
+                console.log("stopped");
+                tail.unwatch();
+                tail = undefined;
+                if (userCountUpdater !== undefined) {
+                    clearInterval(userCountUpdater)
+                }
+            }
+        });
+    }, 10000);
 };
 
 const disableParser = () => {
@@ -62,7 +126,9 @@ const disableParser = () => {
     }
     parserEnabled = false;
     tail.unwatch();
-    clearInterval(interval);
+    tail = undefined;
+    console.log("stopped");
+    clearInterval(vrchatCheck);
 };
 
 const enableDiscord = () => {
@@ -71,7 +137,8 @@ const enableDiscord = () => {
     }
     discordEnabled = true;
     client = require('discord-rich-presence')('551621567948390401');
-    updateDiscord();
+    console.log("mood");
+    update("In VRCApiary", "Not in game", undefined);
 };
 
 const disableDiscord = () => {
@@ -108,8 +175,18 @@ const sendNotification = (title, text, icon) => {
     main.sendNotification(title, text, icon);
 };
 
+/**
+ * @deprecated just don't...
+ */
 const start = () => {
-    status = "In app";
+    isVRChatRunning('vrchat.exe', (status) => {
+        if (status === true) {
+
+        } else {
+
+        }
+    });
+    status = "In VRCApiary";
     world = "Not in game";
     updateDiscord();
     getAvailableLogFiles((logs) => {
@@ -158,14 +235,73 @@ const updateDiscord = (time) => {
     client.updatePresence(i);
 };
 
+const update = (state, details, time, users, usersMax) => {
+    if (discordEnabled === false) {
+        return;
+    }
+    const i = {
+        state: state,
+        details: details,
+        largeImageKey: 'logo',
+        largeImageText: 'VRCApiary ' + app.getVersion()
+    };
+    if (time !== undefined) {
+        i.startTimestamp = time;
+    }
+
+    if (users !== undefined && usersMax !== undefined ) {
+        i.partySize = users;
+        i.partyMax = usersMax;
+        i.partyId = Buffer.from(details).toString('base64')
+    }
+    client.updatePresence(i);
+};
+
 const parse = (line) => {
-    parseWithRegex(line, "[RoomManager] Entering Room:", /^.+ - {2}\[RoomManager] Entering Room: (.+)/, (match) => {
+
+    parseWithRegex(line, "[RoomManager] Joining wrld", /^.+ - {2}\[RoomManager] Joining (.+)/, (match) => {
+        const regex = /(.+?):(.+?)($|~((.+?)\(.+))$/;
+        const match1 = regex.exec(match[1]);
+        if (match1 !== undefined && match1.length !== 0) {
+            if (match1.length >= 5) {
+                switch (match1[5]) {
+                    case "hidden": {
+                        type = "Friends+";
+                        break;
+                    }
+                    case "friends": {
+                        type = "Friends Only";
+                        break;
+                    }
+                    case "private": {
+                        type = "Private";
+                        break;
+                    }
+                    default: {
+                        type = "Public";
+                        break;
+                    }
+                }
+            }
+        }
+    });
+
+
+    parseWithRegex(line, "[RoomManager] Joining or Creating Room:", /^.+ - {2}\[RoomManager] Joining or Creating Room: (.+)/, (match) => {
+        users = 0;
         world = match[1];
-        status = "In game";
-        updateDiscord(true);
+        status = "In a world";
+        if (userCountUpdater !== undefined) {
+            clearInterval(userCountUpdater);
+        }
+        userCountUpdater = setInterval(() => {
+            update("In a world", match[1] + " | " + type, undefined, users, 24);
+        }, 30000);
+        update("In a world", match[1] + " | " + type, Date.now());
     });
 
     parseWithRegex(line, "[NetworkManager] OnPlayerJoined", /^.+ - {2}\[NetworkManager] OnPlayerJoined (.+)/, (match) => {
+        users++;
         if (sendNotifications === true && notifyEnabled === true) {
             if (socket !== undefined && socket.readyState === 1) {
                 socket.send("<color=green><b>" + match[1] + "</b></color> joined the instance");
@@ -177,6 +313,7 @@ const parse = (line) => {
     });
 
     parseWithRegex(line, "[NetworkManager] OnPlayerLeft", /^.+ - {2}\[NetworkManager] OnPlayerLeft (.+)/, (match) => {
+        users--;
         if (sendNotifications === true && notifyEnabled === true) {
             if (socket !== undefined && socket.readyState === 1) {
                 socket.send("<color=red><b>" + match[1] + "</b></color> left the instance");
@@ -196,9 +333,13 @@ const parse = (line) => {
     });
 
     parseOnly(line, "[NetworkManager] OnDisconnected", () => {
-        status = "In app";
-        world = "Not in game";
-        updateDiscord();
+        update("In VRCApiary", "Not in game", undefined);
+        tail.unwatch();
+        console.log("stopped");
+        tail = undefined;
+        if (userCountUpdater !== undefined) {
+            clearInterval(userCountUpdater)
+        }
     });
 };
 
