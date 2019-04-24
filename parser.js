@@ -10,6 +10,7 @@ let status = "In app";
 let world = "Not in game";
 let users = 0;
 let type = "Public";
+let date = Date.now();
 let sendNotifications = true;
 
 let parserEnabled = false;
@@ -235,6 +236,8 @@ const updateDiscord = (time) => {
     client.updatePresence(i);
 };
 
+let lastUpdate = {};
+
 const update = (state, details, time, users, usersMax) => {
     if (discordEnabled === false) {
         return;
@@ -254,7 +257,11 @@ const update = (state, details, time, users, usersMax) => {
         i.partyMax = usersMax;
         i.partyId = Buffer.from(details).toString('base64')
     }
+    if (JSON.stringify(lastUpdate) === JSON.stringify(i)) {
+        return;
+    }
     client.updatePresence(i);
+    lastUpdate = i;
 };
 
 const parse = (line) => {
@@ -270,7 +277,7 @@ const parse = (line) => {
                         break;
                     }
                     case "friends": {
-                        type = "Friends Only";
+                        type = "Friends";
                         break;
                     }
                     case "private": {
@@ -290,14 +297,18 @@ const parse = (line) => {
     parseWithRegex(line, "[RoomManager] Joining or Creating Room:", /^.+ - {2}\[RoomManager] Joining or Creating Room: (.+)/, (match) => {
         users = 0;
         world = match[1];
+        if (world.length > 18) {
+            world = world.substring(0, 15) + "...";
+        }
         status = "In a world";
         if (userCountUpdater !== undefined) {
             clearInterval(userCountUpdater);
         }
         userCountUpdater = setInterval(() => {
-            update("In a world", match[1] + " | " + type, undefined, users, 24);
+            update("In a world", world + " | " + type, date, users, 24);
         }, 30000);
-        update("In a world", match[1] + " | " + type, Date.now());
+        date = Date.now();
+        update("In a world", world + " | " + type, date);
     });
 
     parseWithRegex(line, "[NetworkManager] OnPlayerJoined", /^.+ - {2}\[NetworkManager] OnPlayerJoined (.+)/, (match) => {
