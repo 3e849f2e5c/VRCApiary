@@ -132,14 +132,33 @@ const disableParser = () => {
     clearInterval(vrchatCheck);
 };
 
+const loginToDiscord = () => {
+    client = require('discord-rich-presence')('551621567948390401');
+    update("In VRCApiary", "Not in game", undefined);
+    client.on('join', (secret) => {
+        console.log("mood1" + secret);
+    });
+
+    client.addListener('join', (secret) => {
+        console.log("mood2" + secret);
+    });
+
+    client.addListener('joinRequest', (secret) => {
+        console.log("mood3" + secret)
+    });
+
+    client.on('joinRequest', (secret) => {
+        console.log("mood4" + secret)
+    });
+};
+
 const enableDiscord = () => {
     if (discordEnabled === true) {
         return;
     }
     discordEnabled = true;
-    client = require('discord-rich-presence')('551621567948390401');
     console.log("mood");
-    update("In VRCApiary", "Not in game", undefined);
+    loginToDiscord();
 };
 
 const disableDiscord = () => {
@@ -255,7 +274,8 @@ const update = (state, details, time, users, usersMax) => {
     if (users !== undefined && usersMax !== undefined ) {
         i.partySize = users;
         i.partyMax = usersMax;
-        i.partyId = Buffer.from(details).toString('base64')
+        i.partyId = Buffer.from(details).toString('base64');
+        i.joinSecret = "mood";
     }
     if (JSON.stringify(lastUpdate) === JSON.stringify(i)) {
         return;
