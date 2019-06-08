@@ -164,7 +164,7 @@ const renderPage = (data) => {
             messageButton.classList.add("disabled");
         }
         console.log(fr.status);
-        entryOptions.appendChild(messageButton);
+        // entryOptions.appendChild(messageButton);
 
         entryOptions.appendChild(createButton("Unfriend", "button-red disabled", () => {
             entryOptions.style.visibility = "hidden";
@@ -204,13 +204,13 @@ const renderPage = (data) => {
                     friendWorldType.innerText = wrld.type;
                     friendWorldInstance.innerText = "#" + wrld.instance;
                     friendWorldContainer.setAttribute("class", "viewable-world friend-world-container");
-                    friendWorldContainer.addEventListener("click", () => {
-                        window.localStorage.setItem("oldScroll", window.pageYOffset.toString());
-                        pageLoad();
-                        setTimeout(() => {
-                            document.location = "./instance.html?worldId=" + wrld.worldId + "&otherId=" + wrld.otherId;
-                        }, 300);
-                    });
+                    // friendWorldContainer.addEventListener("click", () => {
+                    //     window.localStorage.setItem("oldScroll", window.pageYOffset.toString());
+                    //     pageLoad();
+                    //     setTimeout(() => {
+                    //         document.location = "./instance.html?worldId=" + wrld.worldId + "&otherId=" + wrld.otherId;
+                    //     }, 300);
+                    // });
                     getWorldNameCached(wrld.worldId, (worldNameC) => {
                         if (worldNameC !== null) {
                             friendWorld.innerText = worldNameC;
@@ -368,7 +368,7 @@ const createOfflineFriendEntry = (fr) => {
     if (fr.status === 'busy') {
         messageButton.classList.add("disabled");
     }
-    entryOptions.appendChild(messageButton);
+    // entryOptions.appendChild(messageButton);
 
     entryOptions.appendChild(createButton("Unfriend", "button-red disabled", () => {
         entryOptions.style.visibility = "hidden";

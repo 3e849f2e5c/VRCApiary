@@ -87,16 +87,16 @@ body {
 }
 
 .viewable-world {
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    /*cursor: pointer;*/
+    /*-webkit-user-select: none;*/
+    /*-moz-user-select: none;*/
+    /*-ms-user-select: none;*/
+    /*user-select: none;*/
 }
 
 .viewable-world:hover {
-    background-color: #323232;
-    outline: 1px solid black;
+    /*background-color: #323232;*/
+    /*outline: 1px solid black;*/
 }
 
 .friend-world {

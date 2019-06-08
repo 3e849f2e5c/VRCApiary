@@ -71,6 +71,10 @@ const sendToWindow = (type, data) => {
     mainWindow.webContents.send(type, data);
 };
 
+const getClient = () => {
+    return client;
+};
+
 module.exports = {
     download: (url) => {
         download(url);

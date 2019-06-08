@@ -1,6 +1,6 @@
 const fs = require('fs');
 const Tail = require('always-tail2');
-let client;
+// let client;
 const WebSocket = require('ws');
 const {app} = require('electron');
 const main = require('./main.js');
@@ -68,7 +68,7 @@ wss.on('connection', (ws) => {
 
 
 let tail;
-let interval;
+let logfile = "None";
 
 let vrchatCheck;
 
@@ -97,8 +97,8 @@ const enableParser = () => {
                         if (logs.length === 0) {
                             return;
                         }
+                        logfile = logs[0].name;
                         console.log("start parsing");
-                        update("Logging in...", "In game | Login screen", Date.now());
                         const options = {
                             interval: 500,
                             startAtEnd: true
@@ -133,40 +133,40 @@ const disableParser = () => {
 };
 
 const loginToDiscord = () => {
-    client = require('discord-rich-presence')('551621567948390401');
-    update("In VRCApiary", "Not in game", undefined);
-    client.on('join', (secret) => {
-        console.log("mood1" + secret);
-    });
-
-    client.addListener('join', (secret) => {
-        console.log("mood2" + secret);
-    });
-
-    client.addListener('joinRequest', (secret) => {
-        console.log("mood3" + secret)
-    });
-
-    client.on('joinRequest', (secret) => {
-        console.log("mood4" + secret)
-    });
+    // client = require('discord-rich-presence')('551621567948390401');
+    // update("In VRCApiary", "Not in game", undefined);
+    // client.on('join', (secret) => {
+    //     console.log("mood1" + secret);
+    // });
+    //
+    // client.addListener('join', (secret) => {
+    //     console.log("mood2" + secret);
+    // });
+    //
+    // client.addListener('joinRequest', (secret) => {
+    //     console.log("mood3" + secret)
+    // });
+    //
+    // client.on('joinRequest', (secret) => {
+    //     console.log("mood4" + secret)
+    // });
 };
 
 const enableDiscord = () => {
-    if (discordEnabled === true) {
-        return;
-    }
-    discordEnabled = true;
-    console.log("mood");
-    loginToDiscord();
+    // if (discordEnabled === true) {
+    //     return;
+    // }
+    // discordEnabled = true;
+    // console.log("mood");
+    // loginToDiscord();
 };
 
 const disableDiscord = () => {
-    if (discordEnabled === false) {
-        return;
-    }
-    discordEnabled = false;
-    client.disconnect();
+    // if (discordEnabled === false) {
+    //     return;
+    // }
+    // discordEnabled = false;
+    // client.disconnect();
 };
 
 const enableNotifications = () => {
@@ -195,97 +195,36 @@ const sendNotification = (title, text, icon) => {
     main.sendNotification(title, text, icon);
 };
 
-/**
- * @deprecated just don't...
- */
-const start = () => {
-    isVRChatRunning('vrchat.exe', (status) => {
-        if (status === true) {
-
-        } else {
-
-        }
-    });
-    status = "In VRCApiary";
-    world = "Not in game";
-    updateDiscord();
-    getAvailableLogFiles((logs) => {
-        const options = {
-            interval: 500,
-            startAtEnd: true
-        };
-        tail = new Tail(logFolder + logs[0].name, /\n{1,4}\r\n/, options);
-        interval = setTimeout(() => {
-            tail.unwatch();
-            tail = undefined;
-            if (parserEnabled === true) {
-                start();
-            }
-            console.log("reset");
-        }, 30000);
-        tail.on("line", function (data) {
-            parse(data);
-            clearTimeout(interval);
-            interval = setTimeout(() => {
-                tail.unwatch();
-                tail = undefined;
-                main.sendToWindow('VRChatConnected', "false");
-                if (parserEnabled === true) {
-                    start();
-                }
-                console.log("reset");
-            }, 30000);
-        });
-    });
-};
-
-const updateDiscord = (time) => {
-    if (discordEnabled === false) {
-        return;
-    }
-    const i = {
-        state: world,
-        details: status,
-        largeImageKey: 'logo',
-        largeImageText: 'VRCApiary ' + app.getVersion()
-    };
-    if (time !== undefined && time === true) {
-        i.startTimestamp = Date.now();
-    }
-    client.updatePresence(i);
-};
-
 let lastUpdate = {};
 
 const update = (state, details, time, users, usersMax) => {
-    if (discordEnabled === false) {
-        return;
-    }
-    const i = {
-        state: state,
-        details: details,
-        largeImageKey: 'logo',
-        largeImageText: 'VRCApiary ' + app.getVersion()
-    };
-    if (time !== undefined) {
-        i.startTimestamp = time;
-    }
-
-    if (users !== undefined && usersMax !== undefined ) {
-        i.partySize = users;
-        i.partyMax = usersMax;
-        i.partyId = Buffer.from(details).toString('base64');
-        i.joinSecret = "mood";
-    }
-    if (JSON.stringify(lastUpdate) === JSON.stringify(i)) {
-        return;
-    }
-    client.updatePresence(i);
-    lastUpdate = i;
+    // if (discordEnabled === false) {
+    //     return;
+    // }
+    // const i = {
+    //     state: state,
+    //     details: details,
+    //     largeImageKey: 'logo',
+    //     largeImageText: 'VRCApiary ' + app.getVersion()
+    // };
+    // if (time !== undefined) {
+    //     i.startTimestamp = time;
+    // }
+    //
+    // if (users !== undefined && usersMax !== undefined ) {
+    //     i.partySize = users;
+    //     i.partyMax = usersMax;
+    //     i.partyId = Buffer.from(details).toString('base64');
+    //     i.joinSecret = "mood";
+    // }
+    // if (JSON.stringify(lastUpdate) === JSON.stringify(i)) {
+    //     return;
+    // }
+    // client.updatePresence(i);
+    // lastUpdate = i;
 };
 
 const parse = (line) => {
-
     parseWithRegex(line, "[RoomManager] Joining wrld", /^.+ - {2}\[RoomManager] Joining (.+)/, (match) => {
         const regex = /(.+?):(.+?)($|~((.+?)\(.+))$/;
         const match1 = regex.exec(match[1]);
@@ -355,7 +294,7 @@ const parse = (line) => {
         }
     });
 
-    parseOnly(line, "Room transition time:", () => {
+    parseOnly(line, "[NetworkManager] OnJoinedRoom", () => {
         sendNotifications = false;
     });
 
@@ -435,5 +374,8 @@ module.exports = {
     },
     isIceCreamConnected: () => {
         return isIceCreamConnected();
+    },
+    getLogFile: () => {
+      return logfile;
     }
 };

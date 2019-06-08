@@ -1,7 +1,7 @@
 {
   "name": "vrcapiary",
   "author": "3e849f2e5c",
-  "version": "0.0.5-ALPHA",
+  "version": "0.0.6-ALPHA",
   "description": "A client for the VRChat API",
   "private": true,
   "repository": "github:3e849f2e5c/VRCApiary",
@@ -23,14 +23,15 @@
   },
   "license": "WTFNMFPL-1.0",
   "dependencies": {
+    "always-tail2": "^1.0.0",
     "discord-rich-presence": "^0.0.8",
     "electron-dl": "^1.12.0",
+    "electron-is-dev": "^1.0.1",
     "electron-json-storage": "^4.1.5",
     "electron-squirrel-startup": "^1.0.0",
     "https": "^1.0.0",
-    "electron-is-dev": "^1.0.1",
-    "ws": "^6.2.1",
-    "always-tail2": "^1.0.0"
+    "npm": "^6.9.0",
+    "ws": "^6.2.1"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.33",

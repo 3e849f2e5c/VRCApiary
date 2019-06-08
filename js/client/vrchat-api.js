@@ -2,14 +2,13 @@
  * Log HTTP requests by sending notifications
  * @type {boolean}
  */
-const notify = true;
+const notify = false;
 
 /**
  * Base API URL
  * @type {string}
  */
 const baseUrl = "https://api.vrchat.cloud/api/1";
-
 
 /**
  * Get player moderations against you

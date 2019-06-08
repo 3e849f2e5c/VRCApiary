@@ -14,6 +14,10 @@ if (isIceCreamConnected() === true) {
     getId('status').style.color = "red";
 }
 
+getId('logfile').innerText = parser.getLogFile();
+
+
+
 const getItem = (e) => {
     return JSON.parse(window.localStorage.getItem(e));
 };
@@ -41,16 +45,16 @@ if (getItem("parserSettings").enableDiscord === true) {
     getId("checkboxDiscord").checked = true;
 }
 
-getId("checkboxDiscord").addEventListener('change', (event) => {
-    const newSetting = getItem("parserSettings");
-    newSetting.enableDiscord = event.target.checked;
-    setItem("parserSettings", newSetting);
-    if (event.target.checked === true) {
-        parser.enableDiscord();
-    } else {
-        parser.disableDiscord();
-    }
-});
+// getId("checkboxDiscord").addEventListener('change', (event) => {
+//     const newSetting = getItem("parserSettings");
+//     newSetting.enableDiscord = event.target.checked;
+//     setItem("parserSettings", newSetting);
+//     if (event.target.checked === true) {
+//         parser.enableDiscord();
+//     } else {
+//         parser.disableDiscord();
+//     }
+// });
 
 if (getItem("parserSettings").enableNotifications === true) {
     getId("checkboxNotify").checked = true;
