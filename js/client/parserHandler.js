@@ -35,3 +35,7 @@ main.ipcRenderer.on('notify', (event, message) => {
         icon: msg.image
     });
 });
+
+main.ipcRenderer.on('logout', (event, message) => {
+    vrchatLogout(message);
+});

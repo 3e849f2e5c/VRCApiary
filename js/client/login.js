@@ -1,5 +1,7 @@
 const {remote} = require('electron');
+const main = require('electron');
 const storage = remote.require('./storage.js');
+const websocket = remote.require('./websocketHandler.js');
 
 storage.getCredentials((username, password) => {
     const rememberMe = document.getElementById("checkbox");
@@ -24,24 +26,33 @@ document.getElementById("login-button").addEventListener('click', (e) => {
     }
     load();
     disableDiv(e.srcElement);
-    sendGETRequest("/auth/user", (data) => {
+    sendGETRequest("/auth", (data) => {
         if (data.error !== undefined) {
             blinkRed();
             sendError(data, "VRChat API");
             enableDiv(e.srcElement);
-        } else {
+        } else if (data.ok === true) {
             if (rememberMe === true) {
                 storage.saveCredentials(username, password);
             }
-            stopLoading();
-            blinkGreen();
-            console.log(data);
-            window.localStorage.setItem("userData", JSON.stringify(data));
-            document.getElementById("content").style.transform = "translateX(-100%)";
-            pageLoad();
-            setTimeout(() => {
-                window.location = "home.html";
-            }, 300);
+            sendGETRequest("/auth/user/", (dataE) => {
+                if (dataE.error !== undefined) {
+                    stopLoading();
+                    blinkRed();
+                    sendError(dataE, "VRChat API");
+                    enableDiv(e.srcElement);
+                } else {
+                    console.log(data);
+                    websocket.startWebsocket(data.token);
+                    window.localStorage.setItem("userData", JSON.stringify(dataE));
+                    document.getElementById("content").style.transform = "translateX(-100%)";
+                    setTimeout(() => {
+                        window.location = "home.html";
+                    }, 300);
+                    stopLoading();
+                    blinkGreen();
+                }
+            });
         }
         stopLoading();
     }, username + ':' + password);

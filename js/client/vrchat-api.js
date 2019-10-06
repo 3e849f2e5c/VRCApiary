@@ -10,6 +10,15 @@ const notify = false;
  */
 const baseUrl = "https://api.vrchat.cloud/api/1";
 
+const vrchatLogout = (message) => {
+    new Notification("You have been logged out.", {
+        body: message,
+        icon: getIconFor("error")
+    });
+
+    document.location = "./login.html"
+};
+
 /**
  * Get player moderations against you
  * https://vrchatapi.github.io/#/ModerationAPI/Against
@@ -388,6 +397,9 @@ const sendGETRequest = (location, callback, basic) => {
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
             if (xmlHttp.status.toString().lastIndexOf("4", 0) === 0) {
+                if (xmlHttp.status === 401) {
+                    vrchatLogout("Token expired.");
+                }
                 addFailedRequest();
             }
             const data = JSON.parse(xmlHttp.responseText);

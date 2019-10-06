@@ -1,12 +1,41 @@
 if (require('electron-squirrel-startup')) return;
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, Menu, Tray} = require('electron');
 const {session} = require('electron');
+const trayWindow = require("electron-tray-window");
 const storage = require('electron-json-storage');
 const dl = require('electron-dl');
 const path = require('path');
 const isDev = require('electron-is-dev');
 
 let mainWindow;
+let taskbarWindow;
+let tray = null;
+
+const createTaskbarWindow = () => {
+    tray = new Tray(path.join(__dirname, '/css/images/logo/icon.ico'));
+    const contextMenu = Menu.buildFromTemplate([
+        {label: 'Item1', type: 'radio'},
+        {label: 'Item2', type: 'radio'},
+        {label: 'Item3', type: 'radio', checked: true},
+        {label: 'Item4', type: 'radio'}
+    ]);
+    tray.setToolTip('This is my application.');
+    tray.setContextMenu(contextMenu);
+    taskbarWindow = new BrowserWindow({
+        width: 300,
+        height: 500,
+        show: false,
+        resizable: false,
+        movable: false,
+        skipTaskbar: true,
+        frame: false,
+        closable: false,
+        alwaysOnTop: true,
+        icon: path.join(__dirname, '/css/images/logo/icon.ico')
+    });
+    taskbarWindow.loadFile('templates/trayFriends.html');
+    trayWindow.setOptions({tray: tray, window: taskbarWindow});
+};
 
 const createWindow = () => {
     console.log("ok");
@@ -45,7 +74,10 @@ const download = (url) => {
     dl.download(mainWindow, url, {saveAs: true, openFolderWhenDone: true});
 };
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+    createWindow();
+    // createTaskbarWindow();
+});
 
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') {

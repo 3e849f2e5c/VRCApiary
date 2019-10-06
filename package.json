@@ -29,8 +29,10 @@
     "electron-is-dev": "^1.0.1",
     "electron-json-storage": "^4.1.5",
     "electron-squirrel-startup": "^1.0.0",
+    "electron-tray-window": "^1.2.5",
     "https": "^1.0.0",
     "npm": "^6.9.0",
+    "uuid": "latest",
     "ws": "^6.2.1"
   },
   "devDependencies": {
