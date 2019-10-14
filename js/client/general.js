@@ -217,7 +217,9 @@ if (getId("navButton") !== null) {
 document.addEventListener('keydown', (e) => {
     switch (e.key) {
         case "Shift": {
-            getId("navButton").parentElement.classList.add("nav-hidden");
+            if (getId("navButton") !== null) {
+                getId("navButton").parentElement.classList.add("nav-hidden");
+            }
             break;
         }
     }
@@ -245,8 +247,10 @@ document.addEventListener('keyup', (e) => {
             break;
         }
         case "Shift": {
-            if (getId("navButton").parentElement.classList.contains("nav-hidden")) {
-                getId("navButton").parentElement.classList.remove("nav-hidden");
+            if (getId("navButton") !== null) {
+                if (getId("navButton").parentElement.classList.contains("nav-hidden")) {
+                    getId("navButton").parentElement.classList.remove("nav-hidden");
+                }
             }
             break;
         }
@@ -342,22 +346,36 @@ const getParameterByName = (name, url) => {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 };
 
+const removeStyle = (element) => {
+    const nav = getId(element);
+    if (nav !== null) {
+        nav.style.transform = "none";
+    }
+};
+
+const moveElement = (element, move) => {
+    const nav = getId(element);
+    if (nav !== null) {
+        nav.style.transform = move;
+    }
+};
+
 const popOut = () => {
-    getId("navFriends").style.transform = "none";
-    getId("navAvatars").style.transform = "none";
-    getId("navParser").style.transform = "none";
-    getId("navWorlds").style.transform = "none";
-    getId("navSocial").style.transform = "none";
-    getId("navSettings").style.transform = "none";
+    removeStyle("navFriends");
+    removeStyle("navAvatars");
+    removeStyle("navParser");
+    removeStyle("navWorlds");
+    removeStyle("navSocial");
+    removeStyle("navSettings");
 };
 
 const popIn = () => {
-    getId("navFriends").style.transform = "translate(80px, 160px)";
-    getId("navAvatars").style.transform = "translateX(-160px)";
-    getId("navParser").style.transform = "translate(-80px, -160px)";
-    getId("navWorlds").style.transform = "translateX(160px)";
-    getId("navSocial").style.transform = "translate(-80px, 160px)";
-    getId("navSettings").style.transform = "translate(80px, -160px)";
+    moveElement("navFriends", "translate(80px, 160px)");
+    moveElement("navAvatars", "translateX(-160px)");
+    moveElement("navParser", "translate(-80px, -160px)");
+    moveElement("navWorlds", "translateX(160px)");
+    moveElement("navSocial", "translate(-80px, 160px)");
+    moveElement("navSettings", "translate(80px, -160px)");
 };
 
 /**
@@ -510,7 +528,6 @@ if (getId("navMenu") !== null) {
     getId("navAvatars").addEventListener('click', () => {
         navToPage("avatars");
     });
-
 
     getId("navWorlds").addEventListener('click', () => {
         navToPage("worlds");

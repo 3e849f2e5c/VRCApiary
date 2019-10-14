@@ -385,6 +385,12 @@ const removeKeepsake = (avatar) => {
     }
 };
 
+const viewAvatarStats = (avatar) => {
+    const body = getId("content");
+    const popup = document.getElementById("editMenu");
+    const edit = document.getElementById("editContent");
+};
+
 const editAvatarPopup = (avatar) => {
     let isError = false;
     const body = getId("content");

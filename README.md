@@ -1,6 +1,21 @@
 ![](css/images/logo/logo128.png)
 # VRCApiary
-VRCApiary is a complete rewrite and the successor of the now discontinued VRChat Appi
+VRCApiary is a complete rewrite and the successor of the now discontinued VRChat Appi.
+
+Usage of this program requires a [VRChat](https://vrchat.net/) account.
+
+# Screenshots
+### Login
+![Login](https://i.imgur.com/FZ24LuS.png)
+
+### Home Page
+![Home](https://i.imgur.com/HZp4xBJ.png)
+
+### Navigation Menu
+![Menu](https://i.imgur.com/STFPgFP.png)
+
+### Friends List
+![Friends](https://i.imgur.com/HBqoSLq.png)
 
 # Disclaimer
 - This program and it's author are in no way related to the VRChat team, this project is unofficial.

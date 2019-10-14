@@ -42,7 +42,19 @@ const createWindow = () => {
     if (isDev) {
         app.setAppUserModelId(process.execPath);
     }
-    mainWindow = new BrowserWindow({width: 800, height: 600, icon: path.join(__dirname, '/css/images/logo/icon.ico')});
+    app.allowRendererProcessReuse = true;
+    mainWindow = new BrowserWindow({
+        width: 800,
+        height: 600,
+        webPreferences: {
+            nodeIntegration: true
+        },
+        backgroundColor: "#373737",
+        icon: path.join(__dirname, '/css/images/logo/icon.ico')
+    });
+    mainWindow.once('ready-to-show', () => {
+        mainWindow.show()
+    });
     storage.has('login', function (error, hasKey) {
         if (error) throw error;
         if (hasKey) {

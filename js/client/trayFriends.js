@@ -74,7 +74,6 @@ const createElement = (type, css, innerText) => {
     return e;
 };
 
-
 const createCardForFriend = (data) => {
     const container = createElement("div", "box friend-container-t");
     const image = createElement("img", "friend-image-t");
