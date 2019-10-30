@@ -1,0 +1,142 @@
+.image-container {
+    margin-bottom: 3px;
+}
+
+.display-name {
+    max-height: 38px;
+}
+
+.user-name {
+    max-height: 29px;
+}
+
+.party-profile-container .friend-image {
+    width: 128px;
+    height: 96px;
+}
+
+.friend-profile-container .friend-image {
+    width: 128px;
+    height: 96px;
+}
+
+.friends-container .app-container {
+    margin: 0 !important;
+}
+
+.field-container {
+    margin-bottom: 0;
+}
+
+.friend-name {
+    max-height: 34px;
+}
+
+.bottom-side {
+    height: calc(100% - 348px);
+}
+
+.checkmark-icon {
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    top: 64px;
+}
+
+.party-profile-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 8px;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 4px;
+    padding-bottom: 8px;
+    padding-left: 4px;
+    padding-right: 4px;
+    cursor: pointer;
+}
+
+.party-profile-container:hover {
+    background-color: #D25252;
+    outline: 1px solid black;
+}
+
+.app-info {
+    margin-left: 8px;
+}
+
+.description-area {
+    margin-top: 4px;
+    height: 94px !important;
+}
+
+.notify-icon {
+    border-width: 4px;
+    border-style: solid;
+}
+
+.bot-button {
+    transition: transform 0.15s ease-in-out;
+    width: 48px;
+    height: 48px;
+    right: 14px;
+    top: 90px;
+    cursor: pointer;
+    position: absolute;
+}
+
+.bot-button:hover {
+    transform: translate(-32px, -20px) scale(1.75, 1.75);
+}
+
+.notify-icon:hover {
+    filter: grayscale(1);
+}
+
+.card-entry-container {
+    width: 150px;
+}
+
+.friend-profile-container {
+    margin: 0 !important;
+}
+
+.party-profile-container {
+    margin: 0 !important;
+}
+
+.field-container {
+    display: flex;
+    align-items: baseline;
+}
+
+#memberPopup {
+    display: flex;
+}
+
+.display-name:not(:hover), .user-name:not(:hover) {
+    filter: blur(6px);
+}
+
+.image-container img:not(:hover) {
+    filter: blur(6px);
+}
+
+.description-area {
+    padding: 4px;
+    font-family: 'Roboto', roboto, sans-serif;
+    background-color: #373737;
+    color: #A9B7C6;
+    font-size: 28px;
+    border: 1px solid black;
+    resize: none;
+    width: calc(100% - 24px);
+    height: 100px;
+    margin-bottom: 4px;
+}
+
+.avatar-container {
+    padding-bottom: 3px;
+}

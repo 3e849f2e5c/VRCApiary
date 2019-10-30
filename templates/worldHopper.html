@@ -2,28 +2,109 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VRCApiary - Social</title>
+    <title>VRCApiary - Randomizer</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../css/global.css">
+    <link rel="stylesheet" type="text/css" href="../css/home.css">
+    <link rel="stylesheet" type="text/css" href="../css/randomizer.css">
     <link rel="stylesheet" type="text/css" href="../css/friends.css">
 </head>
 <body>
 <div class="center-container loading-symbol" style="opacity: 1;">
     <img src="../css/images/pageloading.png" alt="Now Loading" id="loadingIcon">
 </div>
-
 <div class="content-container" id="content" style="opacity: 0;">
-    <div class=" friends-container">
-        <div class="box header">
-            User search
-            <div class="field-container">
-                <label class="field-input">
-                    <input id="searchInput" type="text" style="height: 32px; font-size: 32px; width: 50%; text-align: center;">
-                </label>
+    <div class="left-side">
+        <div class="avatar-container box">
+            <div class="image-container">
+                <img alt="An error occurred" src="../css/images/unknown.png" class="avatar-image" id="worldImage"
+                     onerror="this.src='../css/images/error.png';">
+            </div>
+            <div style="display: flex; padding-left: 8px;" class="moderations-container">
+                <div class="button button-blue" style="margin-bottom: 8px; margin-top: -4px; margin-right: 2px;" id="nextWorldButton">
+                    <div>
+                        Next
+                    </div>
+                </div>
+                <div class="button button-green" style="margin-bottom: 8px; margin-top: -4px; margin-left: 2px;" id="goButton">
+                    <div>
+                        Go
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; padding-left: 8px;" class="moderations-container">
+                <div class="button button-red" style="margin-bottom: 8px; margin-top: -4px;" id="addMembers">
+                    <div>
+                        Add Members
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="friends-list-container" id="socialList">
+    </div>
+    <div class="right-side">
+        <div class="box welcome-container">
+            <div class="header" style="font-size: 48px;">
+                <a>
+                    Randomizer
+                </a>
+            </div>
+        </div>
+        <div class="box names-container">
+            <div class="display-name" id="worldName">
+                No world selected
+            </div>
+            <div class="user-name" id="creatorName">
+                &#8203;
+            </div>
+            <div class="user-id" id="worldId">
+                &#8203;
+            </div>
+        </div>
+        <div class="box trust-rating-container">
+            <div class="trust-bar-container">
+                <textarea id="description" class="description-area" readonly>
+                </textarea>
+            </div>
+        </div>
+    </div>
+    <div class="bottom-side">
+        <!-- TODO change this into notification area and move app info to settings -->
+        <div class="box app-container">
+            <div class="app-info-container">
+                <div class="app-info" id="notifyArea">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Edit menu -->
+<div class="navigation-menu" style="visibility: hidden; opacity: 0;"  id="popupMenu">
+    <div class="center-container">
+        <div class="box notification-container" id="memberPopup">
+            <div class="friends-container">
+                <div class="header">
+                    <div class="field-container">
+                        <label class="field-input">
+                            <input id="searchInput" type="text" style="height: 32px; font-size: 32px; width: 50%; text-align: center;">
+                        </label>
+                        <div class="button button-red" style="padding-right: 32px; padding-left: 32px;" id="popupExit">
+                            <div>
+                                Exit
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="app-container">
+                    <div class="app-info-container">
+                        <div class="app-info" id="socialList">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>
@@ -105,6 +186,7 @@
     </div>
 </div>
 
+
 <div class="status-bar status-bar-base" id="statusBar">
     <div class="status-bar status-bar-color" style="opacity: 0" id="statusBarColor"></div>
     <div class="status-bar status-bar-background" style="opacity: 0" id="statusBarBg"></div>
@@ -114,6 +196,6 @@
 <script src="../js/client/vrchat-api.js"></script>
 <script src="../js/client/parserHandler.js"></script>
 <script src="../js/client/statusBar.js"></script>
-<script src="../js/client/social.js"></script>
+<script src="../js/client/randomizer.js"></script>
 </body>
 </html>

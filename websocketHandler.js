@@ -33,9 +33,6 @@ const startWebsocket = (token) => {
                 break;
             }
             case "friend-active": {
-                if (content.user !== undefined) {
-                    main.sendNotification("Friend logged out", content.user.displayName, content.user.currentAvatarThumbnailImageUrl);
-                }
                 break;
             }
         }

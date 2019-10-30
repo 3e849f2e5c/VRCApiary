@@ -297,6 +297,25 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:f
     transition: transform 0.15s ease-in-out;
 }
 
+.nav-sub-container {
+    position: relative;
+}
+
+.nav-sub-container .nav-small {
+    position: absolute;
+}
+
+#navWorldHopper {
+    transition: transform 0.15s ease-in-out;
+    left: 4px;
+    top: -82px;
+}
+
+.nav-small, .nav-small img {
+    height: 80px !important;
+    width: 80px !important;
+}
+
 .navigator-container .nav-entry img {
     width: 160px;
     height: 160px;

@@ -16,6 +16,10 @@ if (localStorage.getItem("failedRequests") === null) {
     localStorage.setItem("failedRequests", "0");
 }
 
+if (localStorage.getItem("party") === null) {
+    localStorage.setItem("party", "[]");
+}
+
 if (localStorage.getItem("parserSettings") === null) {
     localStorage.setItem("parserSettings", JSON.stringify({
         enableParser: false,
@@ -156,6 +160,11 @@ const navToPage = (page, flag) => {
         }
         case "parser": {
             destination = "./parser.html";
+            break;
+        }
+
+        case "shuffle": {
+            destination = "./worldHopper.html";
             break;
         }
     }
@@ -357,6 +366,22 @@ const moveElement = (element, move) => {
     const nav = getId(element);
     if (nav !== null) {
         nav.style.transform = move;
+    } else {
+        console.log(element)
+    }
+};
+
+const fadeElement = (element) => {
+    const nav = getId(element);
+    if (nav !== null) {
+        nav.style.opacity = "0";
+    }
+};
+
+const removeFade = (element) => {
+    const nav = getId(element);
+    if (nav !== null) {
+        nav.style.opacity = "1";
     }
 };
 
@@ -367,6 +392,7 @@ const popOut = () => {
     removeStyle("navWorlds");
     removeStyle("navSocial");
     removeStyle("navSettings");
+    removeStyle("navWorldHopper");
 };
 
 const popIn = () => {
@@ -376,6 +402,7 @@ const popIn = () => {
     moveElement("navWorlds", "translateX(160px)");
     moveElement("navSocial", "translate(-80px, 160px)");
     moveElement("navSettings", "translate(80px, -160px)");
+    moveElement("navWorldHopper", "translate(195px, 118px)");
 };
 
 /**
@@ -490,6 +517,11 @@ const createAndJoinWorld = (worldId) => {
     joinWorld(worldId + ":" + newInstance() + "~hidden(" + userId + ")" + "~nonce(" + newGUID() + ")");
 };
 
+const createWorld = (worldId) => {
+    const userId = JSON.parse(window.localStorage.getItem("userData")).id;
+    return worldId + ":" + newInstance() + "~hidden(" + userId + ")" + "~nonce(" + newGUID() + ")";
+};
+
 const joinWorld = (worldId) => {
     document.location = "vrchat://launch/?id=" + worldId;
 };
@@ -540,6 +572,11 @@ if (getId("navMenu") !== null) {
     getId("navSocial").addEventListener('click', () => {
         navToPage("social");
     });
+
+    getId("navWorldHopper").addEventListener('click', () => {
+        navToPage("shuffle");
+    });
+
     disableDiv(getId("navSettings"));
 
     getId("navExit").addEventListener('click', () => {
