@@ -1,3 +1,6 @@
+# Unmaintained
+Unfortunately I've lost motivation to continue developing this program due to VRChat's removal of a lot of API endpoints for example being able to see who is in an instance, user messaging and being able to put custom URLs as your avatar picture. Also I do not run Windows 10 anymore making it hard to develop further.
+
 ![](css/images/logo/logo128.png)
 # VRCApiary
 VRCApiary is a complete rewrite and the successor of the now discontinued VRChat Appi.
